@@ -16,12 +16,12 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative py-20 overflow-hidden">
+    <section className="relative py-12 md:py-16 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-background via-background/90 to-background"></div>
-      <div className="container mx-auto px-4 text-center relative z-10">
+      <div className="container-compact text-center relative z-10">
         <div className="max-w-4xl mx-auto">
           <div className="flex flex-col items-center mb-6">
-            <div className="w-32 h-32 md:w-40 md:h-40 rounded-full border-2 border-transparent bg-gradient-to-r from-[#1fb5d6] to-[#a855f7] p-0.5 shadow-lg mb-4">
+            <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-2 border-transparent bg-gradient-to-r from-[#1fb5d6] to-[#a855f7] p-0.5 shadow-lg mb-4 animate-pulse-glow">
               <div className="w-full h-full rounded-full bg-background flex items-center justify-center overflow-hidden">
                 <img 
                   src="/attached_assets/5237471_1749608011733.png" 
@@ -30,31 +30,31 @@ export default function Hero() {
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
                     target.style.display = 'none';
-                    target.parentElement!.innerHTML = '<div class="w-full h-full gradient-primary rounded-full flex items-center justify-center"><span class="text-white font-bold text-4xl md:text-5xl">F</span></div>';
+                    target.parentElement!.innerHTML = '<div class="w-full h-full gradient-primary rounded-full flex items-center justify-center"><span class="text-white font-bold text-3xl md:text-4xl">F</span></div>';
                   }}
                 />
               </div>
             </div>
           </div>
           
-          <div className="mb-8">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 text-center">
+          <div className="mb-6">
+            <h1 className="text-4xl md:text-6xl font-bold mb-4 text-center animate-slide-in">
               <span className="bg-gradient-to-r from-[#1fb5d6] to-[#a855f7] bg-clip-text text-transparent">
                 FinPlanner
               </span>
             </h1>
             
-            <h2 className="text-3xl md:text-4xl font-semibold text-foreground text-center">
+            <h2 className="text-2xl md:text-3xl font-semibold text-foreground text-center mb-4">
               Planejamento Financeiro Inteligente
             </h2>
           </div>
           
-          <p className="text-xl text-muted-foreground mb-2 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-lg text-muted-foreground mb-2 leading-relaxed max-w-2xl mx-auto">
             Seu planejamento financeiro inteligente com IA especializada
           </p>
           
-          <p className="text-lg text-muted-foreground mb-8 leading-relaxed max-w-2xl mx-auto">
-            Descubra os melhores investimentos para seu perfil, calcule rendimentos e aprenda sobre o mercado financeiro com nossa plataforma completa
+          <p className="text-base text-muted-foreground mb-6 leading-relaxed max-w-2xl mx-auto">
+            Descubra os melhores investimentos para seu perfil, calcule rendimentos e aprenda sobre o mercado financeiro
           </p>
         </div>
       </div>
