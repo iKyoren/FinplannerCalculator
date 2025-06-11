@@ -123,10 +123,16 @@ export default function Calculators() {
 
         <Tabs defaultValue="compound" className="w-full">
           <div className="flex justify-center mb-8">
-            <TabsList className="grid w-full max-w-2xl grid-cols-3">
-              <TabsTrigger value="compound">Juros Compostos</TabsTrigger>
-              <TabsTrigger value="retirement">Aposentadoria</TabsTrigger>
-              <TabsTrigger value="comparison">Comparar Investimentos</TabsTrigger>
+            <TabsList className="grid w-full max-w-4xl grid-cols-3 h-auto p-1">
+              <TabsTrigger value="compound" className="text-xs sm:text-sm px-2 sm:px-4 py-3 whitespace-nowrap">
+                Juros Compostos
+              </TabsTrigger>
+              <TabsTrigger value="retirement" className="text-xs sm:text-sm px-2 sm:px-4 py-3 whitespace-nowrap">
+                Aposentadoria
+              </TabsTrigger>
+              <TabsTrigger value="comparison" className="text-xs sm:text-sm px-2 sm:px-4 py-3 whitespace-nowrap">
+                Comparar Investimentos
+              </TabsTrigger>
             </TabsList>
           </div>
 

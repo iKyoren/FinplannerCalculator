@@ -10,6 +10,7 @@ import type { ChatMessage } from "@/types";
 export default function ChatAssistant() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(true);
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: "1",
@@ -71,6 +72,7 @@ export default function ChatAssistant() {
     setMessages(prev => [...prev, userMessage]);
     chatMutation.mutate(inputMessage);
     setInputMessage("");
+    setShowSuggestions(false); // Hide suggestions after typing message
   };
 
   const handleSuggestedQuestion = (question: string) => {
@@ -83,6 +85,7 @@ export default function ChatAssistant() {
 
     setMessages(prev => [...prev, userMessage]);
     chatMutation.mutate(question);
+    setShowSuggestions(false); // Hide suggestions after selection
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -186,18 +189,21 @@ export default function ChatAssistant() {
               )}
 
               {/* Suggested Questions */}
-              {messages.length === 1 && (
+              {showSuggestions && (
                 <div className="space-y-2">
-                  <p className="text-xs text-muted-foreground px-2">Perguntas sugeridas:</p>
-                  {suggestedQuestions.map((question, index) => (
-                    <button
-                      key={index}
-                      onClick={() => handleSuggestedQuestion(question)}
-                      className="w-full text-left bg-muted hover:bg-muted/80 rounded-lg p-2 text-sm text-muted-foreground transition-colors"
-                    >
-                      {question}
-                    </button>
-                  ))}
+                  <p className="text-xs text-muted-foreground px-2 font-medium">💡 Perguntas sugeridas:</p>
+                  <div className="grid gap-2">
+                    {suggestedQuestions.map((question, index) => (
+                      <button
+                        key={index}
+                        onClick={() => handleSuggestedQuestion(question)}
+                        className="w-full text-left bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950/30 dark:to-purple-950/30 hover:from-blue-100 hover:to-purple-100 dark:hover:from-blue-900/40 dark:hover:to-purple-900/40 border border-blue-200/50 dark:border-purple-700/30 rounded-lg p-3 text-sm text-foreground transition-all duration-200 hover:scale-[1.02] hover:shadow-sm"
+                      >
+                        <span className="text-blue-600 dark:text-blue-400 mr-2">•</span>
+                        {question}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               )}
               
