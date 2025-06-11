@@ -25,10 +25,18 @@ interface InvestmentRecommendation {
   expectedReturn: string;
   risk: "Baixo" | "Médio" | "Alto";
   reason: string;
-  description: string;
-  howItWorks: string;
+  theory: string;
+  practice: string;
   minAmount: number;
   timeHorizon: string;
+  category: "Nacional" | "Internacional";
+}
+
+interface RecommendationResponse {
+  nationalInvestments: InvestmentRecommendation[];
+  internationalInvestments: InvestmentRecommendation[];
+  summary: string;
+  warnings: string[];
 }
 
 export default function PersonalizedRecommendations() {
@@ -41,7 +49,10 @@ export default function PersonalizedRecommendations() {
     investmentGoal: "long-term"
   });
 
-  const [recommendations, setRecommendations] = useState<InvestmentRecommendation[]>([]);
+  const [nationalRecommendations, setNationalRecommendations] = useState<InvestmentRecommendation[]>([]);
+  const [internationalRecommendations, setInternationalRecommendations] = useState<InvestmentRecommendation[]>([]);
+  const [summary, setSummary] = useState<string>("");
+  const [warnings, setWarnings] = useState<string[]>([]);
   const [availableToInvest, setAvailableToInvest] = useState(0);
 
   const recommendationMutation = useMutation({
@@ -50,148 +61,26 @@ export default function PersonalizedRecommendations() {
       const available = data.monthlyIncome - data.monthlyExpenses - data.leisureExpenses;
       setAvailableToInvest(available);
       
-      // Generate personalized recommendations
-      return generatePersonalizedRecommendations(data, available);
+      return await getInvestmentRecommendation({
+        monthlyIncome: data.monthlyIncome,
+        monthlyExpenses: data.monthlyExpenses,
+        leisureExpenses: data.leisureExpenses,
+        investmentProfile: data.investmentProfile,
+        age: data.age,
+        availableToInvest: available
+      });
     },
-    onSuccess: (data) => {
-      setRecommendations(data);
+    onSuccess: (data: RecommendationResponse) => {
+      if (data.nationalInvestments && data.internationalInvestments) {
+        setNationalRecommendations(data.nationalInvestments);
+        setInternationalRecommendations(data.internationalInvestments);
+        setSummary(data.summary);
+        setWarnings(data.warnings || []);
+      }
     }
   });
 
-  const generatePersonalizedRecommendations = (userData: UserFinancialData, availableAmount: number): InvestmentRecommendation[] => {
-    const { investmentProfile, age, monthlyIncome } = userData;
-    const recommendations: InvestmentRecommendation[] = [];
 
-    // Emergency Reserve (Always first recommendation)
-    const emergencyAmount = userData.monthlyExpenses * 6;
-    recommendations.push({
-      name: "Reserva de Emergência",
-      allocation: Math.min(40, (emergencyAmount / (availableAmount * 12)) * 100),
-      expectedReturn: "100% do CDI (~13% a.a.)",
-      risk: "Baixo",
-      reason: `Com gastos de R$ ${userData.monthlyExpenses.toLocaleString()}/mês, você precisa de R$ ${emergencyAmount.toLocaleString()} de reserva. Isso representa ${(emergencyAmount / monthlyIncome).toFixed(1)} meses da sua renda.`,
-      description: "Dinheiro guardado para emergências como desemprego, problemas de saúde ou reparos urgentes.",
-      howItWorks: "Invista em CDB com liquidez diária ou Tesouro Selic. O dinheiro fica disponível para saque imediato, rendendo próximo ao CDI.",
-      minAmount: 1000,
-      timeHorizon: "Imediato"
-    });
-
-    if (investmentProfile === "conservative" || age > 50) {
-      // Conservative portfolio
-      recommendations.push({
-        name: "CDB de Bancos Médios",
-        allocation: 35,
-        expectedReturn: "110-120% do CDI (~14-15% a.a.)",
-        risk: "Baixo",
-        reason: `Seu perfil ${investmentProfile === "conservative" ? "conservador" : "próximo à aposentadoria"} prioriza segurança. Bancos médios pagam mais que grandes bancos.`,
-        description: "Certificado de Depósito Bancário com rentabilidade superior aos grandes bancos.",
-        howItWorks: "Você empresta dinheiro para o banco por um período determinado. O FGC garante até R$ 250 mil por banco. Distribua entre 3-4 bancos diferentes.",
-        minAmount: 5000,
-        timeHorizon: "1-3 anos"
-      });
-
-      recommendations.push({
-        name: "Tesouro IPCA+",
-        allocation: 25,
-        expectedReturn: "IPCA + 5,5-6,5% a.a.",
-        risk: "Baixo",
-        reason: "Protege contra inflação e garante ganho real. Ideal para objetivos de longo prazo.",
-        description: "Título público que rende inflação + taxa fixa, garantindo poder de compra.",
-        howItWorks: "O governo paga IPCA (inflação) + uma taxa fixa. Se a inflação for 4% e a taxa 6%, você ganha 10% no ano.",
-        minAmount: 50,
-        timeHorizon: "5+ anos"
-      });
-
-    } else if (investmentProfile === "moderate") {
-      // Moderate portfolio
-      recommendations.push({
-        name: "Fundos de Ações Diversificados",
-        allocation: 30,
-        expectedReturn: "12-18% a.a. (histórico)",
-        risk: "Médio",
-        reason: `Com R$ ${availableAmount.toLocaleString()}/mês disponível, você pode assumir mais risco para buscar maiores retornos a longo prazo.`,
-        description: "Fundos que investem em ações de várias empresas, reduzindo risco individual.",
-        howItWorks: "O gestor compra ações de dezenas de empresas. Você compra cotas do fundo. Se as empresas lucram, suas cotas se valorizam.",
-        minAmount: 1000,
-        timeHorizon: "3+ anos"
-      });
-
-      recommendations.push({
-        name: "FIIs (Fundos Imobiliários)",
-        allocation: 20,
-        expectedReturn: "8-12% a.a. em dividendos",
-        risk: "Médio",
-        reason: "Diversifica para o setor imobiliário e gera renda mensal passiva. Dividendos são isentos de IR.",
-        description: "Investe em imóveis comerciais sem precisar comprar um imóvel inteiro.",
-        howItWorks: "O fundo compra shoppings, galpões, hospitais. Você recebe parte do aluguel todo mês. Distribua entre 8-10 FIIs diferentes.",
-        minAmount: 1000,
-        timeHorizon: "2+ anos"
-      });
-
-      recommendations.push({
-        name: "Tesouro Prefixado",
-        allocation: 15,
-        expectedReturn: "10,5-11,5% a.a.",
-        risk: "Baixo",
-        reason: "Complementa a carteira com renda fixa de qualidade e rentabilidade garantida.",
-        description: "Título público com taxa fixa definida no momento da compra.",
-        howItWorks: "Você sabe exatamente quanto vai receber no vencimento. Se a taxa for 11% a.a., isso é garantido independente da economia.",
-        minAmount: 50,
-        timeHorizon: "2-5 anos"
-      });
-
-    } else { // aggressive
-      recommendations.push({
-        name: "Ações Individuais (Blue Chips)",
-        allocation: 40,
-        expectedReturn: "15-25% a.a. (histórico)",
-        risk: "Alto",
-        reason: `Seu perfil agressivo e idade de ${age} anos permitem assumir mais risco para maximizar retornos de longo prazo.`,
-        description: "Ações de empresas consolidadas como Vale, Itaú, Ambev, Petrobras.",
-        howItWorks: "Você se torna sócio das melhores empresas do país. Recebe dividendos e pode ganhar com valorização das ações. Estude antes de investir.",
-        minAmount: 500,
-        timeHorizon: "5+ anos"
-      });
-
-      recommendations.push({
-        name: "ETFs Internacionais",
-        allocation: 25,
-        expectedReturn: "10-15% a.a. (dólar)",
-        risk: "Alto",
-        reason: "Diversifica geograficamente e protege contra riscos do Brasil. Essencial para carteiras agressivas.",
-        description: "Fundos que replicam índices internacionais como S&P 500.",
-        howItWorks: "Investe automaticamente nas 500 maiores empresas americanas ou outros índices globais. Exposição cambial protege contra desvalorização do real.",
-        minAmount: 1000,
-        timeHorizon: "3+ anos"
-      });
-
-      recommendations.push({
-        name: "Criptomoedas (BTC/ETH)",
-        allocation: 10,
-        expectedReturn: "Muito volátil (±60% a.a.)",
-        risk: "Alto",
-        reason: `Apenas ${Math.round(availableAmount * 0.1)} reais/mês (~5% da carteira) para não comprometer patrimônio. Potencial disruptivo alto.`,
-        description: "Bitcoin e Ethereum como reserva de valor digital e proteção contra inflação monetária.",
-        howItWorks: "Compre mensalmente quantias pequenas (média de preços). Use exchanges confiáveis. Transfira para carteira própria acima de R$ 5.000.",
-        minAmount: 100,
-        timeHorizon: "5+ anos"
-      });
-
-      recommendations.push({
-        name: "Fundos Multimercado",
-        allocation: 15,
-        expectedReturn: "CDI + 3-8% a.a.",
-        risk: "Médio",
-        reason: "Gestores profissionais buscam oportunidades em vários mercados para otimizar retorno vs risco.",
-        description: "Fundos flexíveis que investem em ações, renda fixa, câmbio e derivativos.",
-        howItWorks: "Gestores experientes ajustam a carteira conforme cenário econômico. Podem ficar defensivos em crises ou agressivos em alta.",
-        minAmount: 5000,
-        timeHorizon: "2+ anos"
-      });
-    }
-
-    return recommendations;
-  };
 
   const handleSubmit = () => {
     if (formData.monthlyIncome <= 0 || formData.monthlyExpenses <= 0) {
