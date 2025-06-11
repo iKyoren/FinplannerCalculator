@@ -26,9 +26,11 @@ export default function Header() {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 gradient-primary rounded-lg flex items-center justify-center">
-              <TrendingUp className="h-6 w-6 text-primary-foreground" />
-            </div>
+            <img 
+              src="/attached_assets/5237471_1749607344387.png" 
+              alt="FinPlanner Logo" 
+              className="w-10 h-10 object-contain"
+            />
             <span className="text-2xl font-bold gradient-text">FinPlanner</span>
           </div>
 

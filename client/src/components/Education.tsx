@@ -57,53 +57,175 @@ export default function Education() {
                   <DialogTrigger asChild>
                     <Button 
                       variant="ghost" 
-                      className="p-0 h-auto text-primary hover:text-secondary transition-colors font-medium"
+                      className="p-0 h-auto gradient-text hover:opacity-80 transition-opacity font-medium"
                       onClick={() => setSelectedContent(content)}
                     >
                       Saiba mais <ArrowRight className="ml-1 h-4 w-4" />
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="max-w-2xl">
+                  <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
                     <DialogHeader>
-                      <DialogTitle>{selectedContent?.title}</DialogTitle>
+                      <DialogTitle className="text-2xl gradient-text">{selectedContent?.title}</DialogTitle>
                     </DialogHeader>
-                    <div className="space-y-4">
+                    <div className="space-y-6">
                       <img 
                         src={selectedContent?.imageUrl} 
                         alt={selectedContent?.title}
                         className="w-full h-48 object-cover rounded-lg"
                       />
-                      <p className="text-muted-foreground leading-relaxed">
-                        {selectedContent?.content}
-                      </p>
-                      <div className="bg-card/50 p-4 rounded-lg">
-                        <h4 className="font-semibold mb-2">Características principais:</h4>
-                        <ul className="space-y-1 text-sm text-muted-foreground">
-                          {selectedContent?.category === 'cryptocurrency' && (
-                            <>
-                              <li>• Moeda digital descentralizada</li>
-                              <li>• Tecnologia blockchain</li>
-                              <li>• Alta volatilidade</li>
-                              <li>• Potencial de grandes retornos</li>
-                            </>
-                          )}
-                          {selectedContent?.category === 'investments' && (
-                            <>
-                              <li>• Renda fixa: previsibilidade e segurança</li>
-                              <li>• Renda variável: maior potencial de ganhos</li>
-                              <li>• Diversificação reduz riscos</li>
-                              <li>• Escolha baseada no perfil de risco</li>
-                            </>
-                          )}
-                          {selectedContent?.category === 'portfolio' && (
-                            <>
-                              <li>• Redução de riscos através da diversificação</li>
-                              <li>• Balanceamento entre diferentes ativos</li>
-                              <li>• Revisão periódica da carteira</li>
-                              <li>• Alinhamento com objetivos pessoais</li>
-                            </>
-                          )}
-                        </ul>
+                      <div className="prose prose-invert max-w-none">
+                        <p className="text-muted-foreground leading-relaxed text-base">
+                          {selectedContent?.content}
+                        </p>
+                      </div>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="bg-card/50 p-6 rounded-lg border border-border/50">
+                          <h4 className="font-semibold mb-4 gradient-text">Características principais:</h4>
+                          <ul className="space-y-2 text-sm text-muted-foreground">
+                            {selectedContent?.category === 'cryptocurrency' && (
+                              <>
+                                <li className="flex items-center gap-2">
+                                  <div className="w-2 h-2 rounded-full logo-gradient"></div>
+                                  Moeda digital descentralizada
+                                </li>
+                                <li className="flex items-center gap-2">
+                                  <div className="w-2 h-2 rounded-full logo-gradient"></div>
+                                  Tecnologia blockchain
+                                </li>
+                                <li className="flex items-center gap-2">
+                                  <div className="w-2 h-2 rounded-full logo-gradient"></div>
+                                  Alta volatilidade (risco elevado)
+                                </li>
+                                <li className="flex items-center gap-2">
+                                  <div className="w-2 h-2 rounded-full logo-gradient"></div>
+                                  Potencial de grandes retornos
+                                </li>
+                                <li className="flex items-center gap-2">
+                                  <div className="w-2 h-2 rounded-full logo-gradient"></div>
+                                  Recomendado máximo 5% da carteira
+                                </li>
+                              </>
+                            )}
+                            {selectedContent?.category === 'investments' && (
+                              <>
+                                <li className="flex items-center gap-2">
+                                  <div className="w-2 h-2 rounded-full logo-gradient"></div>
+                                  Renda fixa: previsibilidade e segurança
+                                </li>
+                                <li className="flex items-center gap-2">
+                                  <div className="w-2 h-2 rounded-full logo-gradient"></div>
+                                  Renda variável: maior potencial de ganhos
+                                </li>
+                                <li className="flex items-center gap-2">
+                                  <div className="w-2 h-2 rounded-full logo-gradient"></div>
+                                  Diversificação reduz riscos
+                                </li>
+                                <li className="flex items-center gap-2">
+                                  <div className="w-2 h-2 rounded-full logo-gradient"></div>
+                                  Escolha baseada no perfil de risco
+                                </li>
+                                <li className="flex items-center gap-2">
+                                  <div className="w-2 h-2 rounded-full logo-gradient"></div>
+                                  Proteção contra inflação
+                                </li>
+                              </>
+                            )}
+                            {selectedContent?.category === 'portfolio' && (
+                              <>
+                                <li className="flex items-center gap-2">
+                                  <div className="w-2 h-2 rounded-full logo-gradient"></div>
+                                  Redução de riscos através da diversificação
+                                </li>
+                                <li className="flex items-center gap-2">
+                                  <div className="w-2 h-2 rounded-full logo-gradient"></div>
+                                  Balanceamento entre diferentes ativos
+                                </li>
+                                <li className="flex items-center gap-2">
+                                  <div className="w-2 h-2 rounded-full logo-gradient"></div>
+                                  Revisão periódica da carteira
+                                </li>
+                                <li className="flex items-center gap-2">
+                                  <div className="w-2 h-2 rounded-full logo-gradient"></div>
+                                  Alinhamento com objetivos pessoais
+                                </li>
+                                <li className="flex items-center gap-2">
+                                  <div className="w-2 h-2 rounded-full logo-gradient"></div>
+                                  Rebalanceamento trimestral recomendado
+                                </li>
+                              </>
+                            )}
+                          </ul>
+                        </div>
+                        
+                        <div className="bg-card/50 p-6 rounded-lg border border-border/50">
+                          <h4 className="font-semibold mb-4 gradient-text">Rentabilidades Históricas:</h4>
+                          <div className="space-y-3 text-sm">
+                            {selectedContent?.category === 'cryptocurrency' && (
+                              <>
+                                <div className="flex justify-between">
+                                  <span className="text-muted-foreground">Bitcoin (2023):</span>
+                                  <span className="text-green-400 font-semibold">+156%</span>
+                                </div>
+                                <div className="flex justify-between">
+                                  <span className="text-muted-foreground">Ethereum (2023):</span>
+                                  <span className="text-green-400 font-semibold">+91%</span>
+                                </div>
+                                <div className="flex justify-between">
+                                  <span className="text-muted-foreground">Volatilidade média:</span>
+                                  <span className="text-red-400 font-semibold">±60%</span>
+                                </div>
+                              </>
+                            )}
+                            {selectedContent?.category === 'investments' && (
+                              <>
+                                <div className="flex justify-between">
+                                  <span className="text-muted-foreground">CDB (2023):</span>
+                                  <span className="text-green-400 font-semibold">13.2%</span>
+                                </div>
+                                <div className="flex justify-between">
+                                  <span className="text-muted-foreground">IBOVESPA (2023):</span>
+                                  <span className="text-green-400 font-semibold">21.2%</span>
+                                </div>
+                                <div className="flex justify-between">
+                                  <span className="text-muted-foreground">Tesouro IPCA+:</span>
+                                  <span className="text-green-400 font-semibold">6.2% + IPCA</span>
+                                </div>
+                              </>
+                            )}
+                            {selectedContent?.category === 'portfolio' && (
+                              <>
+                                <div className="flex justify-between">
+                                  <span className="text-muted-foreground">Carteira Conservadora:</span>
+                                  <span className="text-green-400 font-semibold">10-12%</span>
+                                </div>
+                                <div className="flex justify-between">
+                                  <span className="text-muted-foreground">Carteira Moderada:</span>
+                                  <span className="text-green-400 font-semibold">14-18%</span>
+                                </div>
+                                <div className="flex justify-between">
+                                  <span className="text-muted-foreground">Carteira Agressiva:</span>
+                                  <span className="text-green-400 font-semibold">18-25%</span>
+                                </div>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-gradient-to-r from-card/50 to-card/30 p-6 rounded-lg border border-border/50">
+                        <h4 className="font-semibold mb-3 gradient-text">Recomendação FinPlanner:</h4>
+                        <p className="text-muted-foreground text-sm leading-relaxed">
+                          {selectedContent?.category === 'cryptocurrency' && 
+                            "Para iniciantes, recomendamos começar com apenas 2-5% da carteira em criptomoedas, focando em Bitcoin e Ethereum. Estude bastante antes de investir e nunca invista mais do que pode perder."
+                          }
+                          {selectedContent?.category === 'investments' && 
+                            "Uma carteira balanceada deve ter 60-70% em renda fixa para segurança e 30-40% em renda variável para crescimento. Ajuste conforme seu perfil de risco e objetivos."
+                          }
+                          {selectedContent?.category === 'portfolio' && 
+                            "Diversifique entre classes de ativos, setores e geografias. Mantenha uma reserva de emergência e revise sua carteira a cada 3 meses para rebalanceamento."
+                          }
+                        </p>
                       </div>
                     </div>
                   </DialogContent>

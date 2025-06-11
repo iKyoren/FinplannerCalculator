@@ -106,58 +106,116 @@ export default function MarketData() {
         </div>
 
         {/* Investment Performance Chart */}
-        <Card className="border-border/50">
-          <CardHeader>
-            <CardTitle className="text-xl font-semibold">Performance de Investimentos (12 meses)</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="h-80">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={performanceData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                  <XAxis 
-                    dataKey="month" 
-                    stroke="hsl(var(--muted-foreground))"
-                    fontSize={12}
-                  />
-                  <YAxis 
-                    stroke="hsl(var(--muted-foreground))"
-                    fontSize={12}
-                  />
-                  <Tooltip 
-                    contentStyle={{
-                      backgroundColor: 'hsl(var(--card))',
-                      border: '1px solid hsl(var(--border))',
-                      borderRadius: '8px',
-                      color: 'hsl(var(--foreground))'
-                    }}
-                  />
-                  <Line 
-                    type="monotone" 
-                    dataKey="CDI" 
-                    stroke="hsl(var(--success))" 
-                    strokeWidth={2}
-                    dot={{ fill: 'hsl(var(--success))' }}
-                  />
-                  <Line 
-                    type="monotone" 
-                    dataKey="IBOVESPA" 
-                    stroke="hsl(var(--primary))" 
-                    strokeWidth={2}
-                    dot={{ fill: 'hsl(var(--primary))' }}
-                  />
-                  <Line 
-                    type="monotone" 
-                    dataKey="Bitcoin" 
-                    stroke="hsl(var(--warning))" 
-                    strokeWidth={2}
-                    dot={{ fill: 'hsl(var(--warning))' }}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </CardContent>
-        </Card>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <Card className="border-border/50">
+            <CardHeader>
+              <CardTitle className="text-xl font-semibold">Performance de Investimentos (12 meses)</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="h-80">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={performanceData}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                    <XAxis 
+                      dataKey="month" 
+                      stroke="hsl(var(--muted-foreground))"
+                      fontSize={12}
+                    />
+                    <YAxis 
+                      stroke="hsl(var(--muted-foreground))"
+                      fontSize={12}
+                    />
+                    <Tooltip 
+                      contentStyle={{
+                        backgroundColor: 'hsl(var(--card))',
+                        border: '1px solid hsl(var(--border))',
+                        borderRadius: '8px',
+                        color: 'hsl(var(--foreground))'
+                      }}
+                    />
+                    <Line 
+                      type="monotone" 
+                      dataKey="CDI" 
+                      stroke="hsl(var(--success))" 
+                      strokeWidth={2}
+                      dot={{ fill: 'hsl(var(--success))' }}
+                    />
+                    <Line 
+                      type="monotone" 
+                      dataKey="IBOVESPA" 
+                      stroke="hsl(var(--primary))" 
+                      strokeWidth={2}
+                      dot={{ fill: 'hsl(var(--primary))' }}
+                    />
+                    <Line 
+                      type="monotone" 
+                      dataKey="Bitcoin" 
+                      stroke="hsl(var(--warning))" 
+                      strokeWidth={2}
+                      dot={{ fill: 'hsl(var(--warning))' }}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Investment Allocation Chart */}
+          <Card className="border-border/50">
+            <CardHeader>
+              <CardTitle className="text-xl font-semibold">Distribuição Recomendada de Investimentos</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-muted-foreground">CDI/Renda Fixa</span>
+                    <span className="text-sm font-semibold">35%</span>
+                  </div>
+                  <div className="w-full bg-muted rounded-full h-2">
+                    <div className="bg-green-400 h-2 rounded-full" style={{ width: '35%' }}></div>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-muted-foreground">Ações/IBOVESPA</span>
+                    <span className="text-sm font-semibold">40%</span>
+                  </div>
+                  <div className="w-full bg-muted rounded-full h-2">
+                    <div className="logo-gradient h-2 rounded-full" style={{ width: '40%' }}></div>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-muted-foreground">FIIs</span>
+                    <span className="text-sm font-semibold">15%</span>
+                  </div>
+                  <div className="w-full bg-muted rounded-full h-2">
+                    <div className="bg-blue-400 h-2 rounded-full" style={{ width: '15%' }}></div>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-muted-foreground">Criptomoedas</span>
+                    <span className="text-sm font-semibold">10%</span>
+                  </div>
+                  <div className="w-full bg-muted rounded-full h-2">
+                    <div className="bg-yellow-400 h-2 rounded-full" style={{ width: '10%' }}></div>
+                  </div>
+                </div>
+
+                <div className="mt-6 p-4 bg-muted/50 rounded-lg">
+                  <p className="text-xs text-muted-foreground">
+                    *Distribuição baseada em perfil moderado. Ajuste conforme sua tolerância ao risco.
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </section>
   );

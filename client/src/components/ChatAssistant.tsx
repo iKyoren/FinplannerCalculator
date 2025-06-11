@@ -38,7 +38,11 @@ export default function ChatAssistant() {
     "O que é Bitcoin e como funciona?",
     "Qual a diferença entre renda fixa e variável?",
     "Como diversificar minha carteira?",
-    "Qual investimento é melhor para meu perfil?"
+    "Qual investimento é melhor para meu perfil?",
+    "O que é CDI e como investir?",
+    "Como escolher entre perfil conservador e agressivo?",
+    "Quais são os riscos das criptomoedas?",
+    "Como calcular o retorno dos meus investimentos?"
   ];
 
   useEffect(() => {
@@ -94,10 +98,16 @@ export default function ChatAssistant() {
         <div className="relative">
           <Button
             onClick={() => setIsExpanded(true)}
-            className="w-16 h-16 rounded-full gradient-primary hover:opacity-90 transition-all hover:scale-110 shadow-lg"
+            className="w-16 h-16 rounded-full bg-card border-2 border-transparent bg-gradient-to-r from-[#1fb5d6] to-[#a855f7] p-0.5 hover:scale-110 transition-all shadow-lg"
             size="icon"
           >
-            <Bot className="h-8 w-8" />
+            <div className="w-full h-full rounded-full bg-card flex items-center justify-center overflow-hidden">
+              <img 
+                src="/attached_assets/_395a0789-9ccf-4ddd-8fff-cc9453078074_1749607758687.jpeg" 
+                alt="DinDin Assistant" 
+                className="w-12 h-12 rounded-full object-cover"
+              />
+            </div>
           </Button>
           
           {/* Tooltip */}

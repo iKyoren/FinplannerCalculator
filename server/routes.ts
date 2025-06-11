@@ -142,30 +142,38 @@ function generateAIResponse(message: string): string {
   const lowerMessage = message.toLowerCase();
   
   if (lowerMessage.includes('bitcoin') || lowerMessage.includes('cripto')) {
-    return 'Bitcoin é uma criptomoeda descentralizada que funciona através de blockchain. É considerado um ativo de alto risco, mas com potencial de grandes retornos. Para investidores iniciantes, recomendo começar com uma pequena parcela da carteira (máximo 5%).';
+    return 'Bitcoin é uma criptomoeda descentralizada que funciona através de blockchain. É considerado um ativo de alto risco, mas com potencial de grandes retornos. Para investidores iniciantes, recomendo começar com uma pequena parcela da carteira (máximo 5%). Volatilidade média de ±60% ao ano.';
   }
   
   if (lowerMessage.includes('renda fixa') || lowerMessage.includes('renda variável')) {
-    return 'Renda Fixa oferece retornos previsíveis e menor risco (CDB, Tesouro Direto), enquanto Renda Variável tem potencial de maiores ganhos mas com volatilidade (ações, FIIs). A proporção ideal depende do seu perfil de risco.';
+    return 'Renda Fixa oferece retornos previsíveis e menor risco (CDB 13%, Tesouro 11%), enquanto Renda Variável tem potencial de maiores ganhos mas com volatilidade (IBOVESPA 21% em 2023). A proporção ideal depende do seu perfil de risco e prazo de investimento.';
   }
   
   if (lowerMessage.includes('diversificar') || lowerMessage.includes('carteira')) {
-    return 'Diversificação é essencial para reduzir riscos. Recomendo: 40% renda fixa, 40% ações nacionais, 10% ações internacionais, 10% alternativos (FIIs, crypto). Ajuste conforme seu perfil de risco.';
+    return 'Diversificação é essencial para reduzir riscos. Para perfil moderado recomendo: 35% renda fixa, 40% ações nacionais, 15% FIIs, 10% criptomoedas. Rebalanceie trimestralmente e mantenha reserva de emergência separada.';
   }
   
-  if (lowerMessage.includes('perfil') || lowerMessage.includes('investimento')) {
-    return 'Para determinar seu perfil ideal, considere: idade, objetivos, prazo de investimento e tolerância a perdas. Use nossa calculadora para simular diferentes cenários!';
+  if (lowerMessage.includes('perfil') || lowerMessage.includes('conservador') || lowerMessage.includes('agressivo')) {
+    return 'Conservador (8-12% a.a.): Foca em segurança com CDB, Tesouro. Moderado (14-18% a.a.): Equilibra renda fixa e ações. Agressivo (18-30% a.a.): Prioriza crescimento com ações e crypto. Considere idade, objetivos e tolerância a perdas.';
   }
   
   if (lowerMessage.includes('cdb')) {
-    return 'CDB (Certificado de Depósito Bancário) é um investimento de renda fixa com segurança do FGC até R$ 250 mil. Oferece rentabilidade previsível e é ideal para perfis conservadores ou como reserva de emergência.';
+    return 'CDB (Certificado de Depósito Bancário) rende cerca de 13% a.a. atualmente, com segurança do FGC até R$ 250 mil por banco. Ideal para reserva de emergência e perfis conservadores. Liquidez varia conforme o produto escolhido.';
   }
   
   if (lowerMessage.includes('tesouro direto')) {
-    return 'Tesouro Direto são títulos públicos do governo federal, considerados os investimentos mais seguros do país. Ideais para quem busca segurança e rentabilidade acima da poupança.';
+    return 'Tesouro Direto são títulos públicos do governo federal, considerados os investimentos mais seguros do país. Tesouro IPCA+ oferece 6,2% + inflação. Aplicação mínima R$ 30, ideal para objetivos de longo prazo.';
   }
   
-  return 'Ótima pergunta! Para dar uma resposta mais precisa, você pode usar nossas calculadoras ou especificar mais detalhes sobre sua situação financeira. Como posso ajudar especificamente?';
+  if (lowerMessage.includes('risco') || lowerMessage.includes('riscos')) {
+    return 'Principais riscos: Mercado (volatilidade), Crédito (calote), Liquidez (dificuldade de venda), Inflação (perda do poder de compra). Criptomoedas têm risco máximo. Diversificação é a melhor proteção.';
+  }
+  
+  if (lowerMessage.includes('calcular') || lowerMessage.includes('retorno') || lowerMessage.includes('rendimento')) {
+    return 'Para calcular retornos use nossa calculadora de juros compostos! Exemplo: R$ 1.000 inicial + R$ 500/mês a 12% a.a. por 10 anos = R$ 115.000 finais (R$ 61.000 investido + R$ 54.000 juros).';
+  }
+  
+  return 'Ótima pergunta! Baseado em dados reais do mercado brasileiro, posso ajudar com estratégias personalizadas. Use nossas calculadoras para simular cenários específicos para sua situação financeira. Em que posso ajudar mais?';
 }
 
 function generateInvestmentRecommendation(data: z.infer<typeof investmentRecommendationSchema>) {
