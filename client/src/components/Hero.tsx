@@ -20,17 +20,21 @@ export default function Hero() {
       <div className="absolute inset-0 bg-gradient-to-br from-background via-background/90 to-background"></div>
       <div className="container mx-auto px-4 text-center relative z-10">
         <div className="max-w-4xl mx-auto">
-          <div className="w-32 h-32 md:w-40 md:h-40 flex items-center justify-center mx-auto mb-4">
-            <img 
-              src="/attached_assets/5237471_1749608011733.png" 
-              alt="FinPlanner Logo" 
-              className="w-full h-full object-contain"
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.style.display = 'none';
-                target.parentElement!.innerHTML = '<div class="w-32 h-32 md:w-40 md:h-40 gradient-primary rounded-2xl flex items-center justify-center"><span class="text-white font-bold text-4xl md:text-5xl">F</span></div>';
-              }}
-            />
+          <div className="flex justify-center mb-8">
+            <div className="w-32 h-32 md:w-40 md:h-40 rounded-2xl border-2 border-transparent bg-gradient-to-r from-[#1fb5d6] to-[#a855f7] p-0.5 shadow-lg">
+              <div className="w-full h-full rounded-2xl bg-background flex items-center justify-center overflow-hidden">
+                <img 
+                  src="/attached_assets/5237471_1749608011733.png" 
+                  alt="FinPlanner Logo" 
+                  className="w-full h-full object-contain p-2"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    target.parentElement!.innerHTML = '<div class="w-full h-full gradient-primary rounded-xl flex items-center justify-center"><span class="text-white font-bold text-4xl md:text-5xl">F</span></div>';
+                  }}
+                />
+              </div>
+            </div>
           </div>
           
           <h1 className="text-5xl md:text-7xl font-bold mb-6">
