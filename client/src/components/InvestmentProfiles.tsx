@@ -117,6 +117,9 @@ export default function InvestmentProfiles() {
     <section id="perfis" className="py-20 bg-card/50">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
+          <h1 className="text-2xl font-semibold text-foreground mb-2">
+            Análise de Perfil
+          </h1>
           <h2 className="text-4xl font-bold mb-4 gradient-text">
             Perfis de Investimento
           </h2>
@@ -184,50 +187,50 @@ export default function InvestmentProfiles() {
         </div>
 
         {/* Selected Profile Info Section */}
-        <div className="mb-12">
-          <h3 className="text-3xl font-bold text-center mb-8 text-foreground">
-            Detalhes do Perfil Selecionado
-          </h3>
         {selectedProfile && (
-          <Card className="border-border/50 animate-fade-in-up">
-            <CardContent className="p-8">
-              <h3 className="text-xl font-semibold mb-4 text-foreground">
-                Perfil Selecionado: <span className="gradient-text">{profiles[selectedProfile].name}</span>
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <h4 className="font-semibold text-foreground mb-3">Características</h4>
-                  <ul className="space-y-2">
-                    {profiles[selectedProfile].characteristics.map((characteristic, index) => (
-                      <li key={index} className="flex items-center text-muted-foreground">
-                        <Check className={`${getColorClasses(profiles[selectedProfile].color).text} mr-2 h-4 w-4`} />
-                        {characteristic}
-                      </li>
-                    ))}
-                  </ul>
+          <div className="mb-12">
+            <h3 className="text-2xl font-semibold text-center mb-6 text-foreground">
+              Análise
+            </h3>
+            <Card className="border-border/50 animate-fade-in-up">
+              <CardContent className="p-8">
+                <h3 className="text-xl font-semibold mb-4 text-foreground">
+                  Perfil Selecionado: <span className="gradient-text">{profiles[selectedProfile].name}</span>
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <h4 className="font-semibold text-foreground mb-3">Características</h4>
+                    <ul className="space-y-2">
+                      {profiles[selectedProfile].characteristics.map((characteristic, index) => (
+                        <li key={index} className="flex items-center text-muted-foreground">
+                          <Check className={`${getColorClasses(profiles[selectedProfile].color).text} mr-2 h-4 w-4`} />
+                          {characteristic}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-foreground mb-3">Investimentos Recomendados</h4>
+                    <ul className="space-y-2">
+                      {profiles[selectedProfile].investments.map((investment, index) => (
+                        <li key={index} className="flex items-center text-muted-foreground">
+                          <Check className={`${getColorClasses(profiles[selectedProfile].color).text} mr-2 h-4 w-4`} />
+                          {investment}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-semibold text-foreground mb-3">Investimentos Recomendados</h4>
-                  <ul className="space-y-2">
-                    {profiles[selectedProfile].investments.map((investment, index) => (
-                      <li key={index} className="flex items-center text-muted-foreground">
-                        <Check className={`${getColorClasses(profiles[selectedProfile].color).text} mr-2 h-4 w-4`} />
-                        {investment}
-                      </li>
-                    ))}
-                  </ul>
+                <div className="mt-6 p-4 bg-muted/50 rounded-lg">
+                  <p className="text-muted-foreground mb-3">{profiles[selectedProfile].description}</p>
+                  <Button onClick={scrollToCalculators} className="gradient-primary hover:opacity-90">
+                    Usar Calculadoras com este Perfil
+                  </Button>
                 </div>
-              </div>
-              <div className="mt-6 p-4 bg-muted/50 rounded-lg">
-                <p className="text-muted-foreground mb-3">{profiles[selectedProfile].description}</p>
-                <Button onClick={scrollToCalculators} className="gradient-primary hover:opacity-90">
-                  Usar Calculadoras com este Perfil
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </div>
         )}
-        </div>
       </div>
     </section>
   );
