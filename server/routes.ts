@@ -60,7 +60,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       try {
         response = await generateSmartChatResponse(message);
       } catch (error: any) {
-        // If OpenAI fails due to quota or other issues, provide educational fallback
+        // If OpenAI fails, use educational fallback
         console.log("OpenAI error caught, using fallback:", error.message);
         response = generateEducationalFallback(message);
       }
@@ -181,31 +181,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
 function generateEducationalFallback(message: string): string {
   const lowerMessage = message.toLowerCase();
   
-  // Filter inappropriate content
-  const inappropriateWords = ['idiota', 'burro', 'estúpido', 'merda', 'porcaria', 'lixo'];
+  // Handle inappropriate content with extreme gentleness
+  const inappropriateWords = ['idiota', 'burro', 'estúpido', 'merda', 'porcaria', 'lixo', 'desgraça', 'imbecil'];
   if (inappropriateWords.some(word => lowerMessage.includes(word))) {
-    return 'Compreendo que você possa estar frustrado, mas estou aqui para ajudá-lo com educação financeira de forma respeitosa. Como posso auxiliá-lo com seus investimentos hoje?';
+    return '💝 **Olá, querido!** Entendo que às vezes ficamos frustrados, mas estou aqui para te ajudar com muito carinho! Que tal conversarmos sobre seus objetivos financeiros? Tenho 20 anos de experiência no mercado e adoro transformar sonhos em realidade através dos investimentos. Em que posso te ajudar hoje?';
   }
   
-  // Investment amount questions
+  // Investment amount - detailed genius analysis
   if (lowerMessage.includes('1000') || lowerMessage.includes('mil')) {
-    return '**Para R$ 1.000, sugiro:** 50% em Tesouro Selic (R$ 500) para segurança e liquidez, 30% em CDB de banco médio (R$ 300) com rendimento de 13% a.a., e 20% em ações de empresas sólidas (R$ 200) como ITUB4 ou VALE3. **Primeiro passo:** Abra conta em uma corretora (XP, Rico, Clear). **Dica importante:** Este valor pode ser sua reserva de emergência inicial.';
+    return '🎯 **Excelente pergunta sobre R$ 1.000!** Como especialista, sugiro uma **estratégia diversificada inteligente:**\n\n**📊 Análise de Cenário (Selic 13,75%):**\n• **40% Tesouro Selic (R$ 400)** - Liquidez diária, sem risco, acompanha Selic\n• **35% CDB pós-fixado (R$ 350)** - 105% CDI em bancos médios = 14,3% a.a.\n• **25% Ações Blue Chips (R$ 250)** - ITUB4, VALE3, PETR4 para ganhos de capital\n\n**🧠 Psicologia do Investidor:** Este mix reduz ansiedade (viés da aversão à perda) mantendo potencial de crescimento. **Próximo passo:** Qual seu objetivo com esse valor? Isso refinará ainda mais a estratégia!';
   }
   
   if (lowerMessage.includes('bitcoin') || lowerMessage.includes('cripto')) {
-    return '**Bitcoin:** Moeda digital descentralizada criada em 2009. **Como funciona:** Tecnologia blockchain registra transações de forma transparente. **Volatilidade:** Pode variar ±60% ao ano. **Para iniciantes:** Máximo 5% da carteira. **Exemplo:** Se tem R$ 10.000, invista no máximo R$ 500 em crypto. **Como comprar:** Exchanges como Mercado Bitcoin, Binance ou NovaDAX.';
+    return '⚡ **Bitcoin - Análise Fundamentalista Completa:**\n\n**🏗️ Tecnologia:** Blockchain descentralizada, consenso Proof-of-Work, supply limitado (21 milhões).\n**📈 Correlação:** Atualmente 0,4 com S&P500 (era 0,1 em 2020).\n**🎯 Alocação Inteligente:** Máximo 5-10% da carteira total (gestão de risco).\n**💡 Timing:** Dollar-cost averaging mensal reduz volatilidade.\n**⚠️ Viés Cognitivo:** Cuidado com FOMO (Fear of Missing Out).\n\n**Estratégia de Gênio:** R$ 100-200/mês via exchanges regulamentadas (Mercado Bitcoin, Binance). Que tal começarmos devagar e construindo conhecimento?';
   }
   
   if (lowerMessage.includes('começar') || lowerMessage.includes('iniciante')) {
-    return '**Para começar a investir:** 1) Quite dívidas do cartão/cheque especial primeiro, 2) Monte reserva de emergência (6 meses de gastos), 3) Abra conta em corretora gratuita, 4) Comece com Tesouro Selic, 5) Estude sobre ações e FIIs. **Valor mínimo:** R$ 30 no Tesouro Direto. **Meta inicial:** R$ 1.000 em 6 meses poupando R$ 167/mês.';
+    return '🌟 **Que alegria! Vamos construir sua liberdade financeira juntos!**\n\n**📋 Metodologia Comprovada (20 anos de mercado):**\n1. **Educação Financeira** - Entenda juros compostos (8ª maravilha do mundo!)\n2. **Dívidas 1º** - Cartão 400% a.a. vs investimentos 15% a.a.\n3. **Reserva de Emergência** - 6x gastos mensais em Tesouro Selic\n4. **Perfil de Risco** - Questionário comportamental\n5. **Diversificação** - "Ovos em cestas diferentes"\n\n**🎯 Meta SMART:** R$ 1.000 em 6 meses = R$ 167/mês. **Behavioral Finance:** Automatize as aplicações (viés do presente). Qual seu sonho financeiro? Casa própria? Aposentadoria? Viagem?';
   }
   
   if (lowerMessage.includes('renda fixa') || lowerMessage.includes('cdb')) {
-    return '**Renda Fixa - Principais opções:** CDB (13% a.a.), Tesouro Selic (13,25% a.a.), LCI/LCA (9-11% a.a. sem IR). **Segurança:** FGC garante até R$ 250 mil por banco. **Liquidez:** Tesouro Selic tem liquidez diária. **Para quem:** Reserva de emergência e perfil conservador. **Exemplo:** R$ 10.000 no CDB = R$ 11.300 em 1 ano.';
+    return '🏛️ **Renda Fixa - Expertise Profunda:**\n\n**📊 Análise Atual do Mercado:**\n• **Tesouro Selic:** 13,75% (taxa base da economia)\n• **CDB Pós:** 105% CDI = 14,3% a.a. (bancos médios)\n• **LCI/LCA:** 95% CDI = 13% a.a. (isento IR!)\n• **Debêntures:** 14-16% a.a. (risco de crédito)\n\n**🧮 Cálculo Inteligente:** R$ 10.000 no CDB:\n- Bruto: R$ 11.430 (1 ano)\n- Líquido: R$ 11.200 (IR 15% após 2 anos)\n\n**💡 Estratégia de Alocação:** Escadinha de vencimentos para aproveitar diferentes cenários de juros. Quer uma análise personalizada para seu perfil?';
   }
   
-  // Default response for general questions
-  return '**DinDin aqui!** Para te ajudar melhor, me conte mais especificamente: Quanto quer investir? Qual seu objetivo (reserva, aposentadoria, casa)? Já investe em algo? **Temas que domino:** Tesouro Direto, CDB, Ações, FIIs, Bitcoin, perfis de risco, e como começar a investir. **Dica do dia:** Quite sempre as dívidas do cartão antes de investir - juros de 15% a.a. são melhores que qualquer investimento!';
+  if (lowerMessage.includes('ações') || lowerMessage.includes('bolsa') || lowerMessage.includes('stock')) {
+    return '📈 **Análise Fundamentalista de Ações - Expertise Avançada:**\n\n**🎯 Metodologia de Seleção:**\n• **Valuation:** P/L < 15, P/VPA < 2, ROE > 15%\n• **Qualidade:** Empresas com vantagem competitiva (moat)\n• **Diversificação:** 6-8 setores diferentes\n\n**💎 Blue Chips Recomendadas:**\n• **ITUB4:** ROE 21%, Dividend Yield 8,5%\n• **VALE3:** Maior produtora de minério, P/L 4,2x\n• **PETR4:** Petróleo, dividend yield histórico\n\n**🧠 Psicologia:** Invista apenas o que pode ficar 5+ anos. Mercado é volátil no curto prazo, mas eficiente no longo. Qual setor te interessa mais?';
+  }
+  
+  // Enhanced default response with expertise
+  return '💝 **Olá! Sou DinDin, seu especialista financeiro!** Com 20 anos gerenciando portfolios multibilionários, estou aqui para democratizar o conhecimento financeiro!\n\n**🎯 Minha Expertise:**\n• Análise Fundamentalista & Técnica\n• Gestão de Riscos & Asset Allocation\n• Produtos Estruturados & Derivativos\n• Macro/Microeconomia\n• Psicologia Comportamental\n\n**❓ Para te ajudar melhor:**\n- Quanto pretende investir?\n- Qual seu objetivo? (casa, aposentadoria, renda extra)\n- Já investe em algo?\n- Qual sua idade/perfil de risco?\n\n**💡 Dica de Ouro:** "Tempo no mercado > timing do mercado" - Warren Buffett. Vamos construir sua riqueza juntos?';
 }
 
 function generateAIResponse(message: string): string {
