@@ -21,8 +21,8 @@ export default function Hero() {
       <div className="container mx-auto px-4 text-center relative z-10">
         <div className="max-w-4xl mx-auto">
           <div className="flex justify-center mb-8">
-            <div className="w-32 h-32 md:w-40 md:h-40 rounded-2xl border-2 border-transparent bg-gradient-to-r from-[#1fb5d6] to-[#a855f7] p-0.5 shadow-lg">
-              <div className="w-full h-full rounded-2xl bg-background flex items-center justify-center overflow-hidden">
+            <div className="w-32 h-32 md:w-40 md:h-40 rounded-full border-2 border-transparent bg-gradient-to-r from-[#1fb5d6] to-[#a855f7] p-0.5 shadow-lg">
+              <div className="w-full h-full rounded-full bg-background flex items-center justify-center overflow-hidden">
                 <img 
                   src="/attached_assets/5237471_1749608011733.png" 
                   alt="FinPlanner Logo" 
@@ -30,7 +30,7 @@ export default function Hero() {
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
                     target.style.display = 'none';
-                    target.parentElement!.innerHTML = '<div class="w-full h-full gradient-primary rounded-xl flex items-center justify-center"><span class="text-white font-bold text-4xl md:text-5xl">F</span></div>';
+                    target.parentElement!.innerHTML = '<div class="w-full h-full gradient-primary rounded-full flex items-center justify-center"><span class="text-white font-bold text-4xl md:text-5xl">F</span></div>';
                   }}
                 />
               </div>
