@@ -103,7 +103,7 @@ export default function ChatAssistant() {
           >
             <div className="w-full h-full rounded-full bg-card flex items-center justify-center overflow-hidden">
               <img 
-                src="./attached_assets/_395a0789-9ccf-4ddd-8fff-cc9453078074_1749607758687.jpeg" 
+                src="/attached_assets/_395a0789-9ccf-4ddd-8fff-cc9453078074_1749608011758.jpeg" 
                 alt="DinDin Assistant" 
                 className="w-12 h-12 rounded-full object-cover"
                 onError={(e) => {
@@ -136,7 +136,7 @@ export default function ChatAssistant() {
                 <div className="w-10 h-10 rounded-full border-2 border-transparent bg-gradient-to-r from-[#1fb5d6] to-[#a855f7] p-0.5">
                   <div className="w-full h-full rounded-full bg-card flex items-center justify-center overflow-hidden">
                     <img 
-                      src="./attached_assets/_395a0789-9ccf-4ddd-8fff-cc9453078074_1749607758687.jpeg" 
+                      src="/attached_assets/_395a0789-9ccf-4ddd-8fff-cc9453078074_1749608011758.jpeg" 
                       alt="DinDin Assistant" 
                       className="w-8 h-8 rounded-full object-cover"
                       onError={(e) => {

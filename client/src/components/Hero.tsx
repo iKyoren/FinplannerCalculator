@@ -22,7 +22,7 @@ export default function Hero() {
         <div className="max-w-4xl mx-auto">
           <div className="w-24 h-24 flex items-center justify-center mx-auto mb-8">
             <img 
-              src="./attached_assets/5237471_1749607344387.png" 
+              src="/attached_assets/5237471_1749608011733.png" 
               alt="FinPlanner Logo" 
               className="w-full h-full object-contain"
               onError={(e) => {

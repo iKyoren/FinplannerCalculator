@@ -27,7 +27,7 @@ export default function Header() {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <img 
-              src="./attached_assets/5237471_1749607344387.png" 
+              src="/attached_assets/5237471_1749608011733.png" 
               alt="FinPlanner Logo" 
               className="w-10 h-10 object-contain"
               onError={(e) => {
