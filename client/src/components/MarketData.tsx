@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useMarketData } from "@/hooks/useMarketData";
 import { TrendingUp, TrendingDown, Building, Bitcoin, BarChart3, Minus, User } from "lucide-react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from "recharts";
 
 export default function MarketData() {
   const { data: marketData, isLoading } = useMarketData();
@@ -140,44 +140,60 @@ export default function MarketData() {
               <div className="h-80">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={performanceData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                     <XAxis 
                       dataKey="month" 
-                      stroke="hsl(var(--muted-foreground))"
+                      stroke="#6b7280"
                       fontSize={12}
                     />
                     <YAxis 
-                      stroke="hsl(var(--muted-foreground))"
+                      stroke="#6b7280"
                       fontSize={12}
+                      tickFormatter={(value) => `${value}%`}
+                      domain={['dataMin - 5', 'dataMax + 5']}
                     />
                     <Tooltip 
                       contentStyle={{
-                        backgroundColor: 'hsl(var(--card))',
-                        border: '1px solid hsl(var(--border))',
+                        backgroundColor: '#ffffff',
+                        border: '1px solid #e5e7eb',
                         borderRadius: '8px',
-                        color: 'hsl(var(--foreground))'
+                        color: '#111827',
+                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                      }}
+                      formatter={(value, name) => [
+                        `${Number(value).toFixed(1)}%`,
+                        name
+                      ]}
+                      labelFormatter={(label) => `Mês: ${label}`}
+                    />
+                    <Legend 
+                      wrapperStyle={{
+                        paddingTop: '20px'
                       }}
                     />
                     <Line 
                       type="monotone" 
                       dataKey="CDI" 
-                      stroke="hsl(var(--success))" 
+                      stroke="#22c55e" 
                       strokeWidth={2}
-                      dot={{ fill: 'hsl(var(--success))' }}
+                      dot={{ fill: '#22c55e', strokeWidth: 2 }}
+                      name="CDI"
                     />
                     <Line 
                       type="monotone" 
                       dataKey="IBOVESPA" 
-                      stroke="hsl(var(--primary))" 
+                      stroke="#3b82f6" 
                       strokeWidth={2}
-                      dot={{ fill: 'hsl(var(--primary))' }}
+                      dot={{ fill: '#3b82f6', strokeWidth: 2 }}
+                      name="IBOVESPA"
                     />
                     <Line 
                       type="monotone" 
                       dataKey="Bitcoin" 
-                      stroke="hsl(var(--warning))" 
+                      stroke="#f59e0b" 
                       strokeWidth={2}
-                      dot={{ fill: 'hsl(var(--warning))' }}
+                      dot={{ fill: '#f59e0b', strokeWidth: 2 }}
+                      name="Bitcoin"
                     />
                   </LineChart>
                 </ResponsiveContainer>
