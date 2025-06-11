@@ -2,6 +2,12 @@ import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
+// Debug: verificar variáveis de ambiente no início
+console.log("=== Environment Check ===");
+console.log("NODE_ENV:", process.env.NODE_ENV);
+console.log("OPENAI_API_KEY:", process.env.OPENAI_API_KEY ? "Present" : "Missing");
+console.log("=========================");
+
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
