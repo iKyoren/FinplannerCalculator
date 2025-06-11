@@ -35,10 +35,11 @@ export default function Hero() {
                 />
               </div>
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold">
-              <span className="gradient-text">FinPlanner</span>
-            </h1>
           </div>
+          
+          <h1 className="text-5xl md:text-7xl font-bold mb-4">
+            <span className="gradient-text">FinPlanner</span>
+          </h1>
           
           <h2 className="text-3xl md:text-4xl font-semibold mb-4 text-foreground">
             Planejamento Financeiro Inteligente
