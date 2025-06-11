@@ -48,16 +48,6 @@ export default function Hero() {
           <p className="text-lg text-muted-foreground mb-8 leading-relaxed max-w-2xl mx-auto">
             Descubra os melhores investimentos para seu perfil, calcule rendimentos e aprenda sobre o mercado financeiro com nossa plataforma completa
           </p>
-          
-          <div className="flex justify-center">
-            <Button 
-              onClick={scrollToCalculators}
-              size="lg" 
-              className="gradient-primary hover:opacity-90 transition-opacity font-semibold px-8"
-            >
-              Começar Agora
-            </Button>
-          </div>
         </div>
       </div>
     </section>
