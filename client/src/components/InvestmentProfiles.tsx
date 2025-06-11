@@ -123,7 +123,12 @@ export default function InvestmentProfiles() {
           <p className="text-muted-foreground text-xl">Escolha a estratégia que combina com seus objetivos e tolerância ao risco</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        {/* Profile Selection Section */}
+        <div className="mb-12">
+          <h3 className="text-3xl font-bold text-center mb-8 text-foreground">
+            Escolha Seu Perfil de Risco
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {Object.entries(profiles).map(([key, profile]) => {
             const colors = getColorClasses(profile.color);
             const IconComponent = profile.icon;
@@ -176,9 +181,14 @@ export default function InvestmentProfiles() {
               </Card>
             );
           })}
+          </div>
         </div>
 
-        {/* Selected Profile Info */}
+        {/* Selected Profile Info Section */}
+        <div className="mb-12">
+          <h3 className="text-3xl font-bold text-center mb-8 text-foreground">
+            Detalhes do Perfil Selecionado
+          </h3>
         {selectedProfile && (
           <Card className="border-border/50 animate-fade-in-up">
             <CardContent className="p-8">
@@ -218,6 +228,7 @@ export default function InvestmentProfiles() {
             </CardContent>
           </Card>
         )}
+        </div>
       </div>
     </section>
   );
