@@ -1,10 +1,14 @@
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { useMarketData } from "@/hooks/useMarketData";
-import { TrendingUp, TrendingDown, Building, Bitcoin, BarChart3, Minus } from "lucide-react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { TrendingUp, TrendingDown, Building, Bitcoin, BarChart3, Minus, User } from "lucide-react";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 
 export default function MarketData() {
   const { data: marketData, isLoading } = useMarketData();
+  const [selectedProfile, setSelectedProfile] = useState<"conservative" | "moderate" | "aggressive">("moderate");
 
   const performanceData = [
     { month: 'Jan', CDI: 13.2, IBOVESPA: 15.2, Bitcoin: 25.5 },
@@ -20,6 +24,27 @@ export default function MarketData() {
     { month: 'Nov', CDI: 13.65, IBOVESPA: 14.5, Bitcoin: 42.1 },
     { month: 'Dez', CDI: 13.65, IBOVESPA: 16.8, Bitcoin: -12.5 },
   ];
+
+  const allocationData = {
+    conservative: [
+      { name: 'Renda Fixa', value: 70, color: '#22c55e' },
+      { name: 'Ações', value: 20, color: '#3b82f6' },
+      { name: 'FIIs', value: 10, color: '#f59e0b' }
+    ],
+    moderate: [
+      { name: 'Renda Fixa', value: 40, color: '#22c55e' },
+      { name: 'Ações', value: 35, color: '#3b82f6' },
+      { name: 'FIIs', value: 20, color: '#f59e0b' },
+      { name: 'Crypto', value: 5, color: '#a855f7' }
+    ],
+    aggressive: [
+      { name: 'Ações', value: 50, color: '#3b82f6' },
+      { name: 'Renda Fixa', value: 20, color: '#22c55e' },
+      { name: 'FIIs', value: 15, color: '#f59e0b' },
+      { name: 'Crypto', value: 10, color: '#a855f7' },
+      { name: 'Internacional', value: 5, color: '#ef4444' }
+    ]
+  };
 
   const getIcon = (symbol: string) => {
     switch (symbol) {
