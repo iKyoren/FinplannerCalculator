@@ -29,44 +29,65 @@ PERFIL DO USUÁRIO:
 - Idade: ${profile.age} anos
 - Perfil: ${profile.investmentProfile}
 
-INSTRUÇÕES:
-1. Gere 4-6 recomendações de investimentos específicas para este perfil
-2. Para cada recomendação, inclua:
-   - Nome do investimento
+INSTRUÇÕES OBRIGATÓRIAS:
+1. Gere EXATAMENTE 10 recomendações de investimentos:
+   - 5 INVESTIMENTOS NACIONAIS (Brasil)
+   - 5 INVESTIMENTOS INTERNACIONAIS (exterior)
+
+2. Para cada investimento, inclua:
+   - Nome específico do investimento
    - Porcentagem sugerida da carteira (%)
-   - Retorno esperado
+   - Retorno esperado anual
    - Nível de risco (Baixo/Médio/Alto)
-   - Justificativa PERSONALIZADA baseada nos dados financeiros
-   - Valor mínimo de investimento
+   - Justificativa PERSONALIZADA baseada nos dados financeiros específicos
+   - Como funciona na TEORIA (conceito)
+   - Como funciona na PRÁTICA (passos concretos)
+   - Valor mínimo para começar
    - Prazo recomendado
-   - Explicação didática de como funciona
+   - Categoria (Nacional/Internacional)
 
-3. Considere:
-   - Situação financeira atual (sobra mensal)
-   - Perfil de risco escolhido
-   - Idade e horizonte de investimento
-   - Necessidade de reserva de emergência
-   - Diversificação apropriada
+3. DIVERSIFICAÇÃO INTELIGENTE:
+   - Escolha investimentos diferentes baseados no perfil de risco
+   - Considere a situação financeira específica (renda, gastos, sobra)
+   - Adapte as opções para a idade e horizonte temporal
+   - Explique PORQUÊ cada investimento faz sentido para ESTA pessoa
 
-4. Use linguagem didática, exemplos práticos em reais brasileiros
-5. Seja específico sobre PORQUÊ cada investimento faz sentido para ESTA pessoa
+4. LINGUAGEM DIDÁTICA:
+   - Use exemplos práticos com valores reais
+   - Explique termos técnicos de forma simples
+   - Dê passos concretos de como investir
 
 Responda em JSON com este formato:
 {
-  "recommendations": [
+  "nationalInvestments": [
     {
       "name": "string",
       "allocation": number,
       "expectedReturn": "string",
       "risk": "Baixo|Médio|Alto",
       "reason": "string - justificativa personalizada",
-      "description": "string - o que é",
-      "howItWorks": "string - como funciona",
+      "theory": "string - como funciona conceitualmente",
+      "practice": "string - como investir na prática",
       "minAmount": number,
-      "timeHorizon": "string"
+      "timeHorizon": "string",
+      "category": "Nacional"
     }
   ],
-  "summary": "string - resumo da estratégia para este perfil",
+  "internationalInvestments": [
+    {
+      "name": "string",
+      "allocation": number,
+      "expectedReturn": "string",
+      "risk": "Baixo|Médio|Alto",
+      "reason": "string - justificativa personalizada",
+      "theory": "string - como funciona conceitualmente",
+      "practice": "string - como investir na prática",
+      "minAmount": number,
+      "timeHorizon": "string",
+      "category": "Internacional"
+    }
+  ],
+  "summary": "string - resumo da estratégia completa para este perfil",
   "warnings": ["string"] - alertas específicos para esta situação
 }
 `;
