@@ -1,8 +1,9 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { useQuery } from "@tanstack/react-query";
 import { fetchEducationalContent } from "@/lib/api";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Star, Shield, Zap, Users } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useState } from "react";
 
@@ -13,6 +14,104 @@ export default function Education() {
   });
 
   const [selectedContent, setSelectedContent] = useState<any>(null);
+
+  const brokerages = [
+    {
+      name: "XP Investimentos",
+      description: "Maior corretora independente do Brasil, ideal para iniciantes e investidores experientes",
+      pros: ["Interface intuitiva", "Educação financeira gratuita", "Grande variedade de produtos", "Sem taxa de corretagem para ações"],
+      minAmount: "R$ 0",
+      highlight: "Melhor para iniciantes",
+      icon: Users,
+      website: "xpi.com.br"
+    },
+    {
+      name: "Rico Investimentos",
+      description: "Corretora com foco em democratização dos investimentos e tecnologia",
+      pros: ["Plataforma moderna", "Sem taxa de custódia", "Análises gratuitas", "App premiado"],
+      minAmount: "R$ 0", 
+      highlight: "Melhor tecnologia",
+      icon: Zap,
+      website: "rico.com.vc"
+    },
+    {
+      name: "Clear Corretora",
+      description: "Corretora do grupo XP com foco em day trade e investidores ativos",
+      pros: ["Plataforma profissional", "Execução rápida", "Análise técnica avançada", "Suporte especializado"],
+      minAmount: "R$ 0",
+      highlight: "Melhor para traders",
+      icon: Star,
+      website: "clear.com.br"
+    },
+    {
+      name: "Inter Invest",
+      description: "Braço de investimentos do Banco Inter, integração total com conta corrente",
+      pros: ["Sem taxas", "Integração bancária", "CDB próprio competitivo", "Facilidade operacional"],
+      minAmount: "R$ 1",
+      highlight: "Melhor integração",
+      icon: Shield,
+      website: "inter.co"
+    }
+  ];
+
+  const investmentTypes = [
+    {
+      name: "Renda Fixa",
+      description: "Investimentos com rentabilidade previsível",
+      examples: ["CDB", "Tesouro Direto", "LCI/LCA"],
+      risk: "Baixo",
+      return: "8-13% a.a.",
+      details: {
+        what: "São investimentos onde você empresta dinheiro para bancos ou governo em troca de juros pré-definidos.",
+        how: "Você aplica um valor e recebe de volta o capital + juros no vencimento. O retorno é conhecido no momento da aplicação.",
+        pros: ["Segurança", "Previsibilidade", "Proteção do FGC"],
+        cons: ["Menor rentabilidade", "Imposto de renda regressivo"],
+        ideal: "Reserva de emergência e objetivos de curto prazo"
+      }
+    },
+    {
+      name: "Ações",
+      description: "Participação no capital de empresas",
+      examples: ["VALE3", "ITUB4", "PETR4"],
+      risk: "Alto",
+      return: "15-25% a.a.",
+      details: {
+        what: "Ao comprar ações, você se torna sócio de uma empresa e tem direito a parte dos lucros (dividendos).",
+        how: "Compre através de corretoras. Ganhe com dividendos (distribuição de lucros) e valorização das ações.",
+        pros: ["Alto potencial de retorno", "Dividendos", "Liquidez diária"],
+        cons: ["Volatilidade alta", "Risco de perda", "Exige conhecimento"],
+        ideal: "Investimentos de longo prazo (5+ anos)"
+      }
+    },
+    {
+      name: "Fundos Imobiliários",
+      description: "Investimento em imóveis sem ter o imóvel",
+      examples: ["HGLG11", "XPML11", "VILG11"],
+      risk: "Médio",
+      return: "8-12% a.a.",
+      details: {
+        what: "FIIs são fundos que investem em imóveis comerciais. Você compra cotas e recebe parte dos aluguéis.",
+        how: "O fundo compra shoppings, galpões, hospitais. Os aluguéis são distribuídos mensalmente aos cotistas.",
+        pros: ["Renda mensal", "Isenção de IR nos proventos", "Diversificação imobiliária"],
+        cons: ["Volatilidade das cotas", "Vacancy risk", "Liquidez menor"],
+        ideal: "Complemento de renda e diversificação"
+      }
+    },
+    {
+      name: "Criptomoedas",
+      description: "Moedas digitais descentralizadas",
+      examples: ["Bitcoin", "Ethereum", "Cardano"],
+      risk: "Muito Alto",
+      return: "Muito volátil",
+      details: {
+        what: "Moedas digitais baseadas em blockchain, sem controle de bancos centrais.",
+        how: "Compre em exchanges confiáveis. Para valores altos, transfira para carteira própria (cold wallet).",
+        pros: ["Potencial de ganhos altos", "Proteção contra inflação", "Tecnologia inovadora"],
+        cons: ["Extrema volatilidade", "Risco regulatório", "Complexidade técnica"],
+        ideal: "Máximo 5% da carteira, apenas para perfil agressivo"
+      }
+    }
+  ];
 
   if (isLoading) {
     return (

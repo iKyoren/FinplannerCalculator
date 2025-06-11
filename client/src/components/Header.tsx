@@ -25,18 +25,25 @@ export default function Header() {
     <header className="sticky top-0 z-50 border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-4">
             <img 
               src="/attached_assets/5237471_1749608011733.png" 
               alt="FinPlanner Logo" 
-              className="w-10 h-10 object-contain"
+              className="w-12 h-12 object-contain"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 target.style.display = 'none';
-                target.parentElement!.innerHTML = '<div class="w-10 h-10 gradient-primary rounded-lg flex items-center justify-center"><span class="text-white font-bold">F</span></div>';
+                target.parentElement!.innerHTML = '<div class="w-12 h-12 gradient-primary rounded-lg flex items-center justify-center"><span class="text-white font-bold text-lg">F</span></div>';
               }}
             />
-            <span className="text-2xl font-bold gradient-text">FinPlanner</span>
+            <div className="flex flex-col">
+              <span className="text-3xl font-bold bg-gradient-to-r from-[#1fb5d6] to-[#a855f7] bg-clip-text text-transparent tracking-tight">
+                FinPlanner
+              </span>
+              <span className="text-xs text-muted-foreground font-medium uppercase tracking-wider hidden sm:block">
+                Educação Financeira
+              </span>
+            </div>
           </div>
 
           {/* Desktop Navigation */}

@@ -84,6 +84,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Personalized AI recommendations endpoint
+  app.post("/api/personalized-recommendations", async (req, res) => {
+    try {
+      const { monthlyIncome, monthlyExpenses, leisureExpenses, investmentProfile, age } = req.body;
+      
+      if (!monthlyIncome || !monthlyExpenses || !investmentProfile || !age) {
+        return res.status(400).json({ error: "Missing required fields" });
+      }
+
+      const availableToInvest = monthlyIncome - monthlyExpenses - leisureExpenses;
+      
+      if (availableToInvest <= 0) {
+        return res.status(400).json({ error: "No money available for investment" });
+      }
+
+      const userProfile = {
+        monthlyIncome,
+        monthlyExpenses,
+        leisureExpenses,
+        investmentProfile,
+        age,
+        availableToInvest
+      };
+
+      const recommendations = await generatePersonalizedRecommendations(userProfile);
+      res.json(recommendations);
+    } catch (error) {
+      console.error("Error generating personalized recommendations:", error);
+      res.status(500).json({ error: "Failed to generate personalized recommendations" });
+    }
+  });
+
   // Calculator endpoints
   app.post("/api/calculate/compound-interest", async (req, res) => {
     try {
