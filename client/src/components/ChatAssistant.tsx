@@ -49,7 +49,7 @@ export default function ChatAssistant() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowTooltip(true);
-      setTimeout(() => setShowTooltip(false), 3000);
+      setTimeout(() => setShowTooltip(false), 8000);
     }, 1000);
 
     return () => clearTimeout(timer);
