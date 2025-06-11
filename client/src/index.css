@@ -114,7 +114,7 @@
   }
 
   .card-compact {
-    @apply p-4 md:p-6 rounded-lg border bg-card/50 backdrop-blur-sm;
+    @apply p-4 md:p-6 rounded-lg border bg-card bg-opacity-50 backdrop-blur-sm;
   }
 
   .animate-slide-in {

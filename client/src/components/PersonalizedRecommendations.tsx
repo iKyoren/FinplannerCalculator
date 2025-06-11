@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useMutation } from "@tanstack/react-query";
 import { getInvestmentRecommendation } from "@/lib/api";
-import { TrendingUp, AlertCircle, Target, DollarSign, Info } from "lucide-react";
+import { TrendingUp, AlertCircle, Target, DollarSign, Info, Star, Shield, Zap } from "lucide-react";
 
 interface UserFinancialData {
   monthlyIncome: number;
@@ -39,6 +39,59 @@ interface RecommendationResponse {
   warnings: string[];
 }
 
+const topBrokers = [
+  {
+    name: "XP Investimentos",
+    rating: 4.8,
+    strengths: ["Maior corretora do Brasil", "Research de qualidade", "Plataforma completa"],
+    fees: "Taxa zero para ações e fundos",
+    minAmount: "R$ 0",
+    platforms: ["Web", "App", "HomebrokerXP"],
+    highlights: "Mais de 3 milhões de clientes, IPO na Nasdaq em 2020",
+    category: "Premium"
+  },
+  {
+    name: "Nu Invest",
+    rating: 4.6,
+    strengths: ["Interface simples", "Integração com Nubank", "Taxa zero"],
+    fees: "Taxa zero para ações, FIIs e ETFs",
+    minAmount: "R$ 1",
+    platforms: ["App Nubank", "Web"],
+    highlights: "Crescimento de 400% em clientes em 2023",
+    category: "Digital"
+  },
+  {
+    name: "Rico Investimentos",
+    rating: 4.5,
+    strengths: ["Educação financeira", "Atendimento especializado", "Variedade de produtos"],
+    fees: "Taxa zero para ações e fundos",
+    minAmount: "R$ 0",
+    platforms: ["Rico App", "Web", "Rico Pro"],
+    highlights: "Adquirida pelo BTG Pactual em 2017, foco em democratização",
+    category: "Completa"
+  },
+  {
+    name: "Inter Invest",
+    rating: 4.4,
+    strengths: ["Banco digital completo", "Cashback em investimentos", "Interface moderna"],
+    fees: "Taxa zero para ações e FIIs",
+    minAmount: "R$ 1",
+    platforms: ["App Inter", "Web"],
+    highlights: "Único banco digital com super app completo",
+    category: "Digital"
+  },
+  {
+    name: "Clear Corretora",
+    rating: 4.7,
+    strengths: ["Foco em day trade", "Plataforma profissional", "Análises técnicas"],
+    fees: "R$ 2,90 por ordem de ações",
+    minAmount: "R$ 0",
+    platforms: ["Clear Pro", "ProfitChart", "Mobile"],
+    highlights: "Líder em operações de day trade no Brasil",
+    category: "Trader"
+  }
+];
+
 export default function PersonalizedRecommendations() {
   const [formData, setFormData] = useState<UserFinancialData>({
     monthlyIncome: 0,
@@ -57,18 +110,28 @@ export default function PersonalizedRecommendations() {
 
   const recommendationMutation = useMutation({
     mutationFn: async (data: UserFinancialData) => {
-      // Calculate available amount
       const available = data.monthlyIncome - data.monthlyExpenses - data.leisureExpenses;
       setAvailableToInvest(available);
       
-      return await getInvestmentRecommendation({
-        monthlyIncome: data.monthlyIncome,
-        monthlyExpenses: data.monthlyExpenses,
-        leisureExpenses: data.leisureExpenses,
-        investmentProfile: data.investmentProfile,
-        age: data.age,
-        availableToInvest: available
+      const response = await fetch('/api/investment-recommendation', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          monthlyIncome: data.monthlyIncome,
+          monthlyExpenses: data.monthlyExpenses,
+          leisureExpenses: data.leisureExpenses,
+          investmentProfile: data.investmentProfile,
+          age: data.age
+        }),
       });
+      
+      if (!response.ok) {
+        throw new Error('Failed to get recommendations');
+      }
+      
+      return response.json();
     },
     onSuccess: (data: RecommendationResponse) => {
       if (data.nationalInvestments && data.internationalInvestments) {
@@ -79,8 +142,6 @@ export default function PersonalizedRecommendations() {
       }
     }
   });
-
-
 
   const handleSubmit = () => {
     if (formData.monthlyIncome <= 0 || formData.monthlyExpenses <= 0) {
@@ -112,268 +173,298 @@ export default function PersonalizedRecommendations() {
     }
   };
 
-  return (
-    <section id="recomendacoes" className="py-20 bg-muted/30">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4 gradient-text">
-            Recomendações Personalizadas
-          </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Receba sugestões de investimentos personalizadas baseadas na sua situação financeira e perfil de risco
-          </p>
-        </div>
+  const getCategoryIcon = (category: string) => {
+    switch(category) {
+      case "Premium": return <Star className="w-4 h-4 text-yellow-500" />;
+      case "Digital": return <Zap className="w-4 h-4 text-blue-500" />;
+      case "Trader": return <TrendingUp className="w-4 h-4 text-purple-500" />;
+      case "Completa": return <Shield className="w-4 h-4 text-green-500" />;
+      default: return <Target className="w-4 h-4" />;
+    }
+  };
 
-        <div className="max-w-4xl mx-auto">
-          {!recommendations.length ? (
-            <Card className="border-border/50">
+  const renderRecommendationCard = (rec: InvestmentRecommendation, index: number) => (
+    <Card key={index} className="card-hover border-border/50">
+      <CardHeader>
+        <div className="flex justify-between items-start">
+          <div>
+            <CardTitle className="text-lg font-semibold">{rec.name}</CardTitle>
+            <Badge className="mt-2 text-xs bg-primary/10 text-primary border-primary/20">
+              {rec.category}
+            </Badge>
+            <div className="flex items-center gap-3 mt-2">
+              <Badge className={getRiskColor(rec.risk)}>
+                Risco {rec.risk}
+              </Badge>
+              <span className="text-sm text-muted-foreground">
+                {rec.allocation}% da carteira
+              </span>
+              <span className="text-sm font-medium text-green-600">
+                {rec.expectedReturn}
+              </span>
+            </div>
+          </div>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="outline" size="sm">
+                <Info className="h-4 w-4 mr-1" />
+                Detalhes
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-2xl">
+              <DialogHeader>
+                <DialogTitle>{rec.name}</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4">
+                <div>
+                  <h4 className="font-semibold mb-2">💡 Como funciona na teoria</h4>
+                  <p className="text-muted-foreground">{rec.theory}</p>
+                </div>
+                <div>
+                  <h4 className="font-semibold mb-2">🚀 Como investir na prática</h4>
+                  <p className="text-muted-foreground">{rec.practice}</p>
+                </div>
+                <div className="grid grid-cols-2 gap-4 p-4 bg-muted/30 rounded-lg">
+                  <div>
+                    <span className="text-sm font-medium">Valor mínimo:</span>
+                    <p className="text-lg font-bold text-primary">{formatCurrency(rec.minAmount)}</p>
+                  </div>
+                  <div>
+                    <span className="text-sm font-medium">Prazo recomendado:</span>
+                    <p className="text-lg font-bold text-primary">{rec.timeHorizon}</p>
+                  </div>
+                </div>
+                <div className="p-4 bg-blue-50 dark:bg-blue-950/30 rounded-lg">
+                  <h4 className="font-semibold mb-2 text-blue-700 dark:text-blue-300">Por que foi recomendado para você?</h4>
+                  <p className="text-sm text-blue-600 dark:text-blue-400">{rec.reason}</p>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
+        </div>
+      </CardHeader>
+    </Card>
+  );
+
+  return (
+    <section id="recomendacoes" className="section-spacing">
+      <div className="mb-8">
+        <h2 className="text-3xl font-bold mb-4">Recomendações Personalizadas</h2>
+        <p className="text-lg text-muted-foreground">
+          Receba sugestões de investimentos baseadas no seu perfil financeiro e objetivos
+        </p>
+      </div>
+
+      <div className="grid lg:grid-cols-2 gap-8">
+        {/* Form */}
+        <Card className="card-compact">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Target className="w-5 h-5" />
+              Seus Dados Financeiros
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="monthlyIncome">Renda Mensal (R$)</Label>
+                <Input
+                  id="monthlyIncome"
+                  type="number"
+                  placeholder="5000"
+                  value={formData.monthlyIncome || ""}
+                  onChange={(e) => setFormData({...formData, monthlyIncome: parseFloat(e.target.value) || 0})}
+                  className="mt-2"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="monthlyExpenses">Gastos Mensais (R$)</Label>
+                <Input
+                  id="monthlyExpenses"
+                  type="number"
+                  placeholder="3000"
+                  value={formData.monthlyExpenses || ""}
+                  onChange={(e) => setFormData({...formData, monthlyExpenses: parseFloat(e.target.value) || 0})}
+                  className="mt-2"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="leisureExpenses">Gastos com Lazer (R$)</Label>
+                <Input
+                  id="leisureExpenses"
+                  type="number"
+                  placeholder="800"
+                  value={formData.leisureExpenses || ""}
+                  onChange={(e) => setFormData({...formData, leisureExpenses: parseFloat(e.target.value) || 0})}
+                  className="mt-2"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="age">Idade</Label>
+                <Input
+                  id="age"
+                  type="number"
+                  placeholder="30"
+                  value={formData.age || ""}
+                  onChange={(e) => setFormData({...formData, age: parseInt(e.target.value) || 30})}
+                  className="mt-2"
+                />
+              </div>
+
+              <div className="md:col-span-2">
+                <Label htmlFor="investmentProfile">Perfil de Investidor</Label>
+                <Select
+                  value={formData.investmentProfile}
+                  onValueChange={(value: "conservative" | "moderate" | "aggressive") => 
+                    setFormData({...formData, investmentProfile: value})
+                  }
+                >
+                  <SelectTrigger className="mt-2">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="conservative">
+                      Conservador - Priorizo segurança, aceito menores retornos
+                    </SelectItem>
+                    <SelectItem value="moderate">
+                      Moderado - Equilibrio entre segurança e rentabilidade
+                    </SelectItem>
+                    <SelectItem value="aggressive">
+                      Agressivo - Busco maiores retornos, aceito mais riscos
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <Button 
+              onClick={handleSubmit} 
+              className="w-full gradient-primary"
+              disabled={recommendationMutation.isPending}
+            >
+              {recommendationMutation.isPending ? "Gerando recomendações..." : "Gerar Recomendações"}
+            </Button>
+          </CardContent>
+        </Card>
+
+        {/* Top Brokers */}
+        <Card className="card-compact">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Star className="w-5 h-5" />
+              Melhores Corretoras 2024
+            </CardTitle>
+            <p className="text-sm text-muted-foreground">
+              Ranking baseado em dados da B3, Anefac e avaliações de clientes
+            </p>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {topBrokers.map((broker, index) => (
+                <div key={index} className="p-4 border rounded-lg card-hover">
+                  <div className="flex justify-between items-start mb-2">
+                    <div className="flex items-center gap-2">
+                      {getCategoryIcon(broker.category)}
+                      <h3 className="font-semibold">{broker.name}</h3>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                      <span className="text-sm font-medium">{broker.rating}</span>
+                    </div>
+                  </div>
+                  
+                  <p className="text-sm text-muted-foreground mb-2">{broker.highlights}</p>
+                  
+                  <div className="grid grid-cols-2 gap-2 text-xs">
+                    <div>
+                      <span className="font-medium">Taxas:</span>
+                      <p className="text-green-600">{broker.fees}</p>
+                    </div>
+                    <div>
+                      <span className="font-medium">Mínimo:</span>
+                      <p>{broker.minAmount}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex flex-wrap gap-1 mt-2">
+                    {broker.strengths.slice(0, 2).map((strength, i) => (
+                      <Badge key={i} variant="secondary" className="text-xs">
+                        {strength}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Results */}
+      {(nationalRecommendations.length > 0 || internationalRecommendations.length > 0) && (
+        <div className="mt-8 space-y-8">
+          {/* Summary */}
+          {summary && (
+            <Card className="card-compact">
               <CardHeader>
-                <CardTitle className="text-2xl font-semibold flex items-center gap-2">
-                  <Target className="h-6 w-6 text-primary" />
-                  Seus Dados Financeiros
+                <CardTitle>Estratégia Personalizada</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">{summary}</p>
+                {availableToInvest > 0 && (
+                  <div className="mt-4 p-4 bg-primary/10 rounded-lg">
+                    <p className="font-medium">Valor disponível para investir: {formatCurrency(availableToInvest)}/mês</p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Warnings */}
+          {warnings.length > 0 && (
+            <Card className="border-yellow-200 bg-yellow-50 dark:bg-yellow-950/30">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-yellow-700 dark:text-yellow-300">
+                  <AlertCircle className="w-5 h-5" />
+                  Alertas Importantes
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <Label htmlFor="monthlyIncome">Renda Mensal Líquida (R$)</Label>
-                    <Input
-                      id="monthlyIncome"
-                      type="number"
-                      value={formData.monthlyIncome || ""}
-                      onChange={(e) => setFormData({...formData, monthlyIncome: Number(e.target.value)})}
-                      placeholder="Ex: 5000"
-                      className="mt-2"
-                    />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="monthlyExpenses">Gastos Essenciais Mensais (R$)</Label>
-                    <Input
-                      id="monthlyExpenses"
-                      type="number"
-                      value={formData.monthlyExpenses || ""}
-                      onChange={(e) => setFormData({...formData, monthlyExpenses: Number(e.target.value)})}
-                      placeholder="Ex: 3000"
-                      className="mt-2"
-                    />
-                    <p className="text-xs text-muted-foreground mt-1">Moradia, alimentação, transporte, etc.</p>
-                  </div>
-
-                  <div>
-                    <Label htmlFor="leisureExpenses">Gastos com Lazer (R$)</Label>
-                    <Input
-                      id="leisureExpenses"
-                      type="number"
-                      value={formData.leisureExpenses || ""}
-                      onChange={(e) => setFormData({...formData, leisureExpenses: Number(e.target.value)})}
-                      placeholder="Ex: 800"
-                      className="mt-2"
-                    />
-                    <p className="text-xs text-muted-foreground mt-1">Entretenimento, viagens, hobbies, etc.</p>
-                  </div>
-
-                  <div>
-                    <Label htmlFor="age">Idade</Label>
-                    <Input
-                      id="age"
-                      type="number"
-                      value={formData.age || ""}
-                      onChange={(e) => setFormData({...formData, age: Number(e.target.value)})}
-                      placeholder="Ex: 30"
-                      className="mt-2"
-                    />
-                  </div>
-
-                  <div className="md:col-span-2">
-                    <Label htmlFor="investmentProfile">Perfil de Investidor</Label>
-                    <Select
-                      value={formData.investmentProfile}
-                      onValueChange={(value: "conservative" | "moderate" | "aggressive") => 
-                        setFormData({...formData, investmentProfile: value})
-                      }
-                    >
-                      <SelectTrigger className="mt-2">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="conservative">
-                          Conservador - Priorizo segurança, aceito menores retornos
-                        </SelectItem>
-                        <SelectItem value="moderate">
-                          Moderado - Equilibrio entre segurança e rentabilidade
-                        </SelectItem>
-                        <SelectItem value="aggressive">
-                          Agressivo - Busco maiores retornos, aceito mais riscos
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-
-                <Button 
-                  onClick={handleSubmit}
-                  className="w-full mt-8 gradient-primary hover:opacity-90 font-semibold text-lg py-6"
-                  disabled={recommendationMutation.isPending}
-                >
-                  {recommendationMutation.isPending ? (
-                    "Analisando seu perfil..."
-                  ) : (
-                    <>
-                      <TrendingUp className="mr-2 h-5 w-5" />
-                      Gerar Recomendações Personalizadas
-                    </>
-                  )}
-                </Button>
+                <ul className="space-y-2">
+                  {warnings.map((warning, index) => (
+                    <li key={index} className="text-sm text-yellow-600 dark:text-yellow-400">
+                      • {warning}
+                    </li>
+                  ))}
+                </ul>
               </CardContent>
             </Card>
-          ) : (
-            <div className="space-y-6">
-              {/* Financial Summary */}
-              <Card className="border-border/50 bg-gradient-to-r from-blue-50/50 to-purple-50/50 dark:from-blue-950/20 dark:to-purple-950/20">
-                <CardContent className="p-6">
-                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
-                    <div>
-                      <p className="text-sm text-muted-foreground">Renda Mensal</p>
-                      <p className="text-xl font-bold text-green-600">{formatCurrency(formData.monthlyIncome)}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">Gastos Totais</p>
-                      <p className="text-xl font-bold text-red-600">
-                        {formatCurrency(formData.monthlyExpenses + formData.leisureExpenses)}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">Disponível para Investir</p>
-                      <p className="text-xl font-bold text-blue-600">{formatCurrency(availableToInvest)}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">Perfil</p>
-                      <Badge className="text-sm capitalize">
-                        {formData.investmentProfile === "conservative" ? "Conservador" : 
-                         formData.investmentProfile === "moderate" ? "Moderado" : "Agressivo"}
-                      </Badge>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+          )}
 
-              {/* Recommendations */}
-              <div className="grid gap-6">
-                {recommendations.map((rec, index) => (
-                  <Card key={index} className="border-border/50 hover:shadow-lg transition-shadow">
-                    <CardHeader>
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <CardTitle className="text-xl font-semibold">{rec.name}</CardTitle>
-                          <div className="flex items-center gap-3 mt-2">
-                            <Badge className={getRiskColor(rec.risk)}>
-                              Risco {rec.risk}
-                            </Badge>
-                            <span className="text-sm text-muted-foreground">
-                              {rec.allocation}% da carteira
-                            </span>
-                            <span className="text-sm font-medium text-green-600">
-                              {rec.expectedReturn}
-                            </span>
-                          </div>
-                        </div>
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <Button variant="outline" size="sm">
-                              <Info className="h-4 w-4 mr-1" />
-                              Saiba Mais
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent className="max-w-2xl">
-                            <DialogHeader>
-                              <DialogTitle>{rec.name}</DialogTitle>
-                            </DialogHeader>
-                            <div className="space-y-4">
-                              <div>
-                                <h4 className="font-semibold mb-2">O que é?</h4>
-                                <p className="text-muted-foreground">{rec.description}</p>
-                              </div>
-                              <div>
-                                <h4 className="font-semibold mb-2">Como funciona?</h4>
-                                <p className="text-muted-foreground">{rec.howItWorks}</p>
-                              </div>
-                              <div className="grid grid-cols-2 gap-4 p-4 bg-muted/50 rounded-lg">
-                                <div>
-                                  <p className="text-sm font-medium">Valor Mínimo</p>
-                                  <p className="text-lg">{formatCurrency(rec.minAmount)}</p>
-                                </div>
-                                <div>
-                                  <p className="text-sm font-medium">Prazo Recomendado</p>
-                                  <p className="text-lg">{rec.timeHorizon}</p>
-                                </div>
-                              </div>
-                            </div>
-                          </DialogContent>
-                        </Dialog>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-3">
-                        <div>
-                          <h4 className="font-medium text-sm text-muted-foreground uppercase tracking-wide">
-                            Por que recomendamos para você:
-                          </h4>
-                          <p className="text-sm mt-1">{rec.reason}</p>
-                        </div>
-                        <div className="flex justify-between items-center pt-2 border-t border-border">
-                          <span className="text-sm text-muted-foreground">Valor sugerido/mês:</span>
-                          <span className="font-semibold">
-                            {formatCurrency(availableToInvest * (rec.allocation / 100))}
-                          </span>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+          {/* National Investments */}
+          {nationalRecommendations.length > 0 && (
+            <div>
+              <h3 className="text-2xl font-bold mb-4">💰 Investimentos Nacionais</h3>
+              <div className="grid gap-4">
+                {nationalRecommendations.map((rec, index) => renderRecommendationCard(rec, index))}
               </div>
+            </div>
+          )}
 
-              <Card className="border-amber-200 bg-amber-50/50 dark:border-amber-800 dark:bg-amber-950/20">
-                <CardContent className="p-6">
-                  <div className="flex items-start gap-3">
-                    <AlertCircle className="h-5 w-5 text-amber-600 mt-0.5" />
-                    <div>
-                      <h4 className="font-semibold text-amber-800 dark:text-amber-200">
-                        Importante: Diversificação é Fundamental
-                      </h4>
-                      <p className="text-sm text-amber-700 dark:text-amber-300 mt-1">
-                        Estas são sugestões baseadas em seu perfil. Sempre diversifique seus investimentos 
-                        e nunca invista todo seu dinheiro em uma única opção. Comece gradualmente e 
-                        aumente os investimentos conforme ganha experiência.
-                      </p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <div className="text-center">
-                <Button 
-                  onClick={() => {
-                    setRecommendations([]);
-                    setFormData({
-                      monthlyIncome: 0,
-                      monthlyExpenses: 0,
-                      leisureExpenses: 0,
-                      investmentProfile: "moderate",
-                      age: 30,
-                      investmentGoal: "long-term"
-                    });
-                  }}
-                  variant="outline"
-                  className="text-muted-foreground"
-                >
-                  Fazer Nova Análise
-                </Button>
+          {/* International Investments */}
+          {internationalRecommendations.length > 0 && (
+            <div>
+              <h3 className="text-2xl font-bold mb-4">🌍 Investimentos Internacionais</h3>
+              <div className="grid gap-4">
+                {internationalRecommendations.map((rec, index) => renderRecommendationCard(rec, index))}
               </div>
             </div>
           )}
         </div>
-      </div>
+      )}
     </section>
   );
 }
