@@ -118,16 +118,13 @@ export default function InvestmentProfiles() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-5xl font-bold mb-6 gradient-text">
-            Descubra seu perfil de investidor ideal
+            Escolha Seu Perfil de Risco
           </h2>
-          <p className="text-muted-foreground text-xl">Escolha a estratégia que combina com seus objetivos e tolerância ao risco</p>
+          <p className="text-muted-foreground text-xl">Descubra qual estratégia combina com seus objetivos e tolerância ao risco</p>
         </div>
 
         {/* Profile Selection Section */}
         <div className="mb-12">
-          <h3 className="text-3xl font-bold text-center mb-8 text-foreground">
-            Escolha Seu Perfil de Risco
-          </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {Object.entries(profiles).map(([key, profile]) => {
             const colors = getColorClasses(profile.color);
