@@ -1,0 +1,164 @@
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useMarketData } from "@/hooks/useMarketData";
+import { TrendingUp, TrendingDown, Building, Bitcoin, BarChart3, Minus } from "lucide-react";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+
+export default function MarketData() {
+  const { data: marketData, isLoading } = useMarketData();
+
+  const performanceData = [
+    { month: 'Jan', CDI: 13.2, IBOVESPA: 15.2, Bitcoin: 25.5 },
+    { month: 'Fev', CDI: 13.4, IBOVESPA: 12.8, Bitcoin: -15.2 },
+    { month: 'Mar', CDI: 13.5, IBOVESPA: 18.5, Bitcoin: 45.8 },
+    { month: 'Abr', CDI: 13.6, IBOVESPA: 14.2, Bitcoin: -8.5 },
+    { month: 'Mai', CDI: 13.7, IBOVESPA: 16.8, Bitcoin: 32.1 },
+    { month: 'Jun', CDI: 13.6, IBOVESPA: 13.2, Bitcoin: -22.3 },
+    { month: 'Jul', CDI: 13.5, IBOVESPA: 19.5, Bitcoin: 38.7 },
+    { month: 'Ago', CDI: 13.6, IBOVESPA: 11.8, Bitcoin: -5.8 },
+    { month: 'Set', CDI: 13.65, IBOVESPA: 17.2, Bitcoin: 28.4 },
+    { month: 'Out', CDI: 13.7, IBOVESPA: 20.1, Bitcoin: -18.2 },
+    { month: 'Nov', CDI: 13.65, IBOVESPA: 14.5, Bitcoin: 42.1 },
+    { month: 'Dez', CDI: 13.65, IBOVESPA: 16.8, Bitcoin: -12.5 },
+  ];
+
+  const getIcon = (symbol: string) => {
+    switch (symbol) {
+      case 'CDI':
+        return <TrendingUp className="h-5 w-5 text-green-400" />;
+      case 'SELIC':
+        return <Building className="h-5 w-5 text-yellow-400" />;
+      case 'BTC':
+        return <Bitcoin className="h-5 w-5 text-yellow-400" />;
+      case 'IBOV':
+        return <BarChart3 className="h-5 w-5 text-blue-400" />;
+      default:
+        return <TrendingUp className="h-5 w-5 text-blue-400" />;
+    }
+  };
+
+  const getTrendIcon = (changePercent: number) => {
+    if (changePercent > 0) {
+      return <TrendingUp className="h-4 w-4 text-green-400" />;
+    } else if (changePercent < 0) {
+      return <TrendingDown className="h-4 w-4 text-red-400" />;
+    } else {
+      return <Minus className="h-4 w-4 text-gray-400" />;
+    }
+  };
+
+  const getTrendColor = (changePercent: number) => {
+    if (changePercent > 0) {
+      return "text-green-400";
+    } else if (changePercent < 0) {
+      return "text-red-400";
+    } else {
+      return "text-gray-400";
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <section id="mercado" className="py-20 bg-card/50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4 gradient-text">
+              Dados de Mercado em Tempo Real
+            </h2>
+            <p className="text-muted-foreground text-lg">Carregando dados do mercado...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section id="mercado" className="py-20 bg-card/50">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold mb-4 gradient-text">
+            Dados de Mercado em Tempo Real
+          </h2>
+          <p className="text-muted-foreground text-lg">Acompanhe os principais indicadores e investimentos</p>
+        </div>
+
+        {/* Market Overview Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          {marketData?.map((item: any) => (
+            <Card key={item.symbol} className="card-hover border-border/50">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-muted-foreground font-medium">{item.name}</h3>
+                  {getIcon(item.symbol)}
+                </div>
+                <div className="text-2xl font-bold text-foreground mb-2">
+                  {item.symbol === 'BTC' ? `R$ ${parseFloat(item.price).toLocaleString('pt-BR')}` :
+                   item.symbol === 'IBOV' ? parseFloat(item.price).toLocaleString('pt-BR') :
+                   `${parseFloat(item.price).toFixed(2)}%`}
+                </div>
+                <div className={`text-sm flex items-center gap-1 ${getTrendColor(parseFloat(item.changePercent))}`}>
+                  {getTrendIcon(parseFloat(item.changePercent))}
+                  {parseFloat(item.changePercent) === 0 ? 'Sem alteração' : 
+                   `${parseFloat(item.changePercent) > 0 ? '+' : ''}${parseFloat(item.changePercent).toFixed(2)}% hoje`}
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        {/* Investment Performance Chart */}
+        <Card className="border-border/50">
+          <CardHeader>
+            <CardTitle className="text-xl font-semibold">Performance de Investimentos (12 meses)</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={performanceData}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                  <XAxis 
+                    dataKey="month" 
+                    stroke="hsl(var(--muted-foreground))"
+                    fontSize={12}
+                  />
+                  <YAxis 
+                    stroke="hsl(var(--muted-foreground))"
+                    fontSize={12}
+                  />
+                  <Tooltip 
+                    contentStyle={{
+                      backgroundColor: 'hsl(var(--card))',
+                      border: '1px solid hsl(var(--border))',
+                      borderRadius: '8px',
+                      color: 'hsl(var(--foreground))'
+                    }}
+                  />
+                  <Line 
+                    type="monotone" 
+                    dataKey="CDI" 
+                    stroke="hsl(var(--success))" 
+                    strokeWidth={2}
+                    dot={{ fill: 'hsl(var(--success))' }}
+                  />
+                  <Line 
+                    type="monotone" 
+                    dataKey="IBOVESPA" 
+                    stroke="hsl(var(--primary))" 
+                    strokeWidth={2}
+                    dot={{ fill: 'hsl(var(--primary))' }}
+                  />
+                  <Line 
+                    type="monotone" 
+                    dataKey="Bitcoin" 
+                    stroke="hsl(var(--warning))" 
+                    strokeWidth={2}
+                    dot={{ fill: 'hsl(var(--warning))' }}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </section>
+  );
+}
