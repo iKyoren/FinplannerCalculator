@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertChatMessageSchema } from "@shared/schema";
 import { z } from "zod";
+import { generateSmartChatResponse, generatePersonalizedRecommendations } from "./openai";
 
 const investmentRecommendationSchema = z.object({
   profile: z.enum(["conservative", "moderate", "aggressive"]),
@@ -55,7 +56,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Message is required" });
       }
 
-      const response = generateAIResponse(message);
+      const response = await generateSmartChatResponse(message);
       
       const chatMessage = await storage.saveChatMessage({
         userId: userId || null,
