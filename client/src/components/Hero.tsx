@@ -40,6 +40,10 @@ export default function Hero() {
             </h1>
           </div>
           
+          <h2 className="text-3xl md:text-4xl font-semibold mb-4 text-foreground">
+            Planejamento Financeiro Inteligente
+          </h2>
+          
           <p className="text-xl text-muted-foreground mb-2 leading-relaxed max-w-2xl mx-auto">
             Seu planejamento financeiro inteligente com IA especializada
           </p>
