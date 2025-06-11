@@ -230,8 +230,8 @@ export default function PersonalizedRecommendations() {
           <h2 className="text-4xl font-bold mb-4 gradient-text">
             Recomendações Personalizadas
           </h2>
-          <p className="text-muted-foreground text-lg">
-            Conte-nos sobre sua situação financeira para receber sugestões de investimentos sob medida
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            Receba sugestões de investimentos personalizadas baseadas na sua situação financeira e perfil de risco
           </p>
         </div>
 

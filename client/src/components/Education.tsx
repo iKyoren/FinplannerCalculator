@@ -132,10 +132,12 @@ export default function Education() {
     <section id="educacao" className="py-20 bg-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-5xl font-bold mb-6 gradient-text">
-            Aprenda sobre investimentos com nosso conteúdo especializado
+          <h2 className="text-4xl font-bold mb-4 gradient-text">
+            Educação Financeira
           </h2>
-          <p className="text-muted-foreground text-xl">Conteúdo educativo para todos os níveis de conhecimento</p>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            Aprenda sobre investimentos com conteúdo especializado e guias práticos para todos os níveis de conhecimento
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

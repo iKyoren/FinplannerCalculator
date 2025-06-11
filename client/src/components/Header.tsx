@@ -25,17 +25,21 @@ export default function Header() {
     <header className="sticky top-0 z-50 border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-2 py-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <img 
-              src="/attached_assets/5237471_1749608011733.png" 
-              alt="FinPlanner Logo" 
-              className="w-12 h-12 object-contain"
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.style.display = 'none';
-                target.parentElement!.innerHTML = '<div class="w-12 h-12 gradient-primary rounded-lg flex items-center justify-center"><span class="text-white font-bold text-lg">F</span></div>';
-              }}
-            />
+          <div className="flex items-center space-x-2 -ml-2">
+            <div className="w-12 h-12 rounded-full border-2 border-transparent bg-gradient-to-r from-[#1fb5d6] to-[#a855f7] p-0.5">
+              <div className="w-full h-full rounded-full bg-background flex items-center justify-center overflow-hidden">
+                <img 
+                  src="/attached_assets/5237471_1749608011733.png" 
+                  alt="FinPlanner Logo" 
+                  className="w-full h-full object-contain p-1"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    target.parentElement!.innerHTML = '<div class="w-full h-full gradient-primary rounded-full flex items-center justify-center"><span class="text-white font-bold text-lg">F</span></div>';
+                  }}
+                />
+              </div>
+            </div>
             <div className="flex flex-col">
               <span className="text-3xl font-bold bg-gradient-to-r from-[#1fb5d6] to-[#a855f7] bg-clip-text text-transparent tracking-tight">
                 FinPlanner

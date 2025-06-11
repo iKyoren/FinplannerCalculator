@@ -100,10 +100,12 @@ export default function MarketData() {
     <section id="mercado" className="py-20 bg-card/50">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-5xl font-bold mb-6 gradient-text">
-            Acompanhe o mercado financeiro em tempo real
+          <h2 className="text-4xl font-bold mb-4 gradient-text">
+            Dados de Mercado
           </h2>
-          <p className="text-muted-foreground text-xl">Indicadores atualizados e análises de performance dos principais investimentos</p>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            Acompanhe indicadores financeiros em tempo real e analise a performance dos principais investimentos do mercado brasileiro
+          </p>
         </div>
 
         {/* Market Overview Cards */}

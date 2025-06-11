@@ -117,10 +117,12 @@ export default function InvestmentProfiles() {
     <section id="perfis" className="py-20 bg-card/50">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-5xl font-bold mb-6 gradient-text">
-            Escolha Seu Perfil de Risco
+          <h2 className="text-4xl font-bold mb-4 gradient-text">
+            Perfis de Investimento
           </h2>
-          <p className="text-muted-foreground text-xl">Descubra qual estratégia combina com seus objetivos e tolerância ao risco</p>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            Descubra qual estratégia de investimento combina com seus objetivos financeiros e tolerância ao risco
+          </p>
         </div>
 
         {/* Profile Selection Section */}
