@@ -103,9 +103,14 @@ export default function ChatAssistant() {
           >
             <div className="w-full h-full rounded-full bg-card flex items-center justify-center overflow-hidden">
               <img 
-                src="/attached_assets/_395a0789-9ccf-4ddd-8fff-cc9453078074_1749607758687.jpeg" 
+                src="./attached_assets/_395a0789-9ccf-4ddd-8fff-cc9453078074_1749607758687.jpeg" 
                 alt="DinDin Assistant" 
                 className="w-12 h-12 rounded-full object-cover"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                  target.parentElement!.innerHTML = '<div class="w-12 h-12 rounded-full gradient-primary flex items-center justify-center"><span class="text-white font-bold text-lg">D</span></div>';
+                }}
               />
             </div>
           </Button>
@@ -128,12 +133,23 @@ export default function ChatAssistant() {
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 gradient-primary rounded-full flex items-center justify-center">
-                  <Bot className="h-5 w-5 text-primary-foreground" />
+                <div className="w-10 h-10 rounded-full border-2 border-transparent bg-gradient-to-r from-[#1fb5d6] to-[#a855f7] p-0.5">
+                  <div className="w-full h-full rounded-full bg-card flex items-center justify-center overflow-hidden">
+                    <img 
+                      src="./attached_assets/_395a0789-9ccf-4ddd-8fff-cc9453078074_1749607758687.jpeg" 
+                      alt="DinDin Assistant" 
+                      className="w-8 h-8 rounded-full object-cover"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                        target.parentElement!.innerHTML = '<div class="w-8 h-8 rounded-full gradient-primary flex items-center justify-center"><span class="text-white font-bold text-sm">D</span></div>';
+                      }}
+                    />
+                  </div>
                 </div>
                 <div>
-                  <CardTitle className="text-sm">DinDin</CardTitle>
-                  <p className="text-xs text-muted-foreground">Assistente Financeiro</p>
+                  <CardTitle className="text-sm gradient-text">DinDin</CardTitle>
+                  <p className="text-xs text-muted-foreground">Assistente Financeiro IA</p>
                 </div>
               </div>
               <Button

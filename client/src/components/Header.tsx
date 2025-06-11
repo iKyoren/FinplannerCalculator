@@ -27,9 +27,14 @@ export default function Header() {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <img 
-              src="/attached_assets/5237471_1749607344387.png" 
+              src="./attached_assets/5237471_1749607344387.png" 
               alt="FinPlanner Logo" 
               className="w-10 h-10 object-contain"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+                target.parentElement!.innerHTML = '<div class="w-10 h-10 gradient-primary rounded-lg flex items-center justify-center"><span class="text-white font-bold">F</span></div>';
+              }}
             />
             <span className="text-2xl font-bold gradient-text">FinPlanner</span>
           </div>

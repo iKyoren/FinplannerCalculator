@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { TrendingUp, Play } from "lucide-react";
 
 export default function Hero() {
   const scrollToCalculators = () => {
@@ -23,9 +22,14 @@ export default function Hero() {
         <div className="max-w-4xl mx-auto">
           <div className="w-24 h-24 flex items-center justify-center mx-auto mb-8">
             <img 
-              src="/attached_assets/5237471_1749607344387.png" 
+              src="./attached_assets/5237471_1749607344387.png" 
               alt="FinPlanner Logo" 
               className="w-full h-full object-contain"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+                target.parentElement!.innerHTML = '<div class="w-24 h-24 gradient-primary rounded-2xl flex items-center justify-center"><span class="text-white font-bold text-3xl">F</span></div>';
+              }}
             />
           </div>
           
@@ -41,22 +45,13 @@ export default function Hero() {
             Descubra os melhores investimentos para seu perfil, calcule rendimentos e aprenda sobre o mercado financeiro com nossa plataforma completa
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex justify-center">
             <Button 
               onClick={scrollToCalculators}
               size="lg" 
-              className="gradient-primary hover:opacity-90 transition-opacity font-semibold"
+              className="gradient-primary hover:opacity-90 transition-opacity font-semibold px-8"
             >
               Começar Agora
-            </Button>
-            <Button 
-              onClick={scrollToMarketData}
-              variant="outline" 
-              size="lg" 
-              className="font-semibold"
-            >
-              <Play className="mr-2 h-4 w-4" />
-              Ver Demonstração
             </Button>
           </div>
         </div>
