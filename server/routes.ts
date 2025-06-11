@@ -56,7 +56,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Message is required" });
       }
 
-      const response = await generateSmartChatResponse(message);
+      let response;
+      try {
+        response = await generateSmartChatResponse(message);
+      } catch (error: any) {
+        // If OpenAI fails due to quota or other issues, provide educational fallback
+        console.log("OpenAI error caught, using fallback:", error.message);
+        response = generateEducationalFallback(message);
+      }
       
       const chatMessage = await storage.saveChatMessage({
         userId: userId || null,
@@ -169,6 +176,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   const httpServer = createServer(app);
   return httpServer;
+}
+
+function generateEducationalFallback(message: string): string {
+  const lowerMessage = message.toLowerCase();
+  
+  // Filter inappropriate content
+  const inappropriateWords = ['idiota', 'burro', 'estúpido', 'merda', 'porcaria', 'lixo'];
+  if (inappropriateWords.some(word => lowerMessage.includes(word))) {
+    return 'Compreendo que você possa estar frustrado, mas estou aqui para ajudá-lo com educação financeira de forma respeitosa. Como posso auxiliá-lo com seus investimentos hoje?';
+  }
+  
+  // Investment amount questions
+  if (lowerMessage.includes('1000') || lowerMessage.includes('mil')) {
+    return '**Para R$ 1.000, sugiro:** 50% em Tesouro Selic (R$ 500) para segurança e liquidez, 30% em CDB de banco médio (R$ 300) com rendimento de 13% a.a., e 20% em ações de empresas sólidas (R$ 200) como ITUB4 ou VALE3. **Primeiro passo:** Abra conta em uma corretora (XP, Rico, Clear). **Dica importante:** Este valor pode ser sua reserva de emergência inicial.';
+  }
+  
+  if (lowerMessage.includes('bitcoin') || lowerMessage.includes('cripto')) {
+    return '**Bitcoin:** Moeda digital descentralizada criada em 2009. **Como funciona:** Tecnologia blockchain registra transações de forma transparente. **Volatilidade:** Pode variar ±60% ao ano. **Para iniciantes:** Máximo 5% da carteira. **Exemplo:** Se tem R$ 10.000, invista no máximo R$ 500 em crypto. **Como comprar:** Exchanges como Mercado Bitcoin, Binance ou NovaDAX.';
+  }
+  
+  if (lowerMessage.includes('começar') || lowerMessage.includes('iniciante')) {
+    return '**Para começar a investir:** 1) Quite dívidas do cartão/cheque especial primeiro, 2) Monte reserva de emergência (6 meses de gastos), 3) Abra conta em corretora gratuita, 4) Comece com Tesouro Selic, 5) Estude sobre ações e FIIs. **Valor mínimo:** R$ 30 no Tesouro Direto. **Meta inicial:** R$ 1.000 em 6 meses poupando R$ 167/mês.';
+  }
+  
+  if (lowerMessage.includes('renda fixa') || lowerMessage.includes('cdb')) {
+    return '**Renda Fixa - Principais opções:** CDB (13% a.a.), Tesouro Selic (13,25% a.a.), LCI/LCA (9-11% a.a. sem IR). **Segurança:** FGC garante até R$ 250 mil por banco. **Liquidez:** Tesouro Selic tem liquidez diária. **Para quem:** Reserva de emergência e perfil conservador. **Exemplo:** R$ 10.000 no CDB = R$ 11.300 em 1 ano.';
+  }
+  
+  // Default response for general questions
+  return '**DinDin aqui!** Para te ajudar melhor, me conte mais especificamente: Quanto quer investir? Qual seu objetivo (reserva, aposentadoria, casa)? Já investe em algo? **Temas que domino:** Tesouro Direto, CDB, Ações, FIIs, Bitcoin, perfis de risco, e como começar a investir. **Dica do dia:** Quite sempre as dívidas do cartão antes de investir - juros de 15% a.a. são melhores que qualquer investimento!';
 }
 
 function generateAIResponse(message: string): string {
