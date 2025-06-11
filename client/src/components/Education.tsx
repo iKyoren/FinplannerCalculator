@@ -132,6 +132,9 @@ export default function Education() {
     <section id="educacao" className="py-20 bg-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
+          <h1 className="text-2xl font-semibold text-foreground mb-2">
+            Centro de Aprendizado
+          </h1>
           <h2 className="text-4xl font-bold mb-4 gradient-text">
             Educação Financeira
           </h2>
