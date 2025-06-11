@@ -100,6 +100,9 @@ export default function MarketData() {
     <section id="mercado" className="py-20 bg-card/50">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
+          <h1 className="text-2xl font-semibold text-foreground mb-2">
+            Monitoramento de Mercado
+          </h1>
           <h2 className="text-4xl font-bold mb-4 gradient-text">
             Dados de Mercado
           </h2>
