@@ -115,10 +115,10 @@ export default function Calculators() {
     <section id="calculadoras" className="py-20 bg-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4 gradient-text">
-            Calculadoras Financeiras
+          <h2 className="text-5xl font-bold mb-6 gradient-text">
+            Simule seus investimentos e planeje seu futuro
           </h2>
-          <p className="text-muted-foreground text-lg">Planeje seus investimentos com nossas ferramentas especializadas</p>
+          <p className="text-muted-foreground text-xl">Ferramentas poderosas para calcular rendimentos e planejar aposentadoria</p>
         </div>
 
         <Tabs defaultValue="compound" className="w-full">

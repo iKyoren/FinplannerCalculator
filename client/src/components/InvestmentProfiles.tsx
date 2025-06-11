@@ -117,10 +117,10 @@ export default function InvestmentProfiles() {
     <section id="perfis" className="py-20 bg-card/50">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4 gradient-text">
-            Perfis de Investimento
+          <h2 className="text-5xl font-bold mb-6 gradient-text">
+            Descubra seu perfil de investidor ideal
           </h2>
-          <p className="text-muted-foreground text-lg">Entenda qual perfil se adapta melhor aos seus objetivos</p>
+          <p className="text-muted-foreground text-xl">Escolha a estratégia que combina com seus objetivos e tolerância ao risco</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
@@ -168,9 +168,9 @@ export default function InvestmentProfiles() {
 
                   <Button 
                     onClick={() => setSelectedProfile(key as InvestmentProfile)}
-                    className={`w-full font-semibold transition-colors ${colors.button}`}
+                    className="w-full gradient-primary hover:opacity-90 font-semibold py-3 text-lg transition-opacity"
                   >
-                    Escolher Perfil
+                    Escolher Este Perfil
                   </Button>
                 </CardContent>
               </Card>

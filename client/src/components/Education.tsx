@@ -132,10 +132,10 @@ export default function Education() {
     <section id="educacao" className="py-20 bg-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4 gradient-text">
-            Educação Financeira
+          <h2 className="text-5xl font-bold mb-6 gradient-text">
+            Aprenda sobre investimentos com nosso conteúdo especializado
           </h2>
-          <p className="text-muted-foreground text-lg">Aprenda sobre investimentos com nosso conteúdo especializado</p>
+          <p className="text-muted-foreground text-xl">Conteúdo educativo para todos os níveis de conhecimento</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -149,17 +149,16 @@ export default function Education() {
                 />
               </div>
               <CardContent className="p-6">
-                <h3 className="text-xl font-semibold mb-3 text-foreground">{content.title}</h3>
-                <p className="text-muted-foreground mb-4">{content.description}</p>
+                <h3 className="text-2xl font-semibold mb-4 text-foreground">{content.title}</h3>
+                <p className="text-muted-foreground mb-6 text-lg leading-relaxed">{content.description}</p>
                 
                 <Dialog>
                   <DialogTrigger asChild>
                     <Button 
-                      variant="ghost" 
-                      className="p-0 h-auto gradient-text hover:opacity-80 transition-opacity font-medium"
+                      className="gradient-primary hover:opacity-90 transition-opacity font-semibold px-6 py-2"
                       onClick={() => setSelectedContent(content)}
                     >
-                      Saiba mais <ArrowRight className="ml-1 h-4 w-4" />
+                      Saiba Mais
                     </Button>
                   </DialogTrigger>
                   <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
