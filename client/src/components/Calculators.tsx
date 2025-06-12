@@ -8,9 +8,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useMutation } from "@tanstack/react-query";
 import { calculateCompoundInterest, calculateRetirement, getInvestmentRecommendation } from "@/lib/api";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from "recharts";
+import { useProfile } from "@/contexts/ProfileContext";
 import type { CalculatorInputs, RetirementInputs } from "@/types";
 
 export default function Calculators() {
+  const { selectedProfile } = useProfile();
+  
   const [compoundInputs, setCompoundInputs] = useState<CalculatorInputs>({
     initialAmount: 10000,
     monthlyContribution: 500,
@@ -81,12 +84,14 @@ export default function Calculators() {
   };
 
   const generateRecommendation = async () => {
-    const profile = compoundInputs.interestRate <= 10 ? "conservative" : 
-                   compoundInputs.interestRate <= 15 ? "moderate" : "aggressive";
+    // Only generate recommendation if a profile has been selected
+    if (!selectedProfile) {
+      return;
+    }
     
     try {
       await recommendationMutation.mutateAsync({
-        profile,
+        profile: selectedProfile,
         amount: compoundInputs.initialAmount,
         timeHorizon: compoundInputs.timePeriod,
         monthlyContribution: compoundInputs.monthlyContribution
@@ -256,7 +261,22 @@ export default function Calculators() {
                       </Card>
                     )}
 
-                    {recommendation && (
+                    {!selectedProfile && compoundResult && (
+                      <Card className="bg-yellow-500/10 border-yellow-500/20">
+                        <CardHeader>
+                          <CardTitle className="text-lg text-yellow-600 dark:text-yellow-400">
+                            Selecione seu Perfil de Investidor
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <p className="text-muted-foreground">
+                            Para receber recomendações personalizadas de investimento, primeiro selecione seu perfil de investidor na seção "Perfis de Investimento" acima.
+                          </p>
+                        </CardContent>
+                      </Card>
+                    )}
+
+                    {recommendation && selectedProfile && (
                       <Card className="bg-card/50">
                         <CardHeader>
                           <CardTitle className="text-lg">Recomendação IA</CardTitle>
@@ -405,26 +425,41 @@ export default function Calculators() {
                           </CardContent>
                         </Card>
 
-                        <Card className="bg-card/50">
-                          <CardHeader>
-                            <CardTitle className="text-lg">Estratégia Recomendada</CardTitle>
-                          </CardHeader>
-                          <CardContent>
-                            <p className="text-muted-foreground mb-3">
-                              {retirementResult.yearsToRetirement > 20 
-                                ? "Com mais de 20 anos para aposentar, você pode adotar uma estratégia agressiva com 70% em ações e 30% em renda fixa."
-                                : retirementResult.yearsToRetirement > 10
-                                ? "Com 10-20 anos para aposentar, uma estratégia moderada é ideal: 50% ações, 50% renda fixa."
-                                : "Com menos de 10 anos para aposentar, priorize a segurança: 30% ações, 70% renda fixa."
-                              }
-                            </p>
-                            <div className="bg-muted/50 p-3 rounded-lg">
-                              <p className="text-sm">
-                                <strong>Dica:</strong> Revise seu plano anualmente e ajuste as contribuições conforme sua renda aumenta.
+                        {selectedProfile ? (
+                          <Card className="bg-card/50">
+                            <CardHeader>
+                              <CardTitle className="text-lg">Estratégia Recomendada</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                              <p className="text-muted-foreground mb-3">
+                                {selectedProfile === "conservative" 
+                                  ? "Com seu perfil conservador, priorize a segurança: 20% ações, 80% renda fixa. Foque em CDBs, Tesouro Direto e LCI/LCA."
+                                  : selectedProfile === "moderate"
+                                  ? "Com seu perfil moderado, equilibre risco e retorno: 50% ações, 50% renda fixa. Diversifique entre fundos DI, multimercado e ações blue chips."
+                                  : "Com seu perfil agressivo, maximize o potencial de retorno: 70% ações, 30% renda fixa. Inclua ações growth, FIIs e ETFs internacionais."
+                                }
                               </p>
-                            </div>
-                          </CardContent>
-                        </Card>
+                              <div className="bg-muted/50 p-3 rounded-lg">
+                                <p className="text-sm">
+                                  <strong>Dica:</strong> Revise seu plano anualmente e ajuste as contribuições conforme sua renda aumenta.
+                                </p>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        ) : (
+                          <Card className="bg-yellow-500/10 border-yellow-500/20">
+                            <CardHeader>
+                              <CardTitle className="text-lg text-yellow-600 dark:text-yellow-400">
+                                Selecione seu Perfil de Investidor
+                              </CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                              <p className="text-muted-foreground">
+                                Para receber estratégias personalizadas de aposentadoria, primeiro selecione seu perfil de investidor na seção "Perfis de Investimento" acima.
+                              </p>
+                            </CardContent>
+                          </Card>
+                        )}
                       </>
                     )}
                   </div>
