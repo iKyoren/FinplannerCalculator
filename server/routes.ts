@@ -604,264 +604,139 @@ function generateStructuredRecommendations(userProfile: any) {
   
   // PERFIL AGRESSIVO
   else {
-      },
-      {
-        name: "Ações Blue Chips (ITUB4, VALE3, PETR4)",
-        allocation: 25,
-        expectedReturn: "16-22% a.a.",
-        risk: "Médio",
-        reason: `Para ${incomeLevel} renda e ${age} anos, ações de empresas consolidadas oferecem crescimento com risco controlado.`,
-        theory: "Blue chips são ações de empresas grandes, estáveis e com histórico consistente de lucros e dividendos.",
-        practice: "Compre via home broker. Foque em empresas que você entende o negócio. ITUB4 (banco), VALE3 (mineração), PETR4 (petróleo).",
-        minAmount: 1000,
-        timeHorizon: "5+ anos",
-        category: "Nacional"
-      },
-      {
-        name: "Fundos Imobiliários Diversificados",
-        allocation: 20,
-        expectedReturn: "12-15% a.a.",
-        risk: "Médio",
-        reason: `FIIs oferecem renda passiva mensal isenta de IR. Adequado para complementar sua renda de R$ ${monthlyIncome}.`,
-        theory: "Fundos que investem em imóveis comerciais e distribuem aluguéis. Dividendos mensais isentos de IR para pessoa física.",
-        practice: "Diversifique entre tipos: HGLG11 (hospitais), XPML11 (logística), MXRF11 (multimercado). Compre via corretora.",
-        minAmount: 1500,
-        timeHorizon: "5+ anos",
-        category: "Nacional"
-      },
-      {
-        name: "Fundos Multimercado Long & Short",
-        allocation: 15,
-        expectedReturn: "14-18% a.a.",
-        risk: "Médio",
-        reason: `Gestão ativa para capturar oportunages em diferentes cenários. Adequado para ${incomeLevel} renda com tolerância a volatilage.`,
-        theory: "Fundos que podem comprar e vender ativos a descoberto, gerando alpha independente da direção do mercado.",
-        practice: "Verde AM, Kapitalo, ARX oferecem bons fundos multimercado. Analise histórico de performance e volatilage.",
-        minAmount: 5000,
-        timeHorizon: "3-7 anos",
-        category: "Nacional"
-      },
-      {
-        name: "Debêntures Incentivadas",
-        allocation: 20,
-        expectedReturn: "IPCA + 5-7% a.a.",
-        risk: "Médio",
-        reason: `Isenção de IR e rentabilage atrativa. Para ${age} anos, oferece risco creditício controlado com benefício fiscal.`,
-        theory: "Títulos de dívida de empresas para projetos de infraestrutura. Isentos de IR, oferecendo rentabilage líquida superior.",
-        practice: "Disponível via XP, Rico, BTG. Verifique rating da empresa emissora e diversifique entre diferentes emissores.",
-        minAmount: 1000,
-        timeHorizon: "4-8 anos",
-        category: "Nacional"
-      }
-    ];
-    
-    internationalInvestments = [
-      {
-        name: "S&P 500 ETF (IVVB11 ou direto)",
-        allocation: 30,
-        expectedReturn: "10-12% a.a. + variação cambial",
-        risk: "Médio",
-        reason: `Exposição às 500 maiores empresas americanas. Essencial para ${age} anos construir patrimônio internacional.`,
-        theory: "Índice que replica as 500 maiores empresas dos EUA por capitalização. Diversificação automática nos melhores negócios do mundo.",
-        practice: "IVVB11 no Brasil (mais caro) ou VTI/SPY direto via Avenue/Passfolio (mais barato). Dollar-cost averaging mensal.",
-        minAmount: 1000,
-        timeHorizon: "10+ anos",
-        category: "Internacional"
-      },
-      {
-        name: "ETF Mercados Emergentes (VWO)",
-        allocation: 20,
-        expectedReturn: "8-15% a.a. + variação cambial",
-        risk: "Alto",
-        reason: `Diversificação em países emergentes com potencial de crescimento superior. Adequado para ${age} anos.`,
-        theory: "VWO investe em ações de países emergentes (China, Índia, Taiwan, etc). Maior potencial de crescimento mas maior volatilage.",
-        practice: "Compre via corretoras internacionais. Considere como satélite da carteira, não como core holding.",
-        minAmount: 2000,
-        timeHorizon: "7+ anos",
-        category: "Internacional"
-      },
-      {
-        name: "REITs Diversificados (VNQ)",
-        allocation: 15,
-        expectedReturn: "9-13% a.a. + variação cambial",
-        risk: "Médio",
-        reason: `Setor imobiliário americano oferece diversificação e renda passiva internacional para complementar FIIs brasileiros.`,
-        theory: "VNQ investe em REITs de todos os setores imobiliários americanos. Distribui dividendos trimestrais.",
-        practice: "Via Avenue, Passfolio ou Interactive Brokers. Complementa bem os FIIs brasileiros com exposição cambial.",
-        minAmount: 3000,
-        timeHorizon: "5+ anos",
-        category: "Internacional"
-      },
-      {
-        name: "Bonds Corporativos High Grade",
-        allocation: 20,
-        expectedReturn: "5-7% a.a. + variação cambial",
-        risk: "Baixo",
-        reason: `Títulos de empresas americanas com rating AAA/AA. Estabilage internacional para balancear ações na carteira.`,
-        theory: "Debêntures de empresas americanas com excelente rating de crédito. Menor risco que ações, maior retorno que títulos governamentais.",
-        practice: "ETFs como LQD ou TLT oferecem exposição diversificada. Disponível via corretoras internacionais.",
-        minAmount: 4000,
-        timeHorizon: "3-7 anos",
-        category: "Internacional"
-      },
-      {
-        name: "Growth Stocks Selecionadas",
-        allocation: 15,
-        expectedReturn: "15-25% a.a. + variação cambial",
-        risk: "Alto",
-        reason: `Para ${age} anos, exposição a empresas de crescimento oferece potencial de valorização superior no longo prazo.`,
-        theory: "Ações de empresas com crescimento acelerado de receita/lucro. Maior volatilage mas potencial de retorno superior.",
-        practice: "Foque em setores que você entende: tecnologia (MSFT, GOOGL), saúde (JNJ, PFE), consumo (AMZN, TSLA).",
-        minAmount: 5000,
-        timeHorizon: "10+ anos",
-        category: "Internacional"
-      }
-    ];
-    
-    summary = `Estratégia moderada para ${age} anos com renda ${incomeLevel}. Balanceamento entre renda fixa (40%) e variável (60%) para crescimento sustentável. Diversificação global reduz dependência do mercado brasileiro. Rentabilage esperada: 14-18% a.a.`;
-    
-    warnings = [
-      `Volatilage moderada: prepare-se para oscilações de 15-25% em períodos de crise`,
-      "Rebalanceie trimestralmente vendendo o que subiu e comprando o que caiu",
-      "Mantenha disciplina em aportes mensais independente do cenário do mercado",
-      `Com disponível de R$ ${availableToInvest}/mês, priorize consistência nos aportes`
-    ];
-  }
-  
-  else { // aggressive
     nationalInvestments = [
       {
-        name: "Small Caps Growth (SMLL11)",
-        allocation: 30,
-        expectedReturn: "20-35% a.a.",
+        name: "Ações de crescimento",
+        allocation: 25,
+        expectedReturn: "20-35% ao ano",
         risk: "Alto",
-        reason: `Para ${age} anos com perfil agressivo, small caps oferecem potencial de crescimento excepcional no longo prazo.`,
-        theory: "Empresas pequenas com potencial de crescimento acelerado. Maior volatilage mas retornos superiores historicamente.",
-        practice: "SMLL11 replica índice de small caps. Invista via home broker com aportes mensais para reduzir volatilage de timing.",
-        minAmount: 1000,
+        reason: `Para ${age} anos com perfil agressivo, ações de crescimento oferecem máximo potencial.`,
+        theory: "Empresas que crescem receita rapidamente, reinvestindo lucros para expansão.",
+        practice: "Foque em tecnologia, biotecnologia e empresas inovadoras.",
+        minAmount: 100,
         timeHorizon: "10+ anos",
         category: "Nacional"
       },
       {
-        name: "Ações Growth Selecionadas",
+        name: "Small Caps brasileiras",
         allocation: 25,
-        expectedReturn: "18-28% a.a.",
+        expectedReturn: "25-40% ao ano",
         risk: "Alto",
-        reason: `Stock picking em empresas com crescimento superior. Adequado para ${incomeLevel} renda e tolerância a risco.`,
-        theory: "Ações de empresas com crescimento de receita/lucro superior à média do mercado. Foco em inovação e expansão.",
-        practice: "Magazine Luiza (MGLU3), Locaweb (LWSA3), Méliuz (CASH3). Estude fundamentals antes de investir.",
-        minAmount: 2000,
+        reason: `Empresas menores têm potencial de crescimento superior para investidores agressivos.`,
+        theory: "Small caps podem se tornar as grandes empresas do futuro.",
+        practice: "ETF SMLL11 ou ações individuais via análise fundamentalista.",
+        minAmount: 500,
+        timeHorizon: "10+ anos",
+        category: "Nacional"
+      },
+      {
+        name: "Criptomoedas",
+        allocation: 15,
+        expectedReturn: "Muito variável",
+        risk: "Muito Alto",
+        reason: `Para perfil agressivo, cripto oferece exposição a nova economia digital.`,
+        theory: "Moedas digitais que podem revolucionar o sistema financeiro.",
+        practice: "Bitcoin e Ethereum via exchanges como Mercado Bitcoin.",
+        minAmount: 100,
+        timeHorizon: "5+ anos",
+        category: "Nacional"
+      },
+      {
+        name: "FIIs de desenvolvimento",
+        allocation: 20,
+        expectedReturn: "15-25% ao ano",
+        risk: "Alto",
+        reason: `FIIs de projetos em desenvolvimento têm maior potencial de valorização.`,
+        theory: "Fundos que constroem novos empreendimentos imobiliários.",
+        practice: "Pesquise FIIs focados em desenvolvimento urbano e logística.",
+        minAmount: 100,
         timeHorizon: "7+ anos",
         category: "Nacional"
       },
       {
-        name: "Fundos de Ações Long & Short",
-        allocation: 20,
-        expectedReturn: "16-25% a.a.",
-        risk: "Alto",
-        reason: `Gestão ativa sofisticada para capturar alpha em mercados voláteis. Ideal para investidores experientes com ${age} anos.`,
-        theory: "Fundos que podem comprar (long) e vender (short) ações, gerando retorno independente da direção do mercado.",
-        practice: "Verde, Kapitalo, Garde oferecem estratégias long & short. Analise track record e estratégia do gestor.",
-        minAmount: 10000,
-        timeHorizon: "5+ anos",
-        category: "Nacional"
-      },
-      {
-        name: "Crypto via ETFs (QETH11, QBTC11)",
+        name: "Opções e derivativos",
         allocation: 15,
-        expectedReturn: "50-100% a.a. (alta volatilage)",
-        risk: "Alto",
-        reason: `Para ${age} anos, exposição controlada a criptomoedas oferece potencial de crescimento exponencial.`,
-        theory: "ETFs que replicam Bitcoin e Ethereum. Exposição regulada a criptomoedas sem necessage de carteiras digitais.",
-        practice: "QBTC11 (Bitcoin) e QETH11 (Ethereum) via home broker. Limite a 5-10% da carteira total.",
-        minAmount: 500,
-        timeHorizon: "5-10 anos",
-        category: "Nacional"
-      },
-      {
-        name: "BDRs de Growth Stocks",
-        allocation: 10,
-        expectedReturn: "15-30% a.a.",
-        risk: "Alto",
-        reason: `Acesso a empresas americanas de crescimento via bolsa brasileira. Conveniente para ${incomeLevel} renda.`,
-        theory: "Brazilian Depositary Receipts replicam ações estrangeiras na bolsa brasileira. Tributação como ações nacionais.",
-        practice: "Tesla (TSLA34), Apple (AAPL34), Microsoft (MSFT34) via home broker brasileiro. IOF 0,38% na compra.",
+        expectedReturn: "Muito variável",
+        risk: "Muito Alto",
+        reason: `Para investidores sofisticados, derivativos amplificam retornos.`,
+        theory: "Instrumentos que multiplicam exposição a movimentos de preços.",
+        practice: "Estude muito antes de operar. Comece com simuladores.",
         minAmount: 1000,
-        timeHorizon: "5+ anos",
+        timeHorizon: "Curto prazo",
         category: "Nacional"
       }
     ];
     
     internationalInvestments = [
       {
-        name: "NASDAQ ETF (QQQ)",
-        allocation: 35,
-        expectedReturn: "12-20% a.a. + variação cambial",
+        name: "NASDAQ ETF",
+        allocation: 30,
+        expectedReturn: "15-25% + dólar",
         risk: "Alto",
-        reason: `Exposição pura a empresas de tecnologia americanas. Para ${age} anos, essencial capturar inovação global.`,
-        theory: "QQQ replica as 100 maiores empresas não-financeiras do NASDAQ. Concentração em tecnologia e inovação.",
-        practice: "Compre via Avenue, Passfolio ou Interactive Brokers. Dollar-cost averaging para reduzir volatilage.",
-        minAmount: 2000,
+        reason: `Exposição às empresas de tecnologia mais inovadoras do mundo.`,
+        theory: "Apple, Google, Tesla - empresas que moldam o futuro.",
+        practice: "QQQ ou via corretoras brasileiras com ETFs internacionais.",
+        minAmount: 500,
         timeHorizon: "10+ anos",
         category: "Internacional"
       },
       {
-        name: "Individual Growth Stocks",
+        name: "Ações individuais growth",
         allocation: 25,
-        expectedReturn: "20-40% a.a. + variação cambial",
-        risk: "Alto",
-        reason: `Stock picking internacional para ${incomeLevel} renda. Potencial de retornos excepcionais com empresas disruptivas.`,
-        theory: "Seleção individual de ações com potencial de crescimento superior. Requer pesquisa fundamental profunda.",
-        practice: "Tesla (TSLA), Nvidia (NVDA), Netflix (NFLX), Amazon (AMZN). Diversifique entre 8-12 empresas.",
-        minAmount: 5000,
-        timeHorizon: "7+ anos",
+        expectedReturn: "20-50% + dólar",
+        risk: "Muito Alto",
+        reason: `Stock picking em empresas disruptivas para máximo crescimento.`,
+        theory: "Empresas que podem multiplicar valor em poucos anos.",
+        practice: "Tesla, Nvidia, startups via corretoras internacionais.",
+        minAmount: 1000,
+        timeHorizon: "5-10 anos",
         category: "Internacional"
       },
       {
-        name: "Emerging Markets ETF (VWO)",
+        name: "Mercados emergentes agressivos",
+        allocation: 20,
+        expectedReturn: "18-30% + dólar",
+        risk: "Alto",
+        reason: `Países emergentes com crescimento acelerado e maior risco.`,
+        theory: "Economias que crescem mais rápido que países desenvolvidos.",
+        practice: "ETFs específicos de China, Índia, Vietnam.",
+        minAmount: 1000,
+        timeHorizon: "8+ anos",
+        category: "Internacional"
+      },
+      {
+        name: "Criptomoedas globais",
         allocation: 15,
-        expectedReturn: "10-25% a.a. + variação cambial",
-        risk: "Alto",
-        reason: `Mercados emergentes oferecem crescimento superior com volatilage alta. Adequado para ${age} anos.`,
-        theory: "Exposição a China, Índia, Taiwan e outros emergentes com potencial de crescimento acima da média mundial.",
-        practice: "VWO via corretoras internacionais. Considere também ETFs específicos de países (FXI para China).",
-        minAmount: 3000,
-        timeHorizon: "10+ anos",
+        expectedReturn: "Extremamente variável",
+        risk: "Muito Alto",
+        reason: `Exposição global a criptomoedas e blockchain.`,
+        theory: "Revolução financeira digital em escala mundial.",
+        practice: "Binance, Coinbase ou ETFs de cripto americanos.",
+        minAmount: 500,
+        timeHorizon: "3-7 anos",
         category: "Internacional"
       },
       {
-        name: "Innovation ETFs (ARKK, ICLN)",
-        allocation: 15,
-        expectedReturn: "15-35% a.a. + variação cambial",
-        risk: "Alto",
-        reason: `ETFs focados em inovação e disrupção. Para perfil agressivo de ${age} anos buscando crescimento exponencial.`,
-        theory: "Fundos temáticos que investem em empresas de setores disruptivos como energia limpa, genomics, space exploration.",
-        practice: "ARKK (inovação), ICLN (energia limpa), ARKQ (automação) via corretoras internacionais.",
-        minAmount: 4000,
-        timeHorizon: "10+ anos",
-        category: "Internacional"
-      },
-      {
-        name: "Cryptocurrency Direct",
+        name: "Setores disruptivos",
         allocation: 10,
-        expectedReturn: "30-200% a.a. (extrema volatilage)",
-        risk: "Alto",
-        reason: `Para ${age} anos com tolerância máxima a risco, exposição direta a crypto oferece potencial transformador.`,
-        theory: "Investimento direto em Bitcoin, Ethereum e outras criptomoedas através de exchanges regulamentadas.",
-        practice: "Binance, Coinbase, Kraken para compra direta. Use dollar-cost averaging e limite a 5% da carteira total.",
+        expectedReturn: "25-60% + dólar",
+        risk: "Muito Alto",
+        reason: `Setores que podem revolucionar a economia global.`,
+        theory: "Inteligência artificial, energia renovável, biotecnologia.",
+        practice: "ETFs temáticos como ARKK, ICLN, ARKG.",
         minAmount: 1000,
         timeHorizon: "5-15 anos",
         category: "Internacional"
       }
     ];
     
-    summary = `Estratégia agressiva para ${age} anos com renda ${incomeLevel}. Foco em crescimento máximo com 80% em renda variável. Diversificação global em empresas de crescimento e setores disruptivos. Rentabilage esperada: 18-25% a.a. com alta volatilage.`;
+    summary = `Estratégia agressiva para ${age} anos buscando máximo crescimento. Alto risco, alto retorno. Diversificação global em setores disruptivos. Rentabilidade esperada: 20-35% ao ano com alta volatilidade.`;
     
     warnings = [
-      `Alta volatilage: prepare-se para oscilações de 30-50% em crises`,
-      "Nunca invista mais de 10% em criptomoedas ou ativos especulativos",
-      "Mantenha disciplina em bear markets - são oportunages de acumulação",
-      `Com ${availableToInvest}/mês disponível, mantenha aportes constantes independente do mercado`
+      "Prepare-se para perdas de até 50% em crises",
+      "Invista apenas dinheiro que pode perder",
+      "Rebalanceie mensalmente controlando emoções",
+      "Estude muito antes de investir em derivativos"
     ];
   }
   
@@ -873,62 +748,51 @@ function generateStructuredRecommendations(userProfile: any) {
   };
 }
 
-function generateInvestmentRecommendation(data: z.infer<typeof investmentRecommendationSchema>) {
-  const { profile, amount, timeHorizon, monthlyContribution = 0 } = data;
+// Simplified compound interest calculation
+function calculateCompoundInterest(data: z.infer<typeof compoundInterestSchema>) {
+  const { principal, monthlyContribution, annualRate, years } = data;
+  const monthlyRate = annualRate / 100 / 12;
+  const months = years * 12;
   
-  let recommendation = '';
-  let suggestedAllocation: Record<string, number> = {};
-  let expectedReturn = 0;
+  // Future value of principal
+  const principalFV = principal * Math.pow(1 + monthlyRate, months);
   
-  switch (profile) {
-    case 'conservative':
-      expectedReturn = 0.10; // 10% a.a.
-      suggestedAllocation = {
-        'Poupança/CDB': 40,
-        'Tesouro Direto': 30,
-        'LCI/LCA': 20,
-        'Fundos DI': 10,
-      };
-      recommendation = 'Para seu perfil conservador, recomendamos focar em renda fixa com liquidez e segurança. O CDB e Tesouro Direto são ideais para preservar o capital com rentabilage superior à poupança.';
-      break;
-      
-    case 'moderate':
-      expectedReturn = 0.14; // 14% a.a.
-      suggestedAllocation = {
-        'Renda Fixa': 50,
-        'Ações Blue Chips': 25,
-        'FIIs': 15,
-        'Fundos Multimercado': 10,
-      };
-      recommendation = 'Seu perfil moderado permite uma boa diversificação entre renda fixa e variável. Mantenha uma base sólida em renda fixa e diversifique em ações de empresas consolidadas.';
-      break;
-      
-    case 'aggressive':
-      expectedReturn = 0.18; // 18% a.a.
-      suggestedAllocation = {
-        'Ações Growth': 40,
-        'Ações Value': 20,
-        'FIIs': 15,
-        'ETFs Internacionais': 15,
-        'Criptomoedas': 5,
-        'Renda Fixa': 5,
-      };
-      recommendation = 'Como investidor agressivo, você pode explorar ativos de maior risco e retorno. Foque em ações de crescimento e diversifique internacionalmente, mantendo apenas uma pequena reserva em renda fixa.';
-      break;
-  }
+  // Future value of monthly contributions (annuity)
+  const contributionsFV = monthlyContribution * 
+    ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate);
   
-  // Calculate projected values
-  const futureValue = (amount + monthlyContribution * 12 * timeHorizon) * Math.pow(1 + expectedReturn, timeHorizon);
-  const totalInvested = amount + monthlyContribution * 12 * timeHorizon;
-  const totalGains = futureValue - totalInvested;
+  const totalFinal = principalFV + contributionsFV;
+  const totalInvested = principal + (monthlyContribution * months);
+  const totalInterest = totalFinal - totalInvested;
   
   return {
-    recommendation,
-    suggestedAllocation,
-    expectedReturn: expectedReturn * 100,
-    projectedValue: futureValue,
     totalInvested,
-    totalGains,
-    riskLevel: profile === 'conservative' ? 'Baixo' : profile === 'moderate' ? 'Médio' : 'Alto',
+    totalInterest,
+    finalAmount: totalFinal,
+    recommendation: "Mantenha aportes constantes e foque no longo prazo."
+  };
+}
+
+// Simplified retirement calculation  
+function calculateRetirement(data: z.infer<typeof retirementCalculationSchema>) {
+  const { currentAge, retirementAge, desiredIncome, currentSavings } = data;
+  const yearsToRetirement = retirementAge - currentAge;
+  const monthsToRetirement = yearsToRetirement * 12;
+  
+  // Assume 4% safe withdrawal rate and 8% annual return
+  const totalNeeded = desiredIncome * 25; // 4% rule
+  const futureValueOfCurrentSavings = currentSavings * Math.pow(1.08, yearsToRetirement);
+  const additionalNeeded = Math.max(0, totalNeeded - futureValueOfCurrentSavings);
+  
+  // Monthly contribution needed
+  const monthlyRate = 0.08 / 12;
+  const monthlyNeeded = additionalNeeded / 
+    ((Math.pow(1 + monthlyRate, monthsToRetirement) - 1) / monthlyRate);
+  
+  return {
+    yearsToRetirement,
+    totalNeeded,
+    monthlyNeeded: Math.max(0, monthlyNeeded),
+    futureValueOfCurrentSavings
   };
 }
