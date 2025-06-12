@@ -209,63 +209,75 @@ export default function PersonalizedRecommendations() {
   };
 
   const renderRecommendationCard = (rec: InvestmentRecommendation, index: number) => (
-    <Card key={index} className="card-hover border-border/50">
-      <CardHeader>
-        <div className="flex justify-between items-start">
-          <div>
-            <CardTitle className="text-lg font-semibold">{rec.name}</CardTitle>
-            <Badge className="mt-2 text-xs bg-primary/10 text-primary border-primary/20">
+    <Card key={index} className="card-hover border-border/50 h-full flex flex-col">
+      <CardHeader className="flex-1">
+        <div className="space-y-4">
+          <div className="flex justify-between items-start">
+            <CardTitle className="text-lg font-semibold line-clamp-2">{rec.name}</CardTitle>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="outline" size="sm" className="shrink-0">
+                  <Info className="h-4 w-4 mr-1" />
+                  Detalhes
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-2xl">
+                <DialogHeader>
+                  <DialogTitle>{rec.name}</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4">
+                  <div>
+                    <h4 className="font-semibold mb-2">💡 Como funciona na teoria</h4>
+                    <p className="text-muted-foreground">{rec.theory}</p>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold mb-2">🚀 Como investir na prática</h4>
+                    <p className="text-muted-foreground">{rec.practice}</p>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4 p-4 bg-muted/30 rounded-lg">
+                    <div>
+                      <span className="text-sm font-medium">Valor mínimo:</span>
+                      <p className="text-lg font-bold text-primary">{formatCurrency(rec.minAmount)}</p>
+                    </div>
+                    <div>
+                      <span className="text-sm font-medium">Prazo recomendado:</span>
+                      <p className="text-lg font-bold text-primary">{rec.timeHorizon}</p>
+                    </div>
+                  </div>
+                  <div className="p-4 bg-blue-50 dark:bg-blue-950/30 rounded-lg">
+                    <h4 className="font-semibold mb-2 text-blue-700 dark:text-blue-300">Por que foi recomendado para você?</h4>
+                    <p className="text-sm text-blue-600 dark:text-blue-400">{rec.reason}</p>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
+          </div>
+          
+          <div className="space-y-3">
+            <Badge className="text-xs bg-primary/10 text-primary border-primary/20">
               {rec.category}
             </Badge>
-            <div className="flex items-center gap-3 mt-2">
-              <Badge className={getRiskColor(rec.risk)}>
-                Risco {rec.risk}
-              </Badge>
-              <span className="text-sm text-muted-foreground">
-                {rec.allocation}% da carteira
-              </span>
-              <span className="text-sm font-medium text-green-600">
-                {rec.expectedReturn}
-              </span>
+            
+            <div className="grid grid-cols-1 gap-2">
+              <div className="flex items-center justify-between">
+                <Badge className={getRiskColor(rec.risk)}>
+                  Risco {rec.risk}
+                </Badge>
+                <span className="text-sm font-medium text-green-600">
+                  {rec.expectedReturn}
+                </span>
+              </div>
+              
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-muted-foreground">
+                  {rec.allocation}% da carteira
+                </span>
+                <span className="text-sm text-muted-foreground">
+                  Min: {formatCurrency(rec.minAmount)}
+                </span>
+              </div>
             </div>
           </div>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button variant="outline" size="sm">
-                <Info className="h-4 w-4 mr-1" />
-                Detalhes
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-2xl">
-              <DialogHeader>
-                <DialogTitle>{rec.name}</DialogTitle>
-              </DialogHeader>
-              <div className="space-y-4">
-                <div>
-                  <h4 className="font-semibold mb-2">💡 Como funciona na teoria</h4>
-                  <p className="text-muted-foreground">{rec.theory}</p>
-                </div>
-                <div>
-                  <h4 className="font-semibold mb-2">🚀 Como investir na prática</h4>
-                  <p className="text-muted-foreground">{rec.practice}</p>
-                </div>
-                <div className="grid grid-cols-2 gap-4 p-4 bg-muted/30 rounded-lg">
-                  <div>
-                    <span className="text-sm font-medium">Valor mínimo:</span>
-                    <p className="text-lg font-bold text-primary">{formatCurrency(rec.minAmount)}</p>
-                  </div>
-                  <div>
-                    <span className="text-sm font-medium">Prazo recomendado:</span>
-                    <p className="text-lg font-bold text-primary">{rec.timeHorizon}</p>
-                  </div>
-                </div>
-                <div className="p-4 bg-blue-50 dark:bg-blue-950/30 rounded-lg">
-                  <h4 className="font-semibold mb-2 text-blue-700 dark:text-blue-300">Por que foi recomendado para você?</h4>
-                  <p className="text-sm text-blue-600 dark:text-blue-400">{rec.reason}</p>
-                </div>
-              </div>
-            </DialogContent>
-          </Dialog>
         </div>
       </CardHeader>
     </Card>
