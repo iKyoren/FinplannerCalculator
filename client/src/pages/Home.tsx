@@ -12,23 +12,24 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="space-y-4">
+      <main className="space-y-0">
+        {/* 1. Apresentação do projeto (Hero) */}
         <Hero />
-        <div className="container-compact">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2 space-y-6">
-              <MarketData />
-              <Calculators />
-            </div>
-            <div className="space-y-6">
-              <Education />
-              <InvestmentProfiles />
-            </div>
-          </div>
-          <div className="mt-6">
-            <PersonalizedRecommendations />
-          </div>
-        </div>
+        
+        {/* 2. Tópicos e informações (Education) */}
+        <Education />
+        
+        {/* 3. Gráficos e dados de mercado */}
+        <MarketData />
+        
+        {/* 4. Selecionar o perfil investidor */}
+        <InvestmentProfiles />
+        
+        {/* 5. Recomendação personalizada */}
+        <PersonalizedRecommendations />
+        
+        {/* 6. Calculadoras (Juros compostos, aposentadoria etc) */}
+        <Calculators />
       </main>
       <Footer />
       <ChatAssistant />
