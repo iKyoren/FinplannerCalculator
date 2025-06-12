@@ -53,9 +53,27 @@ export default function Hero() {
             Seu planejamento financeiro inteligente com IA especializada
           </p>
           
-          <p className="text-sm sm:text-base text-muted-foreground mb-6 leading-relaxed max-w-2xl mx-auto px-4">
+          <p className="text-sm sm:text-base text-muted-foreground mb-8 leading-relaxed max-w-2xl mx-auto px-4">
             Descubra os melhores investimentos para seu perfil, calcule rendimentos e aprenda sobre o mercado financeiro
           </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-md mx-auto px-4">
+            <Button 
+              onClick={scrollToCalculators}
+              size="lg"
+              className="w-full sm:w-auto gradient-primary hover:opacity-90 font-semibold text-base px-8 py-3 shadow-lg transition-all duration-300 hover:scale-105"
+            >
+              Começar Agora
+            </Button>
+            <Button 
+              onClick={scrollToMarketData}
+              variant="outline"
+              size="lg"
+              className="w-full sm:w-auto border-2 border-primary/30 hover:border-primary/60 text-primary hover:bg-primary/10 font-semibold text-base px-8 py-3 transition-all duration-300"
+            >
+              Ver Mercado
+            </Button>
+          </div>
         </div>
       </div>
     </section>

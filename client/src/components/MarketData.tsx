@@ -91,6 +91,22 @@ export default function MarketData() {
             </h2>
             <p className="text-muted-foreground text-lg">Carregando dados do mercado...</p>
           </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            {[1, 2, 3, 4].map((i) => (
+              <Card key={i} className="border-border/50">
+                <CardContent className="p-6">
+                  <div className="animate-pulse space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div className="h-4 bg-muted rounded w-20"></div>
+                      <div className="h-5 w-5 bg-muted rounded"></div>
+                    </div>
+                    <div className="h-8 bg-muted rounded w-24"></div>
+                    <div className="h-4 bg-muted rounded w-16"></div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
       </section>
     );
