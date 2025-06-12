@@ -4,6 +4,7 @@ import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { ProfileProvider } from "@/contexts/ProfileContext";
 import Home from "@/pages/Home";
 import NotFound from "@/pages/not-found";
 import LoadingScreen from "@/components/LoadingScreen";
@@ -29,17 +30,19 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <div className="dark min-h-screen bg-background">
-          {isLoading && <LoadingScreen onComplete={handleLoadingComplete} />}
-          <div className={`transition-all duration-500 ${showContent ? 'opacity-100' : 'opacity-0'}`}>
-            {!isLoading && (
-              <>
-                <Toaster />
-                <Router />
-              </>
-            )}
+        <ProfileProvider>
+          <div className="dark min-h-screen bg-background">
+            {isLoading && <LoadingScreen onComplete={handleLoadingComplete} />}
+            <div className={`transition-all duration-500 ${showContent ? 'opacity-100' : 'opacity-0'}`}>
+              {!isLoading && (
+                <>
+                  <Toaster />
+                  <Router />
+                </>
+              )}
+            </div>
           </div>
-        </div>
+        </ProfileProvider>
       </TooltipProvider>
     </QueryClientProvider>
   );

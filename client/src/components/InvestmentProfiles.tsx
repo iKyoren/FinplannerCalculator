@@ -106,11 +106,19 @@ export default function InvestmentProfiles() {
     }
   };
 
-  const scrollToCalculators = () => {
-    const element = document.getElementById("calculadoras");
+  const scrollToRecommendations = () => {
+    const element = document.getElementById("recomendacoes");
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
+  };
+
+  const handleProfileSelect = (profile: InvestmentProfile) => {
+    setSelectedProfile(profile);
+    // Redirecionar automaticamente para recomendações
+    setTimeout(() => {
+      scrollToRecommendations();
+    }, 300);
   };
 
   return (
@@ -174,7 +182,7 @@ export default function InvestmentProfiles() {
                   </div>
 
                   <Button 
-                    onClick={() => setSelectedProfile(key as InvestmentProfile)}
+                    onClick={() => handleProfileSelect(key as InvestmentProfile)}
                     className="w-full gradient-primary hover:opacity-90 font-semibold py-3 text-lg transition-opacity"
                   >
                     Escolher Este Perfil
@@ -223,8 +231,8 @@ export default function InvestmentProfiles() {
                 </div>
                 <div className="mt-6 p-4 bg-muted/50 rounded-lg">
                   <p className="text-muted-foreground mb-3">{profiles[selectedProfile].description}</p>
-                  <Button onClick={scrollToCalculators} className="gradient-primary hover:opacity-90">
-                    Usar Calculadoras com este Perfil
+                  <Button onClick={scrollToRecommendations} className="gradient-primary hover:opacity-90">
+                    Ver Recomendações Personalizadas
                   </Button>
                 </div>
               </CardContent>
