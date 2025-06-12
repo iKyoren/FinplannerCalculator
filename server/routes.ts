@@ -77,16 +77,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Investment recommendation endpoint
+  // Investment recommendation endpoint with AI
   app.post("/api/investment-recommendation", async (req, res) => {
     try {
       const validatedData = investmentRecommendationSchema.parse(req.body);
-      const recommendation = generateInvestmentRecommendation(validatedData);
-      res.json(recommendation);
+      const { profile, amount, timeHorizon, monthlyContribution = 0 } = validatedData;
+      
+      // Simular dados financeiros básicos baseados no valor de investimento
+      const monthlyIncome = amount < 5000 ? 3000 : amount < 20000 ? 8000 : 15000;
+      const monthlyExpenses = monthlyIncome * 0.7; // 70% dos gastos
+      const leisureExpenses = monthlyIncome * 0.1; // 10% lazer
+      const age = timeHorizon > 20 ? 25 : timeHorizon > 10 ? 35 : 45;
+      
+      const userProfile = {
+        monthlyIncome,
+        monthlyExpenses,
+        leisureExpenses,
+        investmentProfile: profile,
+        age,
+        availableToInvest: monthlyContribution || (monthlyIncome - monthlyExpenses - leisureExpenses)
+      };
+
+      const recommendations = await generatePersonalizedRecommendations(userProfile);
+      res.json(recommendations);
     } catch (error) {
       if (error instanceof z.ZodError) {
         return res.status(400).json({ error: "Invalid request data", details: error.errors });
       }
+      console.error("Error generating AI recommendations:", error);
       res.status(500).json({ error: "Failed to generate investment recommendation" });
     }
   });

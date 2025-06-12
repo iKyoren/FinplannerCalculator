@@ -277,24 +277,142 @@ export default function Calculators() {
                     )}
 
                     {recommendation && selectedProfile && (
-                      <Card className="bg-card/50">
-                        <CardHeader>
-                          <CardTitle className="text-lg">Recomendação IA</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                          <p className="text-muted-foreground mb-4">{recommendation.recommendation}</p>
-                          <div className="space-y-2">
-                            <div className="flex justify-between text-sm">
-                              <span>Nível de Risco:</span>
-                              <span className="font-semibold">{recommendation.riskLevel}</span>
-                            </div>
-                            <div className="flex justify-between text-sm">
-                              <span>Retorno Esperado:</span>
-                              <span className="font-semibold">{recommendation.expectedReturn}% a.a.</span>
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
+                      <div className="space-y-4">
+                        <Card className="bg-gradient-to-r from-green-500/10 to-blue-500/10 border-green-500/20">
+                          <CardHeader>
+                            <CardTitle className="text-lg text-green-600 dark:text-green-400">
+                              Recomendações Personalizadas IA
+                            </CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <p className="text-muted-foreground mb-4">{recommendation.summary}</p>
+                            {recommendation.warnings && recommendation.warnings.length > 0 && (
+                              <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-3 mb-4">
+                                <h4 className="font-semibold text-yellow-600 dark:text-yellow-400 mb-2">Alertas Importantes:</h4>
+                                <ul className="space-y-1">
+                                  {recommendation.warnings.map((warning: string, index: number) => (
+                                    <li key={index} className="text-sm text-muted-foreground">• {warning}</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                          </CardContent>
+                        </Card>
+
+                        {/* Investimentos Nacionais */}
+                        <Card>
+                          <CardHeader>
+                            <CardTitle className="text-lg flex items-center gap-2">
+                              🇧🇷 Investimentos Nacionais
+                              <span className="text-sm text-muted-foreground">({recommendation.nationalInvestments?.length || 0} opções)</span>
+                            </CardTitle>
+                          </CardHeader>
+                          <CardContent className="space-y-3">
+                            {recommendation.nationalInvestments?.map((investment: any, index: number) => (
+                              <div key={index} className="border border-border/50 rounded-lg p-4 space-y-3">
+                                <div className="flex justify-between items-start">
+                                  <div>
+                                    <h4 className="font-semibold text-foreground">{investment.name}</h4>
+                                    <div className="flex gap-2 mt-1">
+                                      <span className={`px-2 py-1 rounded-full text-xs ${
+                                        investment.risk === "Baixo" ? "bg-green-500/20 text-green-600" :
+                                        investment.risk === "Médio" ? "bg-yellow-500/20 text-yellow-600" :
+                                        "bg-red-500/20 text-red-600"
+                                      }`}>
+                                        Risco {investment.risk}
+                                      </span>
+                                      <span className="px-2 py-1 bg-blue-500/20 text-blue-600 rounded-full text-xs">
+                                        {investment.allocation}% da carteira
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <div className="text-right">
+                                    <div className="font-semibold text-green-600">{investment.expectedReturn}</div>
+                                    <div className="text-xs text-muted-foreground">Retorno esperado</div>
+                                  </div>
+                                </div>
+                                
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                  <div>
+                                    <h5 className="font-medium mb-1">Por que essa escolha:</h5>
+                                    <p className="text-muted-foreground">{investment.reason}</p>
+                                  </div>
+                                  <div>
+                                    <h5 className="font-medium mb-1">Como funciona:</h5>
+                                    <p className="text-muted-foreground">{investment.theory}</p>
+                                  </div>
+                                </div>
+                                
+                                <div className="bg-muted/50 rounded-lg p-3">
+                                  <h5 className="font-medium mb-1">Como investir na prática:</h5>
+                                  <p className="text-muted-foreground text-sm">{investment.practice}</p>
+                                  <div className="flex gap-4 mt-2 text-xs text-muted-foreground">
+                                    <span>Valor mínimo: {formatCurrency(investment.minAmount)}</span>
+                                    <span>Prazo: {investment.timeHorizon}</span>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </CardContent>
+                        </Card>
+
+                        {/* Investimentos Internacionais */}
+                        <Card>
+                          <CardHeader>
+                            <CardTitle className="text-lg flex items-center gap-2">
+                              🌍 Investimentos Internacionais
+                              <span className="text-sm text-muted-foreground">({recommendation.internationalInvestments?.length || 0} opções)</span>
+                            </CardTitle>
+                          </CardHeader>
+                          <CardContent className="space-y-3">
+                            {recommendation.internationalInvestments?.map((investment: any, index: number) => (
+                              <div key={index} className="border border-border/50 rounded-lg p-4 space-y-3">
+                                <div className="flex justify-between items-start">
+                                  <div>
+                                    <h4 className="font-semibold text-foreground">{investment.name}</h4>
+                                    <div className="flex gap-2 mt-1">
+                                      <span className={`px-2 py-1 rounded-full text-xs ${
+                                        investment.risk === "Baixo" ? "bg-green-500/20 text-green-600" :
+                                        investment.risk === "Médio" ? "bg-yellow-500/20 text-yellow-600" :
+                                        "bg-red-500/20 text-red-600"
+                                      }`}>
+                                        Risco {investment.risk}
+                                      </span>
+                                      <span className="px-2 py-1 bg-purple-500/20 text-purple-600 rounded-full text-xs">
+                                        {investment.allocation}% da carteira
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <div className="text-right">
+                                    <div className="font-semibold text-green-600">{investment.expectedReturn}</div>
+                                    <div className="text-xs text-muted-foreground">Retorno esperado</div>
+                                  </div>
+                                </div>
+                                
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                  <div>
+                                    <h5 className="font-medium mb-1">Por que essa escolha:</h5>
+                                    <p className="text-muted-foreground">{investment.reason}</p>
+                                  </div>
+                                  <div>
+                                    <h5 className="font-medium mb-1">Como funciona:</h5>
+                                    <p className="text-muted-foreground">{investment.theory}</p>
+                                  </div>
+                                </div>
+                                
+                                <div className="bg-muted/50 rounded-lg p-3">
+                                  <h5 className="font-medium mb-1">Como investir na prática:</h5>
+                                  <p className="text-muted-foreground text-sm">{investment.practice}</p>
+                                  <div className="flex gap-4 mt-2 text-xs text-muted-foreground">
+                                    <span>Valor mínimo: {formatCurrency(investment.minAmount)}</span>
+                                    <span>Prazo: {investment.timeHorizon}</span>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </CardContent>
+                        </Card>
+                      </div>
                     )}
 
                     {chartData.length > 0 && (
