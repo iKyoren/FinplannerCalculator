@@ -4,7 +4,7 @@ import { storage } from "./storage";
 import { insertChatMessageSchema } from "@shared/schema";
 import { z } from "zod";
 import { generateSmartChatResponse, generatePersonalizedRecommendations } from "./openai";
-import { generateStructuredRecommendations } from "./recommendations";
+
 
 const investmentRecommendationSchema = z.object({
   profile: z.enum(["conservative", "moderate", "aggressive"]),
@@ -308,168 +308,302 @@ function generateAIResponse(message: string): string {
 function generateStructuredRecommendations(userProfile: any) {
   const { monthlyIncome, monthlyExpenses, leisureExpenses, investmentProfile, age, availableToInvest } = userProfile;
   
-  // Análise da situação financeira
-  const incomeLevel = monthlyIncome < 3000 ? "baixa" : monthlyIncome < 8000 ? "média" : "alta";
-  const riskCapacity = age < 35 ? "alta" : age < 50 ? "média" : "baixa";
-  const investmentAmount = availableToInvest;
+  // Função auxiliar para formatação de moeda
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    }).format(value);
+  };
+  
+  // Análise detalhada da situação financeira
+  const incomeLevel = monthlyIncome < 3000 ? "baixa" : monthlyIncome < 8000 ? "média" : monthlyIncome < 15000 ? "alta" : "muito alta";
+  const totalSavingsCapacity = availableToInvest * 12; // Capacidade anual de investimento
   
   let nationalInvestments = [];
   let internationalInvestments = [];
   let summary = "";
   let warnings = [];
   
-  // Recomendações baseadas no perfil e situação financeira
+  // 5 INVESTIMENTOS NACIONAIS PERSONALIZADOS baseados na situação específica
   if (investmentProfile === "conservative") {
     nationalInvestments = [
       {
-        name: "Tesouro Selic 2026",
+        name: availableToInvest < 500 ? "Tesouro Selic (mínimo R$ 30)" : "Tesouro Selic 2026",
         allocation: 25,
         expectedReturn: "13,75% a.a.",
         risk: "Baixo",
-        reason: `Com ${incomeLevel} renda e perfil conservador, este é o investimento mais seguro do país. Ideal para sua reserva de emergência com liquidez diária.`,
-        theory: "O Tesouro Selic acompanha a taxa básica de juros da economia (Selic). É um título pós-fixado, ou seja, seu rendimento varia conforme a Selic.",
-        practice: "Acesse o site oficial do Tesouro Direto ou sua corretora. Invista a partir de R$ 30. A liquidez é diária com IOF apenas nos primeiros 30 dias.",
-        minAmount: 100,
+        reason: `Para ${age} anos com renda ${incomeLevel} e ${formatCurrency(availableToInvest)} mensais, é o investimento mais seguro. ${incomeLevel === "baixa" ? "Com renda menor, segurança é fundamental." : "Base sólida para sua carteira."}`,
+        theory: "É como emprestar dinheiro para o governo brasileiro. Eles pagam juros que acompanham a Selic (taxa básica).",
+        practice: `${availableToInvest < 500 ? "Comece com R$ 30 no site do Tesouro Direto. Aumente aos poucos." : "Use corretora ou site oficial. Liquidez diária, sem pegadinhas."}`,
+        minAmount: 30,
         timeHorizon: "Qualquer prazo",
         category: "Nacional"
       },
       {
-        name: "CDB Banco Inter 105% CDI",
+        name: incomeLevel === "baixa" ? "CDB Nubank 100% CDI" : "CDB Inter 105% CDI",
         allocation: 20,
-        expectedReturn: "14,43% a.a.",
+        expectedReturn: incomeLevel === "baixa" ? "13,75% a.a." : "14,4% a.a.",
         risk: "Baixo",
-        reason: `Para sua situação de renda ${incomeLevel}, bancos médios oferecem melhores taxas que grandes bancos. Protegido pelo FGC até R$ 250 mil.`,
-        theory: "CDB é um empréstimo que você faz ao banco. O banco usa seu dinheiro para emprestar a outros clientes e divide os juros com você.",
-        practice: "Abra conta no Banco Inter pelo app. Procure CDBs com rentabilage acima de 100% do CDI. Escolha liquidez diária se precisar do dinheiro.",
-        minAmount: 500,
+        reason: `${incomeLevel === "baixa" ? "Com renda menor, bancos digitais gratuitos são ideais - sem taxas que comem seu rendimento." : "Bancos médios pagam mais que os grandes. Seu dinheiro protegido até R$ 250 mil."}`,
+        theory: "É como emprestar para o banco. Eles usam seu dinheiro para dar empréstimos e dividem os juros com você.",
+        practice: `${incomeLevel === "baixa" ? "Baixe o app do Nubank, é gratuito e simples." : "App do Inter - compare sempre as taxas oferecidas."}`,
+        minAmount: incomeLevel === "baixa" ? 1 : 500,
         timeHorizon: "1-3 anos",
         category: "Nacional"
       },
       {
-        name: "LCI Santander 95% CDI",
+        name: totalSavingsCapacity > 50000 ? "LCI Bradesco 95% CDI" : "LCA Caixa 90% CDI",
         allocation: 20,
-        expectedReturn: "13,05% a.a. (isento IR)",
+        expectedReturn: totalSavingsCapacity > 50000 ? "13,05% a.a. (sem IR)" : "12,4% a.a. (sem IR)",
         risk: "Baixo",
-        reason: `Sendo isento de Imposto de Renda, oferece rentabilage líquida superior para seu perfil conservador. Adequado para ${age} anos.`,
-        theory: "LCI financia o setor imobiliário. É isenta de IR para pessoa física, aumentando sua rentabilage líquida comparada a outros investimentos.",
-        practice: "Procure em bancos tradicionais como Santander, Bradesco ou Itaú. Cuidado com carência (período mínimo de permanência).",
-        minAmount: 1000,
+        reason: `${totalSavingsCapacity > 50000 ? "Com boa capacidade de poupança, LCI de banco grande não cobra IR - economia real." : "LCA da Caixa é mais acessível e também livre de IR - vantagem fiscal importante."}`,
+        theory: "Financia construção de casas (LCI) ou agronegócio (LCA). Governo não cobra IR para incentivar esses setores.",
+        practice: `${totalSavingsCapacity > 50000 ? "Vá na agência ou use app do banco. Valor alto mas vale pela isenção." : "Caixa tem valores menores. Cuidado com prazo mínimo de 90 dias."}`,
+        minAmount: totalSavingsCapacity > 50000 ? 5000 : 1000,
         timeHorizon: "2-5 anos",
         category: "Nacional"
       },
       {
-        name: "Fundos DI Premium",
+        name: age < 45 ? "Tesouro IPCA+ 2035" : "Tesouro IPCA+ 2029",
         allocation: 15,
-        expectedReturn: "12,8% a.a.",
+        expectedReturn: "6,2% + inflação por ano",
         risk: "Baixo",
-        reason: `Para diversificar seus investimentos de renda fixa com gestão profissional. Adequado para ${availableToInvest > 3000 ? "seu patrimônio atual" : "começar gradualmente"}.`,
-        theory: "Fundos DI investem em títulos de renda fixa que acompanham o CDI. Têm gestão profissional e diversificação automática.",
-        practice: "XP, Rico ou BTG oferecem bons fundos DI. Verifique taxa de administração (máximo 1% a.a.) e histórico de performance.",
-        minAmount: 1000,
-        timeHorizon: "1-2 anos",
+        reason: `${age < 45 ? "Aos " + age + " anos, você tem tempo para investimentos longos. Este sempre ganha da inflação até a aposentadoria." : "Aos " + age + " anos, prazo mais curto é melhor. Ainda protege contra inflação."}`,
+        theory: "Se a inflação for 4%, você ganha 6,2% + 4% = 10,2% no total. Seu dinheiro nunca perde valor.",
+        practice: `${age < 45 ? "Compre e esqueça até 2035. Não se preocupe com sobe e desce." : "Prazo menor reduz oscilações. Segure até o vencimento."}`,
+        minAmount: 30,
+        timeHorizon: age < 45 ? "10+ anos" : "5-8 anos",
         category: "Nacional"
       },
       {
-        name: "FIDC de Direitos Creditórios",
+        name: monthlyIncome > 8000 ? "Debênture CPFL (isenta IR)" : "CDB Prefixado 13,5%",
         allocation: 20,
-        expectedReturn: "15,2% a.a.",
+        expectedReturn: monthlyIncome > 8000 ? "12% a.a. (sem IR)" : "13,5% a.a.",
         risk: "Médio",
-        reason: `Como você tem ${age} anos e renda ${incomeLevel}, pode assumir um pouco mais de risco para melhor rentabilage.`,
-        theory: "FIDCs investem em direitos creditórios de empresas (duplicatas, notas promissórias). Oferecem rentabilage superior à renda fixa tradicional.",
-        practice: "Disponível em corretoras como XP e Rico. Verifique o rating das empresas devedoras e diversificação do portfólio do fundo.",
-        minAmount: 2500,
-        timeHorizon: "2-4 anos",
+        reason: `${monthlyIncome > 8000 ? "Com renda de " + formatCurrency(monthlyIncome) + ", debêntures isentas são ideais - financia energia elétrica do país." : "CDB prefixado garante rentabilidade certa, sem depender de oscilações da Selic."}`,
+        theory: `${monthlyIncome > 8000 ? "Empresas de energia emitem esses títulos. Governo dá isenção de IR para estimular investimento em infraestrutura." : "Taxa já definida na hora da compra. Você sabe exatamente quanto vai receber no final."}`,
+        practice: `${monthlyIncome > 8000 ? "Disponível na XP, Rico, BTG. Verifique se a empresa tem bom rating." : "Bancos menores oferecem taxas melhores. Compare antes de escolher."}`,
+        minAmount: monthlyIncome > 8000 ? 1000 : 500,
+        timeHorizon: "3-6 anos",
+        category: "Nacional"
+      }
+    ];
+    
+    // 5 INVESTIMENTOS INTERNACIONAIS PERSONALIZADOS
+    internationalInvestments = [
+      {
+        name: availableToInvest < 1000 ? "Tesouro Americano (via Avenue fracionado)" : "US Treasury Bills direto",
+        allocation: 25,
+        expectedReturn: "5,2% a.a. + dólar",
+        risk: "Baixo",
+        reason: `${availableToInvest < 1000 ? "Com valor menor disponível, corretoras brasileiras permitem investir em títulos americanos fracionados. Proteção do dólar sem muito dinheiro." : "Com " + formatCurrency(availableToInvest) + " mensais, pode investir direto no governo americano - máxima segurança mundial."}`,
+        theory: "É como emprestar para o governo americano. Eles são considerados o pagador mais confiável do mundo.",
+        practice: `${availableToInvest < 1000 ? "Use Avenue ou XP. Comece com US$ 50. Proteção do dólar + segurança americana." : "Interactive Brokers ou TD Ameritrade para valores maiores. Mínimo US$ 100."}`,
+        minAmount: availableToInvest < 1000 ? 300 : 600,
+        timeHorizon: "6 meses a 2 anos",
+        category: "Internacional"
+      },
+      {
+        name: incomeLevel === "baixa" ? "ETF Bonds Municipal (VTEB)" : "ETF Bonds Total (BND)",
+        allocation: 20,
+        expectedReturn: incomeLevel === "baixa" ? "4,8% a.a. + dólar" : "5,5% a.a. + dólar",
+        risk: "Baixo",
+        reason: `${incomeLevel === "baixa" ? "Bonds municipais americanos são isentos de imposto federal. Perfeito para quem tem pouco e quer eficiência fiscal." : "BND diversifica em todo mercado de bonds americano. Para renda maior, oferece exposição completa e segura."}`,
+        theory: `${incomeLevel === "baixa" ? "Cidades americanas emitem bonds para fazer obras. São muito seguros e têm benefício fiscal." : "ETF que investe em milhares de bonds americanos. Diversificação máxima em renda fixa americana."}`,
+        practice: `${incomeLevel === "baixa" ? "Compre via corretoras brasileiras. Foque em ETFs de bonds municipais para aproveitar benefício fiscal." : "Disponível em qualquer corretora internacional. Reinvista automaticamente os dividendos."}`,
+        minAmount: 500,
+        timeHorizon: "2-5 anos",
+        category: "Internacional"
+      },
+      {
+        name: age > 50 ? "ETF Dividendos Defensivos (SCHD)" : "ETF Dividendos Altos (VYM)",
+        allocation: 20,
+        expectedReturn: age > 50 ? "7,5% a.a. + dólar" : "8,2% a.a. + dólar",
+        risk: "Médio",
+        reason: `${age > 50 ? "Aos " + age + " anos, foque em dividendos de empresas defensivas. SCHD investe em empresas que pagam dividendos crescentes há décadas." : "Aos " + age + " anos, VYM oferece dividendos altos de empresas sólidas americanas. Boa forma de ter renda em dólar."}`,
+        theory: `${age > 50 ? "SCHD seleciona empresas com histórico de crescimento consistente de dividendos. Foco em qualidade e sustentabilidade." : "VYM investe nas empresas que pagam os maiores dividendos do mercado americano. Foco em renda."}`,
+        practice: `${age > 50 ? "Via Avenue, XP ou corretoras internacionais. Receba dividendos a cada 3 meses em dólar." : "Disponível em corretoras brasileiras e internacionais. Dividendos pagos a cada 3 meses."}`,
+        minAmount: 1000,
+        timeHorizon: age > 50 ? "3-8 anos" : "5-10 anos",
+        category: "Internacional"
+      },
+      {
+        name: totalSavingsCapacity > 100000 ? "Realty Income (O)" : "ETF REITs (VNQ)",
+        allocation: 20,
+        expectedReturn: totalSavingsCapacity > 100000 ? "9,5% a.a. + dólar" : "8,8% a.a. + dólar",
+        risk: "Médio",
+        reason: `${totalSavingsCapacity > 100000 ? "Com alta capacidade de poupança, pode investir no REIT mais sólido dos EUA. Paga dividendo todo mês há 30 anos." : "Com " + formatCurrency(totalSavingsCapacity) + " de capacidade anual, ETF de REITs oferece diversificação em imóveis americanos."}`,
+        theory: `${totalSavingsCapacity > 100000 ? "Realty Income é o 'Walmart dos REITs'. Aluga imóveis para empresas estáveis com contratos longos." : "VNQ investe em centenas de REITs americanos. Diversificação total no mercado imobiliário americano."}`,
+        practice: `${totalSavingsCapacity > 100000 ? "Compre ações individuais via corretora internacional. Dividendo mensal, não trimestral." : "Disponível em corretoras brasileiras. Dividendos a cada 3 meses de dezenas de REITs."}`,
+        minAmount: totalSavingsCapacity > 100000 ? 3000 : 1000,
+        timeHorizon: "7-15 anos",
+        category: "Internacional"
+      },
+      {
+        name: monthlyIncome > 10000 ? "ETF Small Cap Value (VTWO)" : "ETF Mercado Total (VTI)",
+        allocation: 15,
+        expectedReturn: monthlyIncome > 10000 ? "11,5% a.a. + dólar" : "10,2% a.a. + dólar",
+        risk: "Médio",
+        reason: `${monthlyIncome > 10000 ? "Com renda alta de " + formatCurrency(monthlyIncome) + ", pode assumir risco de small caps americanas para maior retorno. Ainda dentro do perfil conservador." : "VTI oferece exposição a todo mercado americano de forma conservadora. Para " + age + " anos e perfil conservador, é a dose certa de ações."}`,
+        theory: `${monthlyIncome > 10000 ? "Small caps americanas de valor têm potencial de crescimento superior. Empresas menores, mas sólidas financeiramente." : "VTI replica todo mercado acionário americano. Warren Buffett recomenda para aposentadoria."}`,
+        practice: `${monthlyIncome > 10000 ? "Via corretoras internacionais. Monitore mais de perto - small caps são mais voláteis." : "Investimento automático mensal via corretoras. Estratégia de longo prazo."}`,
+        minAmount: 2000,
+        timeHorizon: monthlyIncome > 10000 ? "8-12 anos" : "10+ anos",
+        category: "Internacional"
+      }
+    ];
+    
+    summary = `Estratégia conservadora para ${age} anos, renda ${incomeLevel} (${formatCurrency(monthlyIncome)}) e ${formatCurrency(availableToInvest)} mensais. ${incomeLevel === "baixa" ? "Foco total em segurança e produtos sem taxa." : "Equilibrio entre segurança e rentabilidade superior."} Diversificação Brasil (50%) e exterior (50%) protege contra riscos do país. Rentabilidade esperada: 11-14% ao ano.`;
+    
+    warnings = [
+      `${availableToInvest < 500 ? "Com valor mensal baixo, comece pelo Tesouro Selic e CDB do Nubank. Sem pressa." : "Implemente a estratégia gradualmente, priorizando investimentos de menor valor mínimo."}`,
+      `${age > 50 ? "Mantenha ao menos 8 meses de gastos em reserva de emergência antes de investir." : "Construa reserva de emergência de 6 meses antes de partir para investimentos."}`,
+      `${incomeLevel === "baixa" ? "Evite produtos com taxas altas que corroem o rendimento. Prefira bancos digitais gratuitos." : "Compare sempre as taxas - diferença de 0,5% ao ano impacta muito no longo prazo."}`,
+      "Rebalanceie a carteira a cada 6 meses para manter as proporções ideais entre nacional e internacional."
+    ];
+  }
+  
+  // PERFIL MODERADO - Recomendações simplificadas
+  else if (investmentProfile === "moderate") {
+    nationalInvestments = [
+      {
+        name: "Tesouro IPCA+ 2035",
+        allocation: 20,
+        expectedReturn: "6,2% + inflação",
+        risk: "Baixo",
+        reason: `Para ${age} anos, protege seu dinheiro da inflação ao longo do tempo.`,
+        theory: "Sempre rende acima da inflação, mantendo seu poder de compra.",
+        practice: "Compre no Tesouro Direto e mantenha até o vencimento.",
+        minAmount: 30,
+        timeHorizon: "10+ anos",
+        category: "Nacional"
+      },
+      {
+        name: "Ações de bancos (ITUB4)",
+        allocation: 20,
+        expectedReturn: "15-20% ao ano",
+        risk: "Médio",
+        reason: `Com renda ${incomeLevel}, pode ter ações de bancos sólidos que pagam dividendos.`,
+        theory: "Bancos grandes como Itaú são estáveis e pagam dividendos regularmente.",
+        practice: "Compre via corretora e receba dividendos a cada 6 meses.",
+        minAmount: 100,
+        timeHorizon: "5+ anos",
+        category: "Nacional"
+      },
+      {
+        name: "Fundos Imobiliários",
+        allocation: 20,
+        expectedReturn: "12-15% ao ano",
+        risk: "Médio", 
+        reason: `FIIs geram renda mensal sem IR, complementando sua renda atual.`,
+        theory: "Como ter vários imóveis para alugar, mas sem dor de cabeça.",
+        practice: "Diversifique entre tipos: shopping, escritórios, galpões.",
+        minAmount: 100,
+        timeHorizon: "5+ anos",
+        category: "Nacional"
+      },
+      {
+        name: "CDB 110% CDI",
+        allocation: 20,
+        expectedReturn: "15% ao ano",
+        risk: "Baixo",
+        reason: `Rentabilidade superior mantendo segurança para seu perfil.`,
+        theory: "Bancos menores pagam mais para captar dinheiro.",
+        practice: "Procure em bancos digitais como C6 ou Original.",
+        minAmount: 500,
+        timeHorizon: "2-3 anos",
+        category: "Nacional"
+      },
+      {
+        name: "Ações de mineração (VALE3)",
+        allocation: 20,
+        expectedReturn: "18-25% ao ano",
+        risk: "Médio",
+        reason: `Vale é líder mundial em minério, com bons dividendos.`,
+        theory: "Empresas de commodities se beneficiam da demanda global.",
+        practice: "Acompanhe preço do minério de ferro e dividendos.",
+        minAmount: 100,
+        timeHorizon: "5+ anos",
         category: "Nacional"
       }
     ];
     
     internationalInvestments = [
       {
-        name: "Treasury Bills Americanos (via ETF)",
+        name: "S&P 500 ETF",
         allocation: 25,
-        expectedReturn: "5,2% a.a. + variação cambial",
-        risk: "Baixo",
-        reason: `Diversificação cambial essencial mesmo para conservadores. Protege contra desvalorização do real e crises locais.`,
-        theory: "Treasury Bills são títulos do governo americano de curtíssimo prazo. Considerados os ativos mais seguros do mundo.",
-        practice: "Invista através do ETF BIUS11 na bolsa brasileira ou diretamente via Avenue/Passfolio com câmbio otimizado.",
-        minAmount: 1000,
-        timeHorizon: "6 meses - 2 anos",
-        category: "Internacional"
-      },
-      {
-        name: "ETF Renda Fixa Global BNDX",
-        allocation: 20,
-        expectedReturn: "4,8% a.a. + variação cambial",
-        risk: "Baixo",
-        reason: `Exposição a títulos governamentais de países desenvolvidos. Ideal para ${incomeLevel} renda buscando estabilage internacional.`,
-        theory: "BNDX investe em títulos de governos desenvolvidos (Europa, Japão, Canadá) excluindo EUA. Oferece diversificação geográfica.",
-        practice: "Compre através de corretoras internacionais como Avenue, Passfolio ou Inter Invest. Taxa de custódia baixa (0,05% a.a.).",
-        minAmount: 2000,
-        timeHorizon: "3-7 anos",
-        category: "Internacional"
-      },
-      {
-        name: "Certificados de Depósito Americanos",
-        allocation: 15,
-        expectedReturn: "5,5% a.a. + variação cambial",
-        risk: "Baixo",
-        reason: `CDs americanos oferecem segurança similar aos brasileiros mas com diversificação cambial importante para sua carteira.`,
-        theory: "Equivalente aos CDBs brasileiros, mas emitidos por bancos americanos. Protegidos pelo FDIC até US$ 250 mil.",
-        practice: "Disponível via Avenue, Stake ou Interactive Brokers. Compare taxas entre bancos americanos de diferentes portes.",
-        minAmount: 5000,
-        timeHorizon: "1-3 anos",
-        category: "Internacional"
-      },
-      {
-        name: "Fundos de Renda Fixa Europa",
-        allocation: 20,
-        expectedReturn: "3,2% a.a. + variação cambial",
-        risk: "Baixo",
-        reason: `Diversificação para mercados europeus estáveis. Adequado para ${age} anos com foco em preservação de capital.`,
-        theory: "Fundos que investem em títulos governamentais e corporativos europeus de alta qualage. Oferecem estabilage e diversificação.",
-        practice: "Acesse via plataformas como XP Internacional ou diretamente por corretoras europeias licenciadas no Brasil.",
-        minAmount: 3000,
-        timeHorizon: "2-5 anos",
-        category: "Internacional"
-      },
-      {
-        name: "REITs Conservadores Americanos",
-        allocation: 20,
-        expectedReturn: "8,5% a.a. + variação cambial",
+        expectedReturn: "10-12% + dólar",
         risk: "Médio",
-        reason: `REITs de setores defensivos (saúde, educação) oferecem renda passiva internacional com risco controlado para seu perfil.`,
-        theory: "REITs são fundos imobiliários americanos que distribuem pelo menos 90% dos lucros como dividendos. Setores defensivos têm menor volatilage.",
-        practice: "Foque em REITs de healthcare (VTR, HCP) ou storage (PSA, EXR) via Avenue ou Interactive Brokers.",
-        minAmount: 4000,
-        timeHorizon: "5-10 anos",
+        reason: `As 500 maiores empresas americanas, essencial para ${age} anos.`,
+        theory: "Apple, Microsoft, Google - as melhores empresas do mundo.",
+        practice: "Compre via Avenue ou XP com aportes mensais.",
+        minAmount: 100,
+        timeHorizon: "10+ anos",
+        category: "Internacional"
+      },
+      {
+        name: "REITs americanos",
+        allocation: 20,
+        expectedReturn: "9-12% + dólar",
+        risk: "Médio",
+        reason: `Imóveis americanos pagam dividendos em dólar trimestralmente.`,
+        theory: "Como FIIs brasileiros, mas em dólar americano.",
+        practice: "VNQ diversifica em todo mercado imobiliário americano.",
+        minAmount: 500,
+        timeHorizon: "7+ anos",
+        category: "Internacional"
+      },
+      {
+        name: "Bonds corporativos",
+        allocation: 20,
+        expectedReturn: "6-8% + dólar",
+        risk: "Baixo",
+        reason: `Títulos de empresas americanas sólidas para equilibrar ações.`,
+        theory: "Empresas como Apple e Microsoft emitem bonds seguros.",
+        practice: "ETF LQD oferece diversificação automática.",
+        minAmount: 1000,
+        timeHorizon: "5+ anos",
+        category: "Internacional"
+      },
+      {
+        name: "Ações de crescimento",
+        allocation: 20,
+        expectedReturn: "15-25% + dólar",
+        risk: "Alto",
+        reason: `Para ${age} anos, exposição a empresas de tecnologia inovadoras.`,
+        theory: "Empresas que crescem receita mais rápido que a média.",
+        practice: "Tesla, Netflix, Amazon via corretoras internacionais.",
+        minAmount: 1000,
+        timeHorizon: "10+ anos",
+        category: "Internacional"
+      },
+      {
+        name: "Mercados emergentes",
+        allocation: 15,
+        expectedReturn: "12-18% + dólar",
+        risk: "Alto",
+        reason: `Diversificação em países emergentes com potencial superior.`,
+        theory: "China, Índia e outros países em crescimento acelerado.",
+        practice: "ETF VWO oferece exposição diversificada e simples.",
+        minAmount: 1000,
+        timeHorizon: "8+ anos",
         category: "Internacional"
       }
     ];
     
-    summary = `Estratégia conservadora personalizada para ${age} anos e renda ${incomeLevel}. Foco em preservação de capital com rentabilage real positiva. Diversificação entre Brasil (60%) e exterior (40%) reduz riscos sistêmicos. Rentabilage esperada: 11-14% a.a. com baixa volatilage.`;
+    summary = `Estratégia moderada para ${age} anos, equilibrando segurança (40%) e crescimento (60%). Diversificação global reduz riscos. Rentabilidade esperada: 14-18% ao ano.`;
     
     warnings = [
-      `Com ${availableToInvest < 1000 ? "valor inicial baixo" : "seu orçamento"}, comece pelos investimentos de menor valor mínimo`,
-      "Mantenha 6 meses de gastos em Tesouro Selic antes de investir em outros ativos",
-      "Evite investimentos sem garantia do FGC/FDIC acima dos limites de cobertura",
-      "Rebalanceie a carteira semestralmente para manter as proporções ideais"
+      "Prepare-se para oscilações de 20-30% em crises",
+      "Rebalanceie a cada 3 meses vendendo o que subiu",
+      "Mantenha aportes mensais constantes",
+      "Não se desespere com quedas temporárias"
     ];
   }
   
-  // Similar logic for moderate and aggressive profiles...
-  else if (investmentProfile === "moderate") {
-    nationalInvestments = [
-      {
-        name: "Tesouro IPCA+ 2035",
-        allocation: 20,
-        expectedReturn: "6,2% + IPCA a.a.",
-        risk: "Baixo",
-        reason: `Proteção contra inflação essencial para ${age} anos. Garante poder de compra real ao longo do tempo.`,
-        theory: "Título híbrido que paga taxa fixa + variação da inflação (IPCA). Protege contra perda do poder de compra.",
-        practice: "Ideal para objetivos de longo prazo. Compre direto no Tesouro Direto ou via sua corretora. Melhor manter até o vencimento.",
-        minAmount: 200,
-        timeHorizon: "10+ anos",
-        category: "Nacional"
+  // PERFIL AGRESSIVO
+  else {
       },
       {
         name: "Ações Blue Chips (ITUB4, VALE3, PETR4)",
