@@ -29,9 +29,9 @@ export default function Header() {
             <div className="w-12 h-12 rounded-full border-2 border-transparent bg-gradient-to-r from-[#1fb5d6] to-[#a855f7] p-0.5">
               <div className="w-full h-full rounded-full bg-background flex items-center justify-center overflow-hidden">
                 <img 
-                  src="/attached_assets/5237471_1749608011733.png" 
+                  src="/attached_assets/1000039624_1749767113981.png" 
                   alt="FinPlanner Logo" 
-                  className="w-full h-full object-contain p-1"
+                  className="w-full h-full object-contain p-1.5"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
                     target.style.display = 'none';
