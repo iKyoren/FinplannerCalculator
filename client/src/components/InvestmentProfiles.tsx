@@ -147,8 +147,8 @@ export default function InvestmentProfiles() {
             const IconComponent = profile.icon;
             
             return (
-              <Card key={key} className={`card-hover border-border/50 transition-all ${colors.border}`}>
-                <CardContent className="p-8">
+              <Card key={key} className={`card-hover border-border/50 transition-all ${colors.border} h-full flex flex-col`}>
+                <CardContent className="p-8 flex flex-col h-full">
                   <div className="text-center mb-6">
                     <div className={`w-16 h-16 ${colors.bg} rounded-full flex items-center justify-center mx-auto mb-4`}>
                       <IconComponent className={`${colors.text} h-8 w-8`} />
@@ -172,24 +172,26 @@ export default function InvestmentProfiles() {
                     </div>
                   </div>
 
-                  <div className="space-y-3 mb-6">
+                  <div className="space-y-3 mb-6 flex-grow">
                     <h4 className="font-semibold text-foreground">Principais investimentos:</h4>
                     <ul className="space-y-2">
                       {profile.investments.map((investment, index) => (
                         <li key={index} className="flex items-center text-muted-foreground text-sm">
-                          <Check className={`${colors.text} mr-2 h-4 w-4`} />
+                          <Check className={`${colors.text} mr-2 h-4 w-4 flex-shrink-0`} />
                           {investment}
                         </li>
                       ))}
                     </ul>
                   </div>
 
-                  <Button 
-                    onClick={() => handleProfileSelect(key as InvestmentProfile)}
-                    className="w-full gradient-primary hover:opacity-90 font-semibold py-3 text-lg transition-opacity"
-                  >
-                    Escolher Este Perfil
-                  </Button>
+                  <div className="mt-auto">
+                    <Button 
+                      onClick={() => handleProfileSelect(key as InvestmentProfile)}
+                      className="w-full gradient-primary hover:opacity-90 font-semibold py-3 text-lg transition-opacity"
+                    >
+                      Escolher Este Perfil
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             );
