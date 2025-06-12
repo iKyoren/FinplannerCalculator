@@ -125,7 +125,7 @@ export default function PersonalizedRecommendations() {
       const available = data.monthlyIncome - data.monthlyExpenses - data.leisureExpenses;
       setAvailableToInvest(available);
       
-      const response = await fetch('/api/investment-recommendation', {
+      const response = await fetch('/api/personalized-recommendations', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
