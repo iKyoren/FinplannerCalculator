@@ -273,14 +273,15 @@ export default function PersonalizedRecommendations() {
 
   return (
     <section id="recomendacoes" className="section-spacing">
-      <div className="mb-8">
-        <h2 className="text-3xl font-bold mb-4">Recomendações Personalizadas</h2>
-        <p className="text-lg text-muted-foreground">
-          Receba sugestões de investimentos baseadas no seu perfil financeiro e objetivos
-        </p>
-      </div>
+      <div className="container mx-auto px-4 max-w-7xl">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">Recomendações Personalizadas</h2>
+          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+            Receba sugestões de investimentos baseadas no seu perfil financeiro e objetivos
+          </p>
+        </div>
 
-      <div className="grid lg:grid-cols-2 gap-8">
+        <div className="grid lg:grid-cols-2 gap-8">
         {/* Form */}
         <Card className="card-compact">
           <CardHeader>
@@ -408,11 +409,11 @@ export default function PersonalizedRecommendations() {
             </div>
           </CardContent>
         </Card>
-      </div>
+        </div>
 
-      {/* Results */}
-      {(nationalRecommendations.length > 0 || internationalRecommendations.length > 0) && (
-        <div id="recommendations-results" className="mt-8 space-y-8">
+        {/* Results */}
+        {(nationalRecommendations.length > 0 || internationalRecommendations.length > 0) && (
+          <div id="recommendations-results" className="mt-12 space-y-8">
           {/* Summary */}
           {summary && (
             <Card className="card-compact">
@@ -454,8 +455,8 @@ export default function PersonalizedRecommendations() {
           {/* National Investments */}
           {nationalRecommendations.length > 0 && (
             <div>
-              <h3 className="text-2xl font-bold mb-4">💰 Investimentos Nacionais</h3>
-              <div className="grid gap-4">
+              <h3 className="text-2xl font-bold mb-6 text-center">💰 Investimentos Nacionais</h3>
+              <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
                 {nationalRecommendations.map((rec, index) => renderRecommendationCard(rec, index))}
               </div>
             </div>
@@ -464,14 +465,15 @@ export default function PersonalizedRecommendations() {
           {/* International Investments */}
           {internationalRecommendations.length > 0 && (
             <div>
-              <h3 className="text-2xl font-bold mb-4">🌍 Investimentos Internacionais</h3>
-              <div className="grid gap-4">
+              <h3 className="text-2xl font-bold mb-6 text-center">🌍 Investimentos Internacionais</h3>
+              <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
                 {internationalRecommendations.map((rec, index) => renderRecommendationCard(rec, index))}
               </div>
             </div>
           )}
-        </div>
-      )}
+          </div>
+        )}
+      </div>
     </section>
   );
 }
