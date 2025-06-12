@@ -187,7 +187,7 @@ export default function InvestmentProfiles() {
                   <div className="mt-auto">
                     <Button 
                       onClick={() => handleProfileSelect(key as InvestmentProfile)}
-                      className="w-full gradient-primary hover:opacity-90 font-semibold py-3 text-lg transition-opacity"
+                      className="w-full gradient-primary hover:opacity-90 font-semibold py-3 text-base transition-opacity whitespace-nowrap"
                     >
                       Escolher Este Perfil
                     </Button>
