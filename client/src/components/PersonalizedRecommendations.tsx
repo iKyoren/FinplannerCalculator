@@ -156,6 +156,11 @@ export default function PersonalizedRecommendations() {
   });
 
   const handleSubmit = () => {
+    if (!selectedProfile) {
+      alert("Por favor, primeiro selecione seu perfil de investidor na seção 'Análise de Perfil' acima.");
+      return;
+    }
+
     if (formData.monthlyIncome <= 0 || formData.monthlyExpenses <= 0) {
       alert("Por favor, preencha todos os campos com valores válidos.");
       return;
@@ -326,38 +331,46 @@ export default function PersonalizedRecommendations() {
                 />
               </div>
 
-              <div className="md:col-span-2">
-                <Label htmlFor="investmentProfile">Perfil de Investidor</Label>
-                <Select
-                  value={formData.investmentProfile}
-                  onValueChange={(value: "conservative" | "moderate" | "aggressive") => 
-                    setFormData({...formData, investmentProfile: value})
-                  }
-                >
-                  <SelectTrigger className="mt-2">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="conservative">
-                      Conservador - Priorizo segurança, aceito menores retornos
-                    </SelectItem>
-                    <SelectItem value="moderate">
-                      Moderado - Equilibrio entre segurança e rentabilidade
-                    </SelectItem>
-                    <SelectItem value="aggressive">
-                      Agressivo - Busco maiores retornos, aceito mais riscos
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+              {!selectedProfile && (
+                <div className="md:col-span-2">
+                  <Card className="bg-yellow-500/10 border-yellow-500/20">
+                    <CardHeader>
+                      <CardTitle className="text-lg text-yellow-600 dark:text-yellow-400">
+                        Selecione seu Perfil de Investidor
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-muted-foreground">
+                        Para receber recomendações personalizadas, primeiro selecione seu perfil de investidor na seção "Análise de Perfil" acima.
+                      </p>
+                    </CardContent>
+                  </Card>
+                </div>
+              )}
+              
+              {selectedProfile && (
+                <div className="md:col-span-2">
+                  <Label>Perfil de Investidor Selecionado</Label>
+                  <div className="mt-2 p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
+                    <span className="text-green-600 dark:text-green-400 font-semibold">
+                      {selectedProfile === 'conservative' ? 'Conservador' :
+                       selectedProfile === 'moderate' ? 'Moderado' : 'Agressivo'}
+                    </span>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      Perfil definido na análise de perfil será usado para suas recomendações
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
 
             <Button 
               onClick={handleSubmit} 
               className="w-full gradient-primary"
-              disabled={recommendationMutation.isPending}
+              disabled={recommendationMutation.isPending || !selectedProfile}
             >
-              {recommendationMutation.isPending ? "Gerando recomendações..." : "Gerar Recomendações"}
+              {recommendationMutation.isPending ? "Gerando recomendações..." : 
+               !selectedProfile ? "Selecione seu perfil primeiro" : "Gerar Recomendações"}
             </Button>
           </CardContent>
         </Card>
@@ -376,7 +389,7 @@ export default function PersonalizedRecommendations() {
                 1. Preencha seus dados financeiros no formulário ao lado
               </p>
               <p>
-                2. Selecione seu perfil de investidor (ou use o já selecionado na análise de perfil)
+                2. Seu perfil de investidor será usado automaticamente (selecionado na análise de perfil)
               </p>
               <p>
                 3. Receba recomendações personalizadas baseadas em IA e dados do mercado
