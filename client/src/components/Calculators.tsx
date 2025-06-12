@@ -32,6 +32,12 @@ export default function Calculators() {
   const [compoundResult, setCompoundResult] = useState<any>(null);
   const [retirementResult, setRetirementResult] = useState<any>(null);
   const [recommendation, setRecommendation] = useState<any>(null);
+  const [comparisonInputs, setComparisonInputs] = useState({
+    amount: 10000,
+    period: 5,
+    selectedInvestments: ['cdb', 'tesouro', 'acoes']
+  });
+  const [comparisonResults, setComparisonResults] = useState<any[]>([]);
 
   const compoundMutation = useMutation({
     mutationFn: calculateCompoundInterest,
@@ -107,6 +113,57 @@ export default function Calculators() {
 
   const handleRetirementCalculate = () => {
     retirementMutation.mutate(retirementInputs);
+  };
+
+  const handleComparisonCalculate = () => {
+    const results = comparisonInputs.selectedInvestments.map(investmentKey => {
+      const investment = investmentTypes[investmentKey as keyof typeof investmentTypes];
+      const monthlyRate = investment.rate / 100 / 12;
+      const months = comparisonInputs.period * 12;
+      
+      // Fórmula de juros compostos
+      const finalAmount = comparisonInputs.amount * Math.pow(1 + (investment.rate / 100), comparisonInputs.period);
+      const totalReturn = finalAmount - comparisonInputs.amount;
+      const percentageReturn = (totalReturn / comparisonInputs.amount) * 100;
+      
+      return {
+        name: investment.name,
+        key: investmentKey,
+        rate: investment.rate,
+        initialAmount: comparisonInputs.amount,
+        finalAmount: Math.round(finalAmount),
+        totalReturn: Math.round(totalReturn),
+        percentageReturn: Math.round(percentageReturn * 100) / 100,
+        risk: getRiskLevel(investmentKey),
+        liquidity: getLiquidityLevel(investmentKey)
+      };
+    });
+    
+    setComparisonResults(results.sort((a, b) => b.finalAmount - a.finalAmount));
+  };
+
+  const getRiskLevel = (investmentType: string) => {
+    const riskLevels: { [key: string]: string } = {
+      cdb: "Baixo",
+      lci: "Baixo", 
+      tesouro: "Baixo",
+      fiis: "Médio",
+      acoes: "Alto",
+      crypto: "Muito Alto"
+    };
+    return riskLevels[investmentType] || "Médio";
+  };
+
+  const getLiquidityLevel = (investmentType: string) => {
+    const liquidityLevels: { [key: string]: string } = {
+      cdb: "Alta",
+      lci: "Baixa",
+      tesouro: "Alta", 
+      fiis: "Média",
+      acoes: "Alta",
+      crypto: "Alta"
+    };
+    return liquidityLevels[investmentType] || "Média";
   };
 
   const formatCurrency = (value: number) => {
@@ -593,11 +650,197 @@ export default function Calculators() {
                 <CardTitle className="text-2xl font-semibold">Comparador de Investimentos</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-center py-8">
-                  <p className="text-muted-foreground">
-                    Esta funcionalidade estará disponível em breve. 
-                    Use as outras calculadoras para analisar seus investimentos.
-                  </p>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  {/* Input Section */}
+                  <div className="space-y-6">
+                    <div>
+                      <Label htmlFor="comparisonAmount">Valor a Investir (R$)</Label>
+                      <Input
+                        id="comparisonAmount"
+                        type="number"
+                        value={comparisonInputs.amount}
+                        onChange={(e) => setComparisonInputs({...comparisonInputs, amount: Number(e.target.value)})}
+                        className="mt-2"
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor="comparisonPeriod">Período (anos)</Label>
+                      <Input
+                        id="comparisonPeriod"
+                        type="number"
+                        value={comparisonInputs.period}
+                        onChange={(e) => setComparisonInputs({...comparisonInputs, period: Number(e.target.value)})}
+                        className="mt-2"
+                      />
+                    </div>
+
+                    <div>
+                      <Label>Investimentos para Comparar</Label>
+                      <div className="mt-2 space-y-2">
+                        {Object.entries(investmentTypes).map(([key, type]) => (
+                          <label key={key} className="flex items-center space-x-2 cursor-pointer">
+                            <input
+                              type="checkbox"
+                              checked={comparisonInputs.selectedInvestments.includes(key)}
+                              onChange={(e) => {
+                                if (e.target.checked) {
+                                  setComparisonInputs({
+                                    ...comparisonInputs,
+                                    selectedInvestments: [...comparisonInputs.selectedInvestments, key]
+                                  });
+                                } else {
+                                  setComparisonInputs({
+                                    ...comparisonInputs,
+                                    selectedInvestments: comparisonInputs.selectedInvestments.filter(item => item !== key)
+                                  });
+                                }
+                              }}
+                              className="rounded border-border"
+                            />
+                            <span className="text-sm">
+                              {type.name} ({type.rate}% a.a.)
+                            </span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+
+                    <Button 
+                      onClick={handleComparisonCalculate}
+                      className="w-full gradient-primary hover:opacity-90 font-semibold"
+                      disabled={comparisonInputs.selectedInvestments.length < 2}
+                    >
+                      {comparisonInputs.selectedInvestments.length < 2 
+                        ? 'Selecione pelo menos 2 investimentos' 
+                        : 'Comparar Investimentos'
+                      }
+                    </Button>
+                  </div>
+
+                  {/* Results Section */}
+                  <div className="space-y-6">
+                    {comparisonResults.length > 0 && (
+                      <>
+                        <div>
+                          <h3 className="text-lg font-semibold mb-4">Comparação de Resultados</h3>
+                          <div className="space-y-3">
+                            {comparisonResults.map((result, index) => (
+                              <Card key={result.key} className={`${index === 0 ? 'border-green-500/50 bg-green-500/5' : 'bg-card/50'}`}>
+                                <CardContent className="p-4">
+                                  <div className="flex justify-between items-start mb-3">
+                                    <div className="flex items-center gap-2">
+                                      <h4 className="font-semibold">{result.name}</h4>
+                                      {index === 0 && (
+                                        <span className="bg-green-500/20 text-green-600 px-2 py-1 rounded-full text-xs font-medium">
+                                          Melhor Retorno
+                                        </span>
+                                      )}
+                                    </div>
+                                    <div className="text-right">
+                                      <div className="font-bold text-lg">{formatCurrency(result.finalAmount)}</div>
+                                      <div className="text-xs text-muted-foreground">Valor Final</div>
+                                    </div>
+                                  </div>
+                                  
+                                  <div className="grid grid-cols-2 gap-4 text-sm">
+                                    <div>
+                                      <div className="text-muted-foreground">Ganho Total:</div>
+                                      <div className="font-semibold text-green-600">
+                                        {formatCurrency(result.totalReturn)} ({result.percentageReturn}%)
+                                      </div>
+                                    </div>
+                                    <div>
+                                      <div className="text-muted-foreground">Taxa Anual:</div>
+                                      <div className="font-semibold">{result.rate}%</div>
+                                    </div>
+                                  </div>
+                                  
+                                  <div className="flex gap-2 mt-3">
+                                    <span className={`px-2 py-1 rounded-full text-xs ${
+                                      result.risk === "Baixo" ? "bg-green-500/20 text-green-600" :
+                                      result.risk === "Médio" ? "bg-yellow-500/20 text-yellow-600" :
+                                      result.risk === "Alto" ? "bg-red-500/20 text-red-600" :
+                                      "bg-red-600/20 text-red-700"
+                                    }`}>
+                                      Risco {result.risk}
+                                    </span>
+                                    <span className="px-2 py-1 bg-blue-500/20 text-blue-600 rounded-full text-xs">
+                                      Liquidez {result.liquidity}
+                                    </span>
+                                  </div>
+                                </CardContent>
+                              </Card>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Chart Visualization */}
+                        <Card>
+                          <CardHeader>
+                            <CardTitle className="text-lg">Comparação Visual</CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <ResponsiveContainer width="100%" height={300}>
+                              <BarChart data={comparisonResults}>
+                                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                                <XAxis 
+                                  dataKey="name" 
+                                  stroke="hsl(var(--muted-foreground))"
+                                  fontSize={12}
+                                />
+                                <YAxis 
+                                  stroke="hsl(var(--muted-foreground))"
+                                  fontSize={12}
+                                  tickFormatter={(value) => `R$ ${(value / 1000).toFixed(0)}k`}
+                                />
+                                <Tooltip 
+                                  formatter={(value: number) => [formatCurrency(value), "Valor Final"]}
+                                  labelStyle={{ color: 'hsl(var(--foreground))' }}
+                                  contentStyle={{ 
+                                    backgroundColor: 'hsl(var(--background))', 
+                                    border: '1px solid hsl(var(--border))',
+                                    borderRadius: '8px'
+                                  }}
+                                />
+                                <Bar 
+                                  dataKey="finalAmount" 
+                                  fill="hsl(var(--primary))"
+                                  radius={[4, 4, 0, 0]}
+                                />
+                              </BarChart>
+                            </ResponsiveContainer>
+                          </CardContent>
+                        </Card>
+
+                        <Card className="bg-blue-500/10 border-blue-500/20">
+                          <CardHeader>
+                            <CardTitle className="text-lg text-blue-600 dark:text-blue-400">
+                              Análise da Comparação
+                            </CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="space-y-2 text-sm">
+                              <p>
+                                <strong>Melhor retorno:</strong> {comparisonResults[0]?.name} com ganho de {formatCurrency(comparisonResults[0]?.totalReturn)}
+                              </p>
+                              <p>
+                                <strong>Diferença do melhor para o pior:</strong> {
+                                  comparisonResults.length > 1 ? 
+                                  formatCurrency(comparisonResults[0]?.totalReturn - comparisonResults[comparisonResults.length - 1]?.totalReturn) : 
+                                  'N/A'
+                                }
+                              </p>
+                              <p className="text-muted-foreground mt-3">
+                                <em>Lembre-se: retornos históricos não garantem resultados futuros. 
+                                Considere sempre seu perfil de risco e objetivos financeiros.</em>
+                              </p>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </>
+                    )}
+                  </div>
                 </div>
               </CardContent>
             </Card>
