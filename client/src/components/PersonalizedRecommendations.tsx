@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useMutation } from "@tanstack/react-query";
 import { getInvestmentRecommendation } from "@/lib/api";
+import { useProfile } from "@/contexts/ProfileContext";
 import { TrendingUp, AlertCircle, Target, DollarSign, Info, Star, Shield, Zap } from "lucide-react";
 
 interface UserFinancialData {
@@ -93,6 +94,7 @@ const topBrokers = [
 ];
 
 export default function PersonalizedRecommendations() {
+  const { selectedProfile } = useProfile();
   const [formData, setFormData] = useState<UserFinancialData>({
     monthlyIncome: 0,
     monthlyExpenses: 0,
@@ -101,6 +103,16 @@ export default function PersonalizedRecommendations() {
     age: 30,
     investmentGoal: "long-term"
   });
+
+  // Atualiza o perfil quando selecionado na análise de perfil
+  useEffect(() => {
+    if (selectedProfile) {
+      setFormData(prev => ({
+        ...prev,
+        investmentProfile: selectedProfile
+      }));
+    }
+  }, [selectedProfile]);
 
   const [nationalRecommendations, setNationalRecommendations] = useState<InvestmentRecommendation[]>([]);
   const [internationalRecommendations, setInternationalRecommendations] = useState<InvestmentRecommendation[]>([]);
@@ -350,54 +362,28 @@ export default function PersonalizedRecommendations() {
           </CardContent>
         </Card>
 
-        {/* Top Brokers */}
+        {/* Summary Info */}
         <Card className="card-compact">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Star className="w-5 h-5" />
-              Melhores Corretoras 2025
+              <Info className="w-5 h-5" />
+              Como Funciona
             </CardTitle>
-            <p className="text-sm text-muted-foreground">
-              Ranking baseado em dados da B3, Anefac e avaliações de clientes
-            </p>
           </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {topBrokers.map((broker, index) => (
-                <div key={index} className="p-4 border rounded-lg card-hover">
-                  <div className="flex justify-between items-start mb-2">
-                    <div className="flex items-center gap-2">
-                      {getCategoryIcon(broker.category)}
-                      <h3 className="font-semibold">{broker.name}</h3>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                      <span className="text-sm font-medium">{broker.rating}</span>
-                    </div>
-                  </div>
-                  
-                  <p className="text-sm text-muted-foreground mb-2">{broker.highlights}</p>
-                  
-                  <div className="grid grid-cols-2 gap-2 text-xs">
-                    <div>
-                      <span className="font-medium">Taxas:</span>
-                      <p className="text-green-600">{broker.fees}</p>
-                    </div>
-                    <div>
-                      <span className="font-medium">Mínimo:</span>
-                      <p>{broker.minAmount}</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex flex-wrap gap-1 mt-2">
-                    {broker.strengths.slice(0, 2).map((strength, i) => (
-                      <Badge key={i} variant="secondary" className="text-xs">
-                        {strength}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-              ))}
+          <CardContent className="space-y-4">
+            <div className="space-y-3 text-sm text-muted-foreground">
+              <p>
+                1. Preencha seus dados financeiros no formulário ao lado
+              </p>
+              <p>
+                2. Selecione seu perfil de investidor (ou use o já selecionado na análise de perfil)
+              </p>
+              <p>
+                3. Receba recomendações personalizadas baseadas em IA e dados do mercado
+              </p>
+              <p>
+                4. Analise as sugestões e consulte as corretoras recomendadas para investir
+              </p>
             </div>
           </CardContent>
         </Card>

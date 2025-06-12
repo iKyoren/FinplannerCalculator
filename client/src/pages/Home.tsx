@@ -20,16 +20,19 @@ export default function Home() {
         {/* 2. Tópicos e informações (Education) */}
         <Education />
         
-        {/* 3. Gráficos e dados de mercado */}
+        {/* 3. Corretoras recomendadas */}
+        <Brokers />
+        
+        {/* 4. Gráficos e dados de mercado */}
         <MarketData />
         
-        {/* 4. Selecionar o perfil investidor */}
+        {/* 5. Selecionar o perfil investidor */}
         <InvestmentProfiles />
         
-        {/* 5. Recomendação personalizada */}
+        {/* 6. Recomendação personalizada */}
         <PersonalizedRecommendations />
         
-        {/* 6. Calculadoras (Juros compostos, aposentadoria etc) */}
+        {/* 7. Calculadoras (Juros compostos, aposentadoria etc) */}
         <Calculators />
       </main>
       <Footer />

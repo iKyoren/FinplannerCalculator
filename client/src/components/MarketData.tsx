@@ -206,56 +206,53 @@ export default function MarketData() {
             </CardContent>
           </Card>
 
-          {/* Investment Allocation Chart */}
+          {/* Investment Rates Comparison */}
           <Card className="border-border/50">
             <CardHeader>
-              <CardTitle className="text-xl font-semibold">Distribuição Recomendada de Investimentos</CardTitle>
+              <CardTitle className="text-xl font-semibold">Comparativo de Taxas Atuais</CardTitle>
+              <p className="text-sm text-muted-foreground">Rendimentos anuais aproximados</p>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">CDI/Renda Fixa</span>
-                    <span className="text-sm font-semibold">35%</span>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-3 bg-green-50 dark:bg-green-950/30 rounded-lg border border-green-200 dark:border-green-800">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-medium text-green-800 dark:text-green-300">Poupança</span>
+                      <span className="text-sm font-bold text-green-800 dark:text-green-300">6,8%</span>
+                    </div>
+                    <p className="text-xs text-green-600 dark:text-green-400 mt-1">Isento IR, liquidez diária</p>
                   </div>
-                  <div className="w-full bg-muted rounded-full h-2">
-                    <div className="bg-green-400 h-2 rounded-full" style={{ width: '35%' }}></div>
+
+                  <div className="p-3 bg-blue-50 dark:bg-blue-950/30 rounded-lg border border-blue-200 dark:border-blue-800">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-medium text-blue-800 dark:text-blue-300">CDI</span>
+                      <span className="text-sm font-bold text-blue-800 dark:text-blue-300">11,2%</span>
+                    </div>
+                    <p className="text-xs text-blue-600 dark:text-blue-400 mt-1">100% CDI, IR regressivo</p>
                   </div>
                 </div>
 
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">Ações/IBOVESPA</span>
-                    <span className="text-sm font-semibold">40%</span>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-3 bg-purple-50 dark:bg-purple-950/30 rounded-lg border border-purple-200 dark:border-purple-800">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-medium text-purple-800 dark:text-purple-300">Tesouro Selic</span>
+                      <span className="text-sm font-bold text-purple-800 dark:text-purple-300">11,5%</span>
+                    </div>
+                    <p className="text-xs text-purple-600 dark:text-purple-400 mt-1">Governo, liquidez diária</p>
                   </div>
-                  <div className="w-full bg-muted rounded-full h-2">
-                    <div className="logo-gradient h-2 rounded-full" style={{ width: '40%' }}></div>
+
+                  <div className="p-3 bg-orange-50 dark:bg-orange-950/30 rounded-lg border border-orange-200 dark:border-orange-800">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-medium text-orange-800 dark:text-orange-300">IBOVESPA</span>
+                      <span className="text-sm font-bold text-orange-800 dark:text-orange-300">+8,2%</span>
+                    </div>
+                    <p className="text-xs text-orange-600 dark:text-orange-400 mt-1">12 meses, alta volatilidade</p>
                   </div>
                 </div>
 
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">FIIs</span>
-                    <span className="text-sm font-semibold">15%</span>
-                  </div>
-                  <div className="w-full bg-muted rounded-full h-2">
-                    <div className="bg-blue-400 h-2 rounded-full" style={{ width: '15%' }}></div>
-                  </div>
-                </div>
-
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">Criptomoedas</span>
-                    <span className="text-sm font-semibold">10%</span>
-                  </div>
-                  <div className="w-full bg-muted rounded-full h-2">
-                    <div className="bg-yellow-400 h-2 rounded-full" style={{ width: '10%' }}></div>
-                  </div>
-                </div>
-
-                <div className="mt-6 p-4 bg-muted/50 rounded-lg">
-                  <p className="text-xs text-muted-foreground">
-                    *Distribuição baseada em perfil moderado. Ajuste conforme sua tolerância ao risco.
+                <div className="pt-3 border-t border-border">
+                  <p className="text-xs text-muted-foreground text-center">
+                    * Dados aproximados baseados no cenário atual. Rentabilidade passada não garante resultados futuros.
                   </p>
                 </div>
               </div>
