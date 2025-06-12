@@ -355,7 +355,7 @@ export default function PersonalizedRecommendations() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Star className="w-5 h-5" />
-              Melhores Corretoras 2024
+              Melhores Corretoras 2025
             </CardTitle>
             <p className="text-sm text-muted-foreground">
               Ranking baseado em dados da B3, Anefac e avaliações de clientes
