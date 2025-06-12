@@ -13,6 +13,20 @@ const investmentRecommendationSchema = z.object({
   monthlyContribution: z.number().optional(),
 });
 
+const compoundInterestSchema = z.object({
+  principal: z.number(),
+  monthlyContribution: z.number(),
+  annualRate: z.number(),
+  years: z.number(),
+});
+
+const retirementCalculationSchema = z.object({
+  currentAge: z.number(),
+  retirementAge: z.number(),
+  desiredIncome: z.number(),
+  currentSavings: z.number(),
+});
+
 export async function registerRoutes(app: Express): Promise<Server> {
   // Market data endpoint
   app.get("/api/market-data", async (req, res) => {
@@ -796,3 +810,5 @@ function calculateRetirement(data: z.infer<typeof retirementCalculationSchema>) 
     futureValueOfCurrentSavings
   };
 }
+
+

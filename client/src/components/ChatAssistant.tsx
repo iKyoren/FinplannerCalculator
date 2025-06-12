@@ -9,7 +9,7 @@ import type { ChatMessage } from "@/types";
 
 export default function ChatAssistant() {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [showTooltip, setShowTooltip] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(true);
   const [showSuggestions, setShowSuggestions] = useState(true);
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
@@ -46,14 +46,7 @@ export default function ChatAssistant() {
     "Como calcular o retorno dos meus investimentos?"
   ];
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowTooltip(true);
-      setTimeout(() => setShowTooltip(false), 8000);
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, []);
+  // Tooltip permanece sempre visível quando chat está minimizado
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -118,15 +111,13 @@ export default function ChatAssistant() {
             </div>
           </Button>
           
-          {/* Tooltip */}
-          {showTooltip && (
-            <div className="absolute bottom-full right-0 mb-2 animate-fade-in-up">
-              <div className="bg-card border border-border rounded-lg shadow-lg p-3 max-w-xs">
-                <p className="text-sm text-foreground">Oi! Sou DinDin, seu assistente financeiro! 👋</p>
-                <div className="absolute top-full right-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-border"></div>
-              </div>
+          {/* Tooltip - sempre visível quando minimizado */}
+          <div className="absolute bottom-full right-0 mb-2 animate-fade-in-up">
+            <div className="bg-card border border-border rounded-lg shadow-lg p-3 max-w-xs">
+              <p className="text-sm text-foreground">Oi! Sou DinDin, seu assistente financeiro! 👋</p>
+              <div className="absolute top-full right-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-border"></div>
             </div>
-          )}
+          </div>
         </div>
       )}
 
