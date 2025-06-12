@@ -2,10 +2,12 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Shield, Scale, Rocket, Check } from "lucide-react";
+import { useProfile } from "@/contexts/ProfileContext";
 import type { InvestmentProfile, ProfileData } from "@/types";
 
 export default function InvestmentProfiles() {
-  const [selectedProfile, setSelectedProfile] = useState<InvestmentProfile | null>(null);
+  const [localSelectedProfile, setLocalSelectedProfile] = useState<InvestmentProfile | null>(null);
+  const { setSelectedProfile } = useProfile();
 
   const profiles: Record<InvestmentProfile, ProfileData & { icon: any }> = {
     conservative: {
@@ -114,7 +116,8 @@ export default function InvestmentProfiles() {
   };
 
   const handleProfileSelect = (profile: InvestmentProfile) => {
-    setSelectedProfile(profile);
+    setLocalSelectedProfile(profile);
+    setSelectedProfile(profile); // Atualiza o contexto global
     // Redirecionar automaticamente para recomendações
     setTimeout(() => {
       scrollToRecommendations();
@@ -195,7 +198,7 @@ export default function InvestmentProfiles() {
         </div>
 
         {/* Selected Profile Info Section */}
-        {selectedProfile && (
+        {localSelectedProfile && (
           <div className="mb-12">
             <h3 className="text-2xl font-semibold text-center mb-6 text-foreground">
               Análise
@@ -203,15 +206,15 @@ export default function InvestmentProfiles() {
             <Card className="border-border/50 animate-fade-in-up">
               <CardContent className="p-8">
                 <h3 className="text-xl font-semibold mb-4 text-foreground">
-                  Perfil Selecionado: <span className="gradient-text">{profiles[selectedProfile].name}</span>
+                  Perfil Selecionado: <span className="gradient-text">{profiles[localSelectedProfile].name}</span>
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <h4 className="font-semibold text-foreground mb-3">Características</h4>
                     <ul className="space-y-2">
-                      {profiles[selectedProfile].characteristics.map((characteristic, index) => (
+                      {profiles[localSelectedProfile].characteristics.map((characteristic: string, index: number) => (
                         <li key={index} className="flex items-center text-muted-foreground">
-                          <Check className={`${getColorClasses(profiles[selectedProfile].color).text} mr-2 h-4 w-4`} />
+                          <Check className={`${getColorClasses(profiles[localSelectedProfile].color).text} mr-2 h-4 w-4`} />
                           {characteristic}
                         </li>
                       ))}
@@ -220,9 +223,9 @@ export default function InvestmentProfiles() {
                   <div>
                     <h4 className="font-semibold text-foreground mb-3">Investimentos Recomendados</h4>
                     <ul className="space-y-2">
-                      {profiles[selectedProfile].investments.map((investment, index) => (
+                      {profiles[localSelectedProfile].investments.map((investment: string, index: number) => (
                         <li key={index} className="flex items-center text-muted-foreground">
-                          <Check className={`${getColorClasses(profiles[selectedProfile].color).text} mr-2 h-4 w-4`} />
+                          <Check className={`${getColorClasses(profiles[localSelectedProfile].color).text} mr-2 h-4 w-4`} />
                           {investment}
                         </li>
                       ))}
@@ -230,7 +233,7 @@ export default function InvestmentProfiles() {
                   </div>
                 </div>
                 <div className="mt-6 p-4 bg-muted/50 rounded-lg">
-                  <p className="text-muted-foreground mb-3">{profiles[selectedProfile].description}</p>
+                  <p className="text-muted-foreground mb-3">{profiles[localSelectedProfile].description}</p>
                   <Button onClick={scrollToRecommendations} className="gradient-primary hover:opacity-90">
                     Ver Recomendações Personalizadas
                   </Button>

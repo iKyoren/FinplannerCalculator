@@ -24,7 +24,7 @@ export default function Hero() {
             <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 rounded-full border-2 border-transparent bg-gradient-to-r from-[#1fb5d6] to-[#a855f7] p-0.5 shadow-lg mb-3 sm:mb-4 animate-pulse-glow">
               <div className="w-full h-full rounded-full bg-background flex items-center justify-center overflow-hidden">
                 <img 
-                  src="/attached_assets/5237471_1749608011733.png" 
+                  src="/attached_assets/5237471_1749690655672.png" 
                   alt="FinPlanner Logo" 
                   className="w-full h-full object-contain p-1.5 sm:p-2"
                   onError={(e) => {

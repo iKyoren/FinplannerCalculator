@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import MarketData from "@/components/MarketData";
 import Education from "@/components/Education";
+import Brokers from "@/components/Brokers";
 import InvestmentProfiles from "@/components/InvestmentProfiles";
 import PersonalizedRecommendations from "@/components/PersonalizedRecommendations";
 import Calculators from "@/components/Calculators";
