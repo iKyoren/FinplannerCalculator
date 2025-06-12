@@ -65,16 +65,16 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
       <div className="relative z-10 text-center px-8">
         {/* Logo animation */}
         <div className="mb-8">
-          <div className="w-24 h-24 mx-auto rounded-full border-2 border-transparent bg-gradient-to-r from-[#1fb5d6] to-[#a855f7] p-0.5 shadow-2xl animate-pulse">
+          <div className="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-full border-2 border-transparent bg-gradient-to-r from-[#1fb5d6] to-[#a855f7] p-0.5 shadow-2xl animate-pulse">
             <div className="w-full h-full rounded-full bg-background flex items-center justify-center overflow-hidden">
               <img 
                 src="/attached_assets/1000039624_1749767113981.png" 
                 alt="FinPlanner Logo" 
-                className="w-full h-full object-contain p-2"
+                className="w-full h-full object-contain p-1 sm:p-2"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.style.display = 'none';
-                  target.parentElement!.innerHTML = '<div class="w-full h-full gradient-primary rounded-full flex items-center justify-center animate-pulse"><span class="text-white font-bold text-2xl">F</span></div>';
+                  target.parentElement!.innerHTML = '<div class="w-full h-full gradient-primary rounded-full flex items-center justify-center animate-pulse"><span class="text-white font-bold text-lg sm:text-2xl">F</span></div>';
                 }}
               />
             </div>

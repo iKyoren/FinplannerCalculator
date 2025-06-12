@@ -26,16 +26,16 @@ export default function Header() {
       <div className="container mx-auto px-2 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2 -ml-2">
-            <div className="w-12 h-12 rounded-full border-2 border-transparent bg-gradient-to-r from-[#1fb5d6] to-[#a855f7] p-0.5">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-transparent bg-gradient-to-r from-[#1fb5d6] to-[#a855f7] p-0.5">
               <div className="w-full h-full rounded-full bg-background flex items-center justify-center overflow-hidden">
                 <img 
                   src="/attached_assets/1000039624_1749767113981.png" 
                   alt="FinPlanner Logo" 
-                  className="w-full h-full object-contain p-1.5"
+                  className="w-full h-full object-contain p-1 sm:p-1.5"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
                     target.style.display = 'none';
-                    target.parentElement!.innerHTML = '<div class="w-full h-full gradient-primary rounded-full flex items-center justify-center"><span class="text-white font-bold text-lg">F</span></div>';
+                    target.parentElement!.innerHTML = '<div class="w-full h-full gradient-primary rounded-full flex items-center justify-center"><span class="text-white font-bold text-sm sm:text-lg">F</span></div>';
                   }}
                 />
               </div>

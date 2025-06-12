@@ -21,16 +21,16 @@ export default function Hero() {
       <div className="container mx-auto px-4 text-center relative z-10">
         <div className="max-w-4xl mx-auto">
           <div className="flex flex-col items-center mb-4 sm:mb-6">
-            <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 rounded-full border-2 border-transparent bg-gradient-to-r from-[#1fb5d6] to-[#a855f7] p-0.5 shadow-lg mb-3 sm:mb-4 animate-pulse-glow">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 rounded-full border-2 border-transparent bg-gradient-to-r from-[#1fb5d6] to-[#a855f7] p-0.5 shadow-lg mb-3 sm:mb-4 animate-pulse-glow">
               <div className="w-full h-full rounded-full bg-background flex items-center justify-center overflow-hidden">
                 <img 
                   src="/attached_assets/1000039624_1749767113981.png" 
                   alt="FinPlanner Logo" 
-                  className="w-full h-full object-contain p-2 sm:p-3"
+                  className="w-full h-full object-contain p-1 sm:p-1.5 md:p-2 lg:p-3"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
                     target.style.display = 'none';
-                    target.parentElement!.innerHTML = '<div class="w-full h-full gradient-primary rounded-full flex items-center justify-center"><span class="text-white font-bold text-2xl sm:text-3xl md:text-4xl">F</span></div>';
+                    target.parentElement!.innerHTML = '<div class="w-full h-full gradient-primary rounded-full flex items-center justify-center"><span class="text-white font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl">F</span></div>';
                   }}
                 />
               </div>
