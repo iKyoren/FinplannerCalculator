@@ -151,6 +151,14 @@ export default function PersonalizedRecommendations() {
         setInternationalRecommendations(data.internationalInvestments);
         setSummary(data.summary);
         setWarnings(data.warnings || []);
+        
+        // Scroll automático para as recomendações
+        setTimeout(() => {
+          const element = document.getElementById("recommendations-results");
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 100);
       }
     }
   });
@@ -404,7 +412,7 @@ export default function PersonalizedRecommendations() {
 
       {/* Results */}
       {(nationalRecommendations.length > 0 || internationalRecommendations.length > 0) && (
-        <div className="mt-8 space-y-8">
+        <div id="recommendations-results" className="mt-8 space-y-8">
           {/* Summary */}
           {summary && (
             <Card className="card-compact">

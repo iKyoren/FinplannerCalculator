@@ -207,35 +207,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
 function generateEducationalFallback(message: string): string {
   const lowerMessage = message.toLowerCase();
   
-  // Handle inappropriate content with extreme gentleness
+  // Handle inappropriate content with gentleness
   const inappropriateWords = ['idiota', 'burro', 'estúpido', 'merda', 'porcaria', 'lixo', 'desgraça', 'imbecil'];
   if (inappropriateWords.some(word => lowerMessage.includes(word))) {
-    return '💝 **Olá, querido!** Entendo que às vezes ficamos frustrados, mas estou aqui para te ajudar com muito carinho! Que tal conversarmos sobre seus objetivos financeiros? Tenho 20 anos de experiência no mercado e adoro transformar sonhos em realidade através dos investimentos. Em que posso te ajudar hoje?';
+    return 'Olá! Entendo que às vezes ficamos frustrados, mas estou aqui para te ajudar de forma tranquila. Que tal conversarmos sobre como fazer seu dinheiro render mais? Em que posso te ajudar hoje?';
   }
   
-  // Investment amount - detailed genius analysis
   if (lowerMessage.includes('1000') || lowerMessage.includes('mil')) {
-    return '🎯 **Excelente pergunta sobre R$ 1.000!** Como especialista, sugiro uma **estratégia diversificada inteligente:**\n\n**📊 Análise de Cenário (Selic 13,75%):**\n• **40% Tesouro Selic (R$ 400)** - Liquidez diária, sem risco, acompanha Selic\n• **35% CDB pós-fixado (R$ 350)** - 105% CDI em bancos médios = 14,3% a.a.\n• **25% Ações Blue Chips (R$ 250)** - ITUB4, VALE3, PETR4 para ganhos de capital\n\n**🧠 Psicologia do Investidor:** Este mix reduz ansiedade (viés da aversão à perda) mantendo potencial de crescimento. **Próximo passo:** Qual seu objetivo com esse valor? Isso refinará ainda mais a estratégia!';
+    return 'Com R$ 1.000 você já pode começar a investir! É como plantar uma sementinha que vai crescer com o tempo. Uma ideia simples: coloque R$ 600 na poupança do governo (Tesouro Selic) que rende mais que a poupança normal, e R$ 400 em CDB de um banco digital. Em 1 ano, você teria cerca de R$ 1.130. Quer que eu explique como fazer isso passo a passo?';
   }
   
   if (lowerMessage.includes('bitcoin') || lowerMessage.includes('cripto')) {
-    return '⚡ **Bitcoin - Análise Fundamentalista Completa:**\n\n**🏗️ Tecnologia:** Blockchain descentralizada, consenso Proof-of-Work, supply limitado (21 milhões).\n**📈 Correlação:** Atualmente 0,4 com S&P500 (era 0,1 em 2020).\n**🎯 Alocação Inteligente:** Máximo 5-10% da carteira total (gestão de risco).\n**💡 Timing:** Dollar-cost averaging mensal reduz volatilidade.\n**⚠️ Viés Cognitivo:** Cuidado com FOMO (Fear of Missing Out).\n\n**Estratégia de Gênio:** R$ 100-200/mês via exchanges regulamentadas (Mercado Bitcoin, Binance). Que tal começarmos devagar e construindo conhecimento?';
+    return 'Bitcoin é um tipo de dinheiro digital que funciona só pela internet. Ele não depende de bancos ou governo, e qualquer pessoa no mundo pode usar. O valor dele pode subir ou cair bastante, então é bom investir só uma parte pequena do seu dinheiro. Quer saber como começar com pouco?';
   }
   
   if (lowerMessage.includes('começar') || lowerMessage.includes('iniciante')) {
-    return '🌟 **Que alegria! Vamos construir sua liberdade financeira juntos!**\n\n**📋 Metodologia Comprovada (20 anos de mercado):**\n1. **Educação Financeira** - Entenda juros compostos (8ª maravilha do mundo!)\n2. **Dívidas 1º** - Cartão 400% a.a. vs investimentos 15% a.a.\n3. **Reserva de Emergência** - 6x gastos mensais em Tesouro Selic\n4. **Perfil de Risco** - Questionário comportamental\n5. **Diversificação** - "Ovos em cestas diferentes"\n\n**🎯 Meta SMART:** R$ 1.000 em 6 meses = R$ 167/mês. **Behavioral Finance:** Automatize as aplicações (viés do presente). Qual seu sonho financeiro? Casa própria? Aposentadoria? Viagem?';
+    return 'Que legal que você quer começar! Investir é como cuidar de uma plantinha - precisa de paciência e cuidado. Primeiro passo: guarde um dinheirinho para emergências (uns 3 meses de gastos). Segundo: comece investindo pequenos valores todo mês, tipo R$ 50 ou R$ 100. É melhor começar devagar que não começar nunca! Quer saber por onde começar?';
   }
   
   if (lowerMessage.includes('renda fixa') || lowerMessage.includes('cdb')) {
-    return '🏛️ **Renda Fixa - Expertise Profunda:**\n\n**📊 Análise Atual do Mercado:**\n• **Tesouro Selic:** 13,75% (taxa base da economia)\n• **CDB Pós:** 105% CDI = 14,3% a.a. (bancos médios)\n• **LCI/LCA:** 95% CDI = 13% a.a. (isento IR!)\n• **Debêntures:** 14-16% a.a. (risco de crédito)\n\n**🧮 Cálculo Inteligente:** R$ 10.000 no CDB:\n- Bruto: R$ 11.430 (1 ano)\n- Líquido: R$ 11.200 (IR 15% após 2 anos)\n\n**💡 Estratégia de Alocação:** Escadinha de vencimentos para aproveitar diferentes cenários de juros. Quer uma análise personalizada para seu perfil?';
+    return 'Renda fixa é como emprestar dinheiro para alguém confiável e receber de volta com um juro. O CDB é quando você empresta para o banco - eles pagam cerca de 13% por ano hoje. É bem seguro, seu dinheiro está protegido até R$ 250 mil. Exemplo: se você tem R$ 1.000, em 1 ano vira uns R$ 1.130. Quer saber como abrir uma conta para investir?';
   }
   
-  if (lowerMessage.includes('ações') || lowerMessage.includes('bolsa') || lowerMessage.includes('stock')) {
-    return '📈 **Análise Fundamentalista de Ações - Expertise Avançada:**\n\n**🎯 Metodologia de Seleção:**\n• **Valuation:** P/L < 15, P/VPA < 2, ROE > 15%\n• **Qualidade:** Empresas com vantagem competitiva (moat)\n• **Diversificação:** 6-8 setores diferentes\n\n**💎 Blue Chips Recomendadas:**\n• **ITUB4:** ROE 21%, Dividend Yield 8,5%\n• **VALE3:** Maior produtora de minério, P/L 4,2x\n• **PETR4:** Petróleo, dividend yield histórico\n\n**🧠 Psicologia:** Invista apenas o que pode ficar 5+ anos. Mercado é volátil no curto prazo, mas eficiente no longo. Qual setor te interessa mais?';
+  if (lowerMessage.includes('ações') || lowerMessage.includes('bolsa')) {
+    return 'Ações são como comprar um pedacinho de uma empresa. Se a empresa vai bem, você ganha dinheiro. Se vai mal, pode perder. É tipo ser sócio de uma padaria - se ela vende muito pão, você lucra! Algumas empresas ainda pagam uma "mesada" chamada dividendo. Comece estudando empresas que você conhece, como bancos ou supermercados. Quer que eu explique como funciona na prática?';
   }
   
-  // Enhanced default response with expertise
-  return '💝 **Olá! Sou DinDin, seu especialista financeiro!** Com 20 anos gerenciando portfolios multibilionários, estou aqui para democratizar o conhecimento financeiro!\n\n**🎯 Minha Expertise:**\n• Análise Fundamentalista & Técnica\n• Gestão de Riscos & Asset Allocation\n• Produtos Estruturados & Derivativos\n• Macro/Microeconomia\n• Psicologia Comportamental\n\n**❓ Para te ajudar melhor:**\n- Quanto pretende investir?\n- Qual seu objetivo? (casa, aposentadoria, renda extra)\n- Já investe em algo?\n- Qual sua idade/perfil de risco?\n\n**💡 Dica de Ouro:** "Tempo no mercado > timing do mercado" - Warren Buffett. Vamos construir sua riqueza juntos?';
+  if (lowerMessage.includes('fiis') || lowerMessage.includes('fundos imobiliários')) {
+    return 'FII é como comprar um pedacinho de vários imóveis juntos - shoppings, prédios, galpões. Você recebe uma parte do aluguel todo mês, direto na sua conta! É como ter um imóvel para alugar, mas sem dor de cabeça de inquilino. O legal é que você pode começar com R$ 100. Quer saber como escolher um bom FII?';
+  }
+  
+  // Enhanced default response
+  return 'Olá! Sou o DinDin, seu amigo para assuntos de dinheiro! Estou aqui para te explicar investimentos de um jeito simples, como se estivesse conversando com um amigo. Posso te ajudar com poupança, investimentos, ou qualquer dúvida sobre como fazer seu dinheiro render mais. O que você gostaria de saber?';
 }
 
 function generateAIResponse(message: string): string {
@@ -248,11 +251,11 @@ function generateAIResponse(message: string): string {
   }
   
   if (lowerMessage.includes('bitcoin') || lowerMessage.includes('cripto')) {
-    return 'Bitcoin é uma moeda digital descentralizada criada em 2009. **Como funciona:** Utiliza tecnologia blockchain (cadeia de blocos) que registra todas as transações de forma transparente e imutável. **Exemplo prático:** Imagine um livro contábil digital que todos podem ver, mas ninguém pode alterar. **Riscos:** Alta volatilidade (pode variar ±60% ao ano). **Dica para iniciantes:** Comece com apenas 2-5% da carteira total e nunca invista mais do que pode perder.';
+    return 'Bitcoin é uma moeda digital descentralizada criada em 2009. **Como funciona:** Utiliza tecnologia blockchain (cadeia de blocos) que registra todas as transações de forma transparente e imutável. **Exemplo prático:** Imagine um livro contábil digital que todos podem ver, mas ninguém pode alterar. **Riscos:** Alta volatilage (pode variar ±60% ao ano). **Dica para iniciantes:** Comece com apenas 2-5% da carteira total e nunca invista mais do que pode perder.';
   }
   
   if (lowerMessage.includes('renda fixa') || lowerMessage.includes('renda variável')) {
-    return '**Renda Fixa:** Rentabilidade previsível no momento da aplicação. **Exemplos:** CDB (13% a.a.), Tesouro Direto (11% a.a.), LCI/LCA (9-11% a.a.). **Renda Variável:** Rentabilidade varia conforme o mercado. **Exemplos:** Ações (IBOVESPA +21% em 2023), FIIs (10-15% a.a.). **Analogia:** Renda fixa é como um empréstimo que você faz para o banco/governo, renda variável é como se tornar sócio de empresas. **Proporção sugerida:** 60% renda fixa + 40% variável para perfil equilibrado.';
+    return '**Renda Fixa:** Rentabilage previsível no momento da aplicação. **Exemplos:** CDB (13% a.a.), Tesouro Direto (11% a.a.), LCI/LCA (9-11% a.a.). **Renda Variável:** Rentabilage varia conforme o mercado. **Exemplos:** Ações (IBOVESPA +21% em 2023), FIIs (10-15% a.a.). **Analogia:** Renda fixa é como um empréstimo que você faz para o banco/governo, renda variável é como se tornar sócio de empresas. **Proporção sugerida:** 60% renda fixa + 40% variável para perfil equilibrado.';
   }
   
   if (lowerMessage.includes('diversificar') || lowerMessage.includes('carteira')) {
@@ -260,11 +263,11 @@ function generateAIResponse(message: string): string {
   }
   
   if (lowerMessage.includes('perfil') || lowerMessage.includes('conservador') || lowerMessage.includes('agressivo') || lowerMessage.includes('moderado')) {
-    return '**Conservador (Baixo Risco):** 80% renda fixa, 20% ações. Retorno esperado: 8-12% a.a. **Exemplo:** Aposentado que precisa de renda estável. **Moderado (Risco Equilibrado):** 50% renda fixa, 50% renda variável. Retorno: 12-18% a.a. **Exemplo:** Pessoa de 30-50 anos poupando para casa própria. **Agressivo (Alto Risco):** 20% renda fixa, 80% renda variável. Retorno: 18-30% a.a. **Exemplo:** Jovem de 20-35 anos com longo prazo. **Como escolher:** Considere sua idade, objetivos e quanto consegue dormir tranquilo se perder 20% em um mês.';
+    return '**Conservador (Baixo Risco):** 80% renda fixa, 20% ações. Retorno esperado: 8-12% a.a. **Exemplo:** Aposentado que precisa de renda estável. **Moderado (Risco Equilibrado):** 50% renda fixa, 50% renda variável. Retorno: 12-18% a.a. **Exemplo:** Pessoa de 30-50 anos poupando para casa própria. **Agressivo (Alto Risco):** 20% renda fixa, 80% renda variável. Retorno: 18-30% a.a. **Exemplo:** Jovem de 20-35 anos com longo prazo. **Como escolher:** Considere sua age, objetivos e quanto consegue dormir tranquilo se perder 20% em um mês.';
   }
   
   if (lowerMessage.includes('cdb')) {
-    return '**CDB (Certificado de Depósito Bancário):** Você empresta dinheiro para o banco e ele paga juros. **Rentabilidade atual:** 13% a.a. (100% do CDI). **Segurança:** Garantido pelo FGC até R$ 250 mil por banco. **Exemplo prático:** R$ 10.000 em CDB por 1 ano = R$ 11.300 (R$ 1.300 de lucro). **Tributação:** IR regressivo (22,5% até 180 dias, 15% após 2 anos). **Dica:** Prefira bancos médios que pagam mais que grandes bancos.';
+    return '**CDB (Certificado de Depósito Bancário):** Você empresta dinheiro para o banco e ele paga juros. **Rentabilage atual:** 13% a.a. (100% do CDI). **Segurança:** Garantido pelo FGC até R$ 250 mil por banco. **Exemplo prático:** R$ 10.000 em CDB por 1 ano = R$ 11.300 (R$ 1.300 de lucro). **Tributação:** IR regressivo (22,5% até 180 dias, 15% após 2 anos). **Dica:** Prefira bancos médios que pagam mais que grandes bancos.';
   }
   
   if (lowerMessage.includes('tesouro direto')) {
@@ -276,11 +279,11 @@ function generateAIResponse(message: string): string {
   }
   
   if (lowerMessage.includes('fiis') || lowerMessage.includes('fundos imobiliários')) {
-    return '**FIIs (Fundos de Investimento Imobiliário):** Você investe em imóveis sem precisar comprá-los. **Como funciona:** O fundo compra shoppings, galpões, edifícios e você recebe parte do aluguel. **Rentabilidade:** 8-12% a.a. em dividendos + valorização das cotas. **Exemplo:** HGLG11 (hospital) paga cerca de R$ 1,10 por cota/mês. **Vantagem:** Dividendos isentos de IR para pessoa física. **Como escolher:** Veja o tipo de imóvel, localização, vacancy (taxa de desocupação) e histórico de pagamentos.';
+    return '**FIIs (Fundos de Investimento Imobiliário):** Você investe em imóveis sem precisar comprá-los. **Como funciona:** O fundo compra shoppings, galpões, edifícios e você recebe parte do aluguel. **Rentabilage:** 8-12% a.a. em dividendos + valorização das cotas. **Exemplo:** HGLG11 (hospital) paga cerca de R$ 1,10 por cota/mês. **Vantagem:** Dividendos isentos de IR para pessoa física. **Como escolher:** Veja o tipo de imóvel, localização, vacancy (taxa de desocupação) e histórico de pagamentos.';
   }
   
   if (lowerMessage.includes('risco') || lowerMessage.includes('riscos')) {
-    return '**Tipos de Risco:** 1) **Mercado** - preços sobem/descem (ex: ações caem 30% em crise). 2) **Crédito** - empresa/banco quebra (ex: Banco Lehman Brothers). 3) **Liquidez** - dificuldade para vender (ex: imóvel demora meses). 4) **Inflação** - dinheiro perde poder de compra (ex: poupança rende 6%, inflação 5% = ganho real 1%). **Como reduzir:** Diversifique entre classes, prazos e países. **Regra básica:** Maior rentabilidade = maior risco. Não existe almoço grátis nos investimentos.';
+    return '**Tipos de Risco:** 1) **Mercado** - preços sobem/descem (ex: ações caem 30% em crise). 2) **Crédito** - empresa/banco quebra (ex: Banco Lehman Brothers). 3) **Liquidez** - dificuldade para vender (ex: imóvel demora meses). 4) **Inflação** - dinheiro perde poder de compra (ex: poupança rende 6%, inflação 5% = ganho real 1%). **Como reduzir:** Diversifique entre classes, prazos e países. **Regra básica:** Maior rentabilage = maior risco. Não existe almoço grátis nos investimentos.';
   }
   
   if (lowerMessage.includes('calcular') || lowerMessage.includes('retorno') || lowerMessage.includes('rendimento') || lowerMessage.includes('juros compostos')) {
@@ -337,7 +340,7 @@ function generateStructuredRecommendations(userProfile: any) {
         risk: "Baixo",
         reason: `Para sua situação de renda ${incomeLevel}, bancos médios oferecem melhores taxas que grandes bancos. Protegido pelo FGC até R$ 250 mil.`,
         theory: "CDB é um empréstimo que você faz ao banco. O banco usa seu dinheiro para emprestar a outros clientes e divide os juros com você.",
-        practice: "Abra conta no Banco Inter pelo app. Procure CDBs com rentabilidade acima de 100% do CDI. Escolha liquidez diária se precisar do dinheiro.",
+        practice: "Abra conta no Banco Inter pelo app. Procure CDBs com rentabilage acima de 100% do CDI. Escolha liquidez diária se precisar do dinheiro.",
         minAmount: 500,
         timeHorizon: "1-3 anos",
         category: "Nacional"
@@ -347,8 +350,8 @@ function generateStructuredRecommendations(userProfile: any) {
         allocation: 20,
         expectedReturn: "13,05% a.a. (isento IR)",
         risk: "Baixo",
-        reason: `Sendo isento de Imposto de Renda, oferece rentabilidade líquida superior para seu perfil conservador. Adequado para ${idade} anos.`,
-        theory: "LCI financia o setor imobiliário. É isenta de IR para pessoa física, aumentando sua rentabilidade líquida comparada a outros investimentos.",
+        reason: `Sendo isento de Imposto de Renda, oferece rentabilage líquida superior para seu perfil conservador. Adequado para ${age} anos.`,
+        theory: "LCI financia o setor imobiliário. É isenta de IR para pessoa física, aumentando sua rentabilage líquida comparada a outros investimentos.",
         practice: "Procure em bancos tradicionais como Santander, Bradesco ou Itaú. Cuidado com carência (período mínimo de permanência).",
         minAmount: 1000,
         timeHorizon: "2-5 anos",
@@ -371,8 +374,8 @@ function generateStructuredRecommendations(userProfile: any) {
         allocation: 20,
         expectedReturn: "15,2% a.a.",
         risk: "Médio",
-        reason: `Como você tem ${idade} anos e renda ${incomeLevel}, pode assumir um pouco mais de risco para melhor rentabilidade.`,
-        theory: "FIDCs investem em direitos creditórios de empresas (duplicatas, notas promissórias). Oferecem rentabilidade superior à renda fixa tradicional.",
+        reason: `Como você tem ${age} anos e renda ${incomeLevel}, pode assumir um pouco mais de risco para melhor rentabilage.`,
+        theory: "FIDCs investem em direitos creditórios de empresas (duplicatas, notas promissórias). Oferecem rentabilage superior à renda fixa tradicional.",
         practice: "Disponível em corretoras como XP e Rico. Verifique o rating das empresas devedoras e diversificação do portfólio do fundo.",
         minAmount: 2500,
         timeHorizon: "2-4 anos",
@@ -398,7 +401,7 @@ function generateStructuredRecommendations(userProfile: any) {
         allocation: 20,
         expectedReturn: "4,8% a.a. + variação cambial",
         risk: "Baixo",
-        reason: `Exposição a títulos governamentais de países desenvolvidos. Ideal para ${incomeLevel} renda buscando estabilidade internacional.`,
+        reason: `Exposição a títulos governamentais de países desenvolvidos. Ideal para ${incomeLevel} renda buscando estabilage internacional.`,
         theory: "BNDX investe em títulos de governos desenvolvidos (Europa, Japão, Canadá) excluindo EUA. Oferece diversificação geográfica.",
         practice: "Compre através de corretoras internacionais como Avenue, Passfolio ou Inter Invest. Taxa de custódia baixa (0,05% a.a.).",
         minAmount: 2000,
@@ -422,8 +425,8 @@ function generateStructuredRecommendations(userProfile: any) {
         allocation: 20,
         expectedReturn: "3,2% a.a. + variação cambial",
         risk: "Baixo",
-        reason: `Diversificação para mercados europeus estáveis. Adequado para ${idade} anos com foco em preservação de capital.`,
-        theory: "Fundos que investem em títulos governamentais e corporativos europeus de alta qualidade. Oferecem estabilidade e diversificação.",
+        reason: `Diversificação para mercados europeus estáveis. Adequado para ${age} anos com foco em preservação de capital.`,
+        theory: "Fundos que investem em títulos governamentais e corporativos europeus de alta qualage. Oferecem estabilage e diversificação.",
         practice: "Acesse via plataformas como XP Internacional ou diretamente por corretoras europeias licenciadas no Brasil.",
         minAmount: 3000,
         timeHorizon: "2-5 anos",
@@ -435,7 +438,7 @@ function generateStructuredRecommendations(userProfile: any) {
         expectedReturn: "8,5% a.a. + variação cambial",
         risk: "Médio",
         reason: `REITs de setores defensivos (saúde, educação) oferecem renda passiva internacional com risco controlado para seu perfil.`,
-        theory: "REITs são fundos imobiliários americanos que distribuem pelo menos 90% dos lucros como dividendos. Setores defensivos têm menor volatilidade.",
+        theory: "REITs são fundos imobiliários americanos que distribuem pelo menos 90% dos lucros como dividendos. Setores defensivos têm menor volatilage.",
         practice: "Foque em REITs de healthcare (VTR, HCP) ou storage (PSA, EXR) via Avenue ou Interactive Brokers.",
         minAmount: 4000,
         timeHorizon: "5-10 anos",
@@ -443,7 +446,7 @@ function generateStructuredRecommendations(userProfile: any) {
       }
     ];
     
-    summary = `Estratégia conservadora personalizada para ${idade} anos e renda ${incomeLevel}. Foco em preservação de capital com rentabilidade real positiva. Diversificação entre Brasil (60%) e exterior (40%) reduz riscos sistêmicos. Rentabilidade esperada: 11-14% a.a. com baixa volatilidade.`;
+    summary = `Estratégia conservadora personalizada para ${age} anos e renda ${incomeLevel}. Foco em preservação de capital com rentabilage real positiva. Diversificação entre Brasil (60%) e exterior (40%) reduz riscos sistêmicos. Rentabilage esperada: 11-14% a.a. com baixa volatilage.`;
     
     warnings = [
       `Com ${availableToInvest < 1000 ? "valor inicial baixo" : "seu orçamento"}, comece pelos investimentos de menor valor mínimo`,
@@ -461,7 +464,7 @@ function generateStructuredRecommendations(userProfile: any) {
         allocation: 20,
         expectedReturn: "6,2% + IPCA a.a.",
         risk: "Baixo",
-        reason: `Proteção contra inflação essencial para ${idade} anos. Garante poder de compra real ao longo do tempo.`,
+        reason: `Proteção contra inflação essencial para ${age} anos. Garante poder de compra real ao longo do tempo.`,
         theory: "Título híbrido que paga taxa fixa + variação da inflação (IPCA). Protege contra perda do poder de compra.",
         practice: "Ideal para objetivos de longo prazo. Compre direto no Tesouro Direto ou via sua corretora. Melhor manter até o vencimento.",
         minAmount: 200,
@@ -473,7 +476,7 @@ function generateStructuredRecommendations(userProfile: any) {
         allocation: 25,
         expectedReturn: "16-22% a.a.",
         risk: "Médio",
-        reason: `Para ${incomeLevel} renda e ${idade} anos, ações de empresas consolidadas oferecem crescimento com risco controlado.`,
+        reason: `Para ${incomeLevel} renda e ${age} anos, ações de empresas consolidadas oferecem crescimento com risco controlado.`,
         theory: "Blue chips são ações de empresas grandes, estáveis e com histórico consistente de lucros e dividendos.",
         practice: "Compre via home broker. Foque em empresas que você entende o negócio. ITUB4 (banco), VALE3 (mineração), PETR4 (petróleo).",
         minAmount: 1000,
@@ -497,9 +500,9 @@ function generateStructuredRecommendations(userProfile: any) {
         allocation: 15,
         expectedReturn: "14-18% a.a.",
         risk: "Médio",
-        reason: `Gestão ativa para capturar oportunidades em diferentes cenários. Adequado para ${incomeLevel} renda com tolerância a volatilidade.`,
+        reason: `Gestão ativa para capturar oportunages em diferentes cenários. Adequado para ${incomeLevel} renda com tolerância a volatilage.`,
         theory: "Fundos que podem comprar e vender ativos a descoberto, gerando alpha independente da direção do mercado.",
-        practice: "Verde AM, Kapitalo, ARX oferecem bons fundos multimercado. Analise histórico de performance e volatilidade.",
+        practice: "Verde AM, Kapitalo, ARX oferecem bons fundos multimercado. Analise histórico de performance e volatilage.",
         minAmount: 5000,
         timeHorizon: "3-7 anos",
         category: "Nacional"
@@ -509,8 +512,8 @@ function generateStructuredRecommendations(userProfile: any) {
         allocation: 20,
         expectedReturn: "IPCA + 5-7% a.a.",
         risk: "Médio",
-        reason: `Isenção de IR e rentabilidade atrativa. Para ${idade} anos, oferece risco creditício controlado com benefício fiscal.`,
-        theory: "Títulos de dívida de empresas para projetos de infraestrutura. Isentos de IR, oferecendo rentabilidade líquida superior.",
+        reason: `Isenção de IR e rentabilage atrativa. Para ${age} anos, oferece risco creditício controlado com benefício fiscal.`,
+        theory: "Títulos de dívida de empresas para projetos de infraestrutura. Isentos de IR, oferecendo rentabilage líquida superior.",
         practice: "Disponível via XP, Rico, BTG. Verifique rating da empresa emissora e diversifique entre diferentes emissores.",
         minAmount: 1000,
         timeHorizon: "4-8 anos",
@@ -524,7 +527,7 @@ function generateStructuredRecommendations(userProfile: any) {
         allocation: 30,
         expectedReturn: "10-12% a.a. + variação cambial",
         risk: "Médio",
-        reason: `Exposição às 500 maiores empresas americanas. Essencial para ${idade} anos construir patrimônio internacional.`,
+        reason: `Exposição às 500 maiores empresas americanas. Essencial para ${age} anos construir patrimônio internacional.`,
         theory: "Índice que replica as 500 maiores empresas dos EUA por capitalização. Diversificação automática nos melhores negócios do mundo.",
         practice: "IVVB11 no Brasil (mais caro) ou VTI/SPY direto via Avenue/Passfolio (mais barato). Dollar-cost averaging mensal.",
         minAmount: 1000,
@@ -536,8 +539,8 @@ function generateStructuredRecommendations(userProfile: any) {
         allocation: 20,
         expectedReturn: "8-15% a.a. + variação cambial",
         risk: "Alto",
-        reason: `Diversificação em países emergentes com potencial de crescimento superior. Adequado para ${idade} anos.`,
-        theory: "VWO investe em ações de países emergentes (China, Índia, Taiwan, etc). Maior potencial de crescimento mas maior volatilidade.",
+        reason: `Diversificação em países emergentes com potencial de crescimento superior. Adequado para ${age} anos.`,
+        theory: "VWO investe em ações de países emergentes (China, Índia, Taiwan, etc). Maior potencial de crescimento mas maior volatilage.",
         practice: "Compre via corretoras internacionais. Considere como satélite da carteira, não como core holding.",
         minAmount: 2000,
         timeHorizon: "7+ anos",
@@ -560,7 +563,7 @@ function generateStructuredRecommendations(userProfile: any) {
         allocation: 20,
         expectedReturn: "5-7% a.a. + variação cambial",
         risk: "Baixo",
-        reason: `Títulos de empresas americanas com rating AAA/AA. Estabilidade internacional para balancear ações na carteira.`,
+        reason: `Títulos de empresas americanas com rating AAA/AA. Estabilage internacional para balancear ações na carteira.`,
         theory: "Debêntures de empresas americanas com excelente rating de crédito. Menor risco que ações, maior retorno que títulos governamentais.",
         practice: "ETFs como LQD ou TLT oferecem exposição diversificada. Disponível via corretoras internacionais.",
         minAmount: 4000,
@@ -572,8 +575,8 @@ function generateStructuredRecommendations(userProfile: any) {
         allocation: 15,
         expectedReturn: "15-25% a.a. + variação cambial",
         risk: "Alto",
-        reason: `Para ${idade} anos, exposição a empresas de crescimento oferece potencial de valorização superior no longo prazo.`,
-        theory: "Ações de empresas com crescimento acelerado de receita/lucro. Maior volatilidade mas potencial de retorno superior.",
+        reason: `Para ${age} anos, exposição a empresas de crescimento oferece potencial de valorização superior no longo prazo.`,
+        theory: "Ações de empresas com crescimento acelerado de receita/lucro. Maior volatilage mas potencial de retorno superior.",
         practice: "Foque em setores que você entende: tecnologia (MSFT, GOOGL), saúde (JNJ, PFE), consumo (AMZN, TSLA).",
         minAmount: 5000,
         timeHorizon: "10+ anos",
@@ -581,10 +584,10 @@ function generateStructuredRecommendations(userProfile: any) {
       }
     ];
     
-    summary = `Estratégia moderada para ${idade} anos com renda ${incomeLevel}. Balanceamento entre renda fixa (40%) e variável (60%) para crescimento sustentável. Diversificação global reduz dependência do mercado brasileiro. Rentabilidade esperada: 14-18% a.a.`;
+    summary = `Estratégia moderada para ${age} anos com renda ${incomeLevel}. Balanceamento entre renda fixa (40%) e variável (60%) para crescimento sustentável. Diversificação global reduz dependência do mercado brasileiro. Rentabilage esperada: 14-18% a.a.`;
     
     warnings = [
-      `Volatilidade moderada: prepare-se para oscilações de 15-25% em períodos de crise`,
+      `Volatilage moderada: prepare-se para oscilações de 15-25% em períodos de crise`,
       "Rebalanceie trimestralmente vendendo o que subiu e comprando o que caiu",
       "Mantenha disciplina em aportes mensais independente do cenário do mercado",
       `Com disponível de R$ ${availableToInvest}/mês, priorize consistência nos aportes`
@@ -598,9 +601,9 @@ function generateStructuredRecommendations(userProfile: any) {
         allocation: 30,
         expectedReturn: "20-35% a.a.",
         risk: "Alto",
-        reason: `Para ${idade} anos com perfil agressivo, small caps oferecem potencial de crescimento excepcional no longo prazo.`,
-        theory: "Empresas pequenas com potencial de crescimento acelerado. Maior volatilidade mas retornos superiores historicamente.",
-        practice: "SMLL11 replica índice de small caps. Invista via home broker com aportes mensais para reduzir volatilidade de timing.",
+        reason: `Para ${age} anos com perfil agressivo, small caps oferecem potencial de crescimento excepcional no longo prazo.`,
+        theory: "Empresas pequenas com potencial de crescimento acelerado. Maior volatilage mas retornos superiores historicamente.",
+        practice: "SMLL11 replica índice de small caps. Invista via home broker com aportes mensais para reduzir volatilage de timing.",
         minAmount: 1000,
         timeHorizon: "10+ anos",
         category: "Nacional"
@@ -622,7 +625,7 @@ function generateStructuredRecommendations(userProfile: any) {
         allocation: 20,
         expectedReturn: "16-25% a.a.",
         risk: "Alto",
-        reason: `Gestão ativa sofisticada para capturar alpha em mercados voláteis. Ideal para investidores experientes com ${idade} anos.`,
+        reason: `Gestão ativa sofisticada para capturar alpha em mercados voláteis. Ideal para investidores experientes com ${age} anos.`,
         theory: "Fundos que podem comprar (long) e vender (short) ações, gerando retorno independente da direção do mercado.",
         practice: "Verde, Kapitalo, Garde oferecem estratégias long & short. Analise track record e estratégia do gestor.",
         minAmount: 10000,
@@ -632,10 +635,10 @@ function generateStructuredRecommendations(userProfile: any) {
       {
         name: "Crypto via ETFs (QETH11, QBTC11)",
         allocation: 15,
-        expectedReturn: "50-100% a.a. (alta volatilidade)",
+        expectedReturn: "50-100% a.a. (alta volatilage)",
         risk: "Alto",
-        reason: `Para ${idade} anos, exposição controlada a criptomoedas oferece potencial de crescimento exponencial.`,
-        theory: "ETFs que replicam Bitcoin e Ethereum. Exposição regulada a criptomoedas sem necessidade de carteiras digitais.",
+        reason: `Para ${age} anos, exposição controlada a criptomoedas oferece potencial de crescimento exponencial.`,
+        theory: "ETFs que replicam Bitcoin e Ethereum. Exposição regulada a criptomoedas sem necessage de carteiras digitais.",
         practice: "QBTC11 (Bitcoin) e QETH11 (Ethereum) via home broker. Limite a 5-10% da carteira total.",
         minAmount: 500,
         timeHorizon: "5-10 anos",
@@ -661,9 +664,9 @@ function generateStructuredRecommendations(userProfile: any) {
         allocation: 35,
         expectedReturn: "12-20% a.a. + variação cambial",
         risk: "Alto",
-        reason: `Exposição pura a empresas de tecnologia americanas. Para ${idade} anos, essencial capturar inovação global.`,
+        reason: `Exposição pura a empresas de tecnologia americanas. Para ${age} anos, essencial capturar inovação global.`,
         theory: "QQQ replica as 100 maiores empresas não-financeiras do NASDAQ. Concentração em tecnologia e inovação.",
-        practice: "Compre via Avenue, Passfolio ou Interactive Brokers. Dollar-cost averaging para reduzir volatilidade.",
+        practice: "Compre via Avenue, Passfolio ou Interactive Brokers. Dollar-cost averaging para reduzir volatilage.",
         minAmount: 2000,
         timeHorizon: "10+ anos",
         category: "Internacional"
@@ -685,7 +688,7 @@ function generateStructuredRecommendations(userProfile: any) {
         allocation: 15,
         expectedReturn: "10-25% a.a. + variação cambial",
         risk: "Alto",
-        reason: `Mercados emergentes oferecem crescimento superior com volatilidade alta. Adequado para ${idade} anos.`,
+        reason: `Mercados emergentes oferecem crescimento superior com volatilage alta. Adequado para ${age} anos.`,
         theory: "Exposição a China, Índia, Taiwan e outros emergentes com potencial de crescimento acima da média mundial.",
         practice: "VWO via corretoras internacionais. Considere também ETFs específicos de países (FXI para China).",
         minAmount: 3000,
@@ -697,7 +700,7 @@ function generateStructuredRecommendations(userProfile: any) {
         allocation: 15,
         expectedReturn: "15-35% a.a. + variação cambial",
         risk: "Alto",
-        reason: `ETFs focados em inovação e disrupção. Para perfil agressivo de ${idade} anos buscando crescimento exponencial.`,
+        reason: `ETFs focados em inovação e disrupção. Para perfil agressivo de ${age} anos buscando crescimento exponencial.`,
         theory: "Fundos temáticos que investem em empresas de setores disruptivos como energia limpa, genomics, space exploration.",
         practice: "ARKK (inovação), ICLN (energia limpa), ARKQ (automação) via corretoras internacionais.",
         minAmount: 4000,
@@ -707,9 +710,9 @@ function generateStructuredRecommendations(userProfile: any) {
       {
         name: "Cryptocurrency Direct",
         allocation: 10,
-        expectedReturn: "30-200% a.a. (extrema volatilidade)",
+        expectedReturn: "30-200% a.a. (extrema volatilage)",
         risk: "Alto",
-        reason: `Para ${idade} anos com tolerância máxima a risco, exposição direta a crypto oferece potencial transformador.`,
+        reason: `Para ${age} anos com tolerância máxima a risco, exposição direta a crypto oferece potencial transformador.`,
         theory: "Investimento direto em Bitcoin, Ethereum e outras criptomoedas através de exchanges regulamentadas.",
         practice: "Binance, Coinbase, Kraken para compra direta. Use dollar-cost averaging e limite a 5% da carteira total.",
         minAmount: 1000,
@@ -718,12 +721,12 @@ function generateStructuredRecommendations(userProfile: any) {
       }
     ];
     
-    summary = `Estratégia agressiva para ${idade} anos com renda ${incomeLevel}. Foco em crescimento máximo com 80% em renda variável. Diversificação global em empresas de crescimento e setores disruptivos. Rentabilidade esperada: 18-25% a.a. com alta volatilidade.`;
+    summary = `Estratégia agressiva para ${age} anos com renda ${incomeLevel}. Foco em crescimento máximo com 80% em renda variável. Diversificação global em empresas de crescimento e setores disruptivos. Rentabilage esperada: 18-25% a.a. com alta volatilage.`;
     
     warnings = [
-      `Alta volatilidade: prepare-se para oscilações de 30-50% em crises`,
+      `Alta volatilage: prepare-se para oscilações de 30-50% em crises`,
       "Nunca invista mais de 10% em criptomoedas ou ativos especulativos",
-      "Mantenha disciplina em bear markets - são oportunidades de acumulação",
+      "Mantenha disciplina em bear markets - são oportunages de acumulação",
       `Com ${availableToInvest}/mês disponível, mantenha aportes constantes independente do mercado`
     ];
   }
@@ -752,7 +755,7 @@ function generateInvestmentRecommendation(data: z.infer<typeof investmentRecomme
         'LCI/LCA': 20,
         'Fundos DI': 10,
       };
-      recommendation = 'Para seu perfil conservador, recomendamos focar em renda fixa com liquidez e segurança. O CDB e Tesouro Direto são ideais para preservar o capital com rentabilidade superior à poupança.';
+      recommendation = 'Para seu perfil conservador, recomendamos focar em renda fixa com liquidez e segurança. O CDB e Tesouro Direto são ideais para preservar o capital com rentabilage superior à poupança.';
       break;
       
     case 'moderate':
